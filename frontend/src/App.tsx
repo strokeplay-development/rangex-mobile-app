@@ -8,7 +8,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          이곳에서 웹뷰 동작합니다.
+          응 여기야
         </p>
         <a
           className="App-link"
