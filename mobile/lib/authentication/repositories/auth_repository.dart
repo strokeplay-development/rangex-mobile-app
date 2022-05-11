@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mobile/api/api.dart';
@@ -10,15 +11,16 @@ enum AuthStatus { unknown, authenticated, unauthenticated }
 /// 1. 서버와 통신하여 데이터를 처리
 /// 2. 알맞은 인증상태를 스트림
 class AuthRepository {
-  AuthRepository(FlutterSecureStorage secureStorage)
-      : _tokenStorage = secureStorage;
+  AuthRepository(
+    FlutterSecureStorage secureStorage,
+  ) : _tokenStorage = secureStorage;
 
   final FlutterSecureStorage _tokenStorage;
   final _controller = StreamController<AuthStatus>();
 
   /// 인증상태 스트림 getter
   Stream<AuthStatus> get status async* {
-    yield await hasToken
+    yield await _hasToken
         ? AuthStatus.authenticated
         : AuthStatus.unauthenticated;
 
@@ -27,11 +29,21 @@ class AuthRepository {
 
   /// 보유 토큰검사
   /// access or refresh
-  Future<bool> get hasToken async {
+  Future<bool> get _hasToken async {
     final access = await _tokenStorage.read(key: 'accessToken');
     final refresh = await _tokenStorage.read(key: 'refreshToken');
 
     return access != null || refresh != null;
+  }
+
+  // 액세스 토큰
+  Future<String?> get accessToken async {
+    return await _tokenStorage.read(key: 'accessToken');
+  }
+
+  // 리프레쉬 토큰
+  Future<String?> get refreshToken async {
+    return await _tokenStorage.read(key: 'refreshToken');
   }
 
   /// 로그인
@@ -48,6 +60,7 @@ class AuthRepository {
       String accessToken = res.data['accessToken'] as String;
       String refreshToken = res.data['refreshToken'] as String;
 
+      // Store in secure storage
       await _tokenStorage.write(key: 'accessToken', value: accessToken);
       await _tokenStorage.write(key: 'refreshToken', value: refreshToken);
 

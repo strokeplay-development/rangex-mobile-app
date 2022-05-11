@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile/authentication/repositories/auth_repository.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class ReactWebview extends StatefulWidget {
@@ -31,7 +33,24 @@ class _ReactWebviewState extends State<ReactWebview> {
       child: WebView(
         initialUrl: _initialUrl,
         javascriptMode: JavascriptMode.unrestricted,
+        onWebViewCreated: (WebViewController ctrl) async {
+          final authRepo = RepositoryProvider.of<AuthRepository>(context);
+
+          ctrl.runJavascript(await tokensToCookie(authRepo));
+
+          print("??");
+        },
       ),
     );
+  }
+
+  Future<String> tokensToCookie(AuthRepository authRepo) async {
+    final accessToken = await authRepo.accessToken;
+    final refreshToken = await authRepo.refreshToken;
+
+    print(
+        "document.cookie = 'accessToken=$accessToken'; 'refreshToken=$refreshToken'");
+
+    return "document.cookie = 'refreshToken=$refreshToken; accessToken=$accessToken;'";
   }
 }

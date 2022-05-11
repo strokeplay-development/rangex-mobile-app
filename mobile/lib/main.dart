@@ -5,6 +5,7 @@ import 'package:mobile/authentication/repositories/auth_repository.dart';
 import 'package:mobile/authentication/repositories/user_repository.dart';
 
 const secureStorage = FlutterSecureStorage();
+
 void main() {
   runApp(App(
     authRepository: AuthRepository(secureStorage),
