@@ -1,0 +1,10 @@
+FROM node:alpine
+RUN mkdir /app
+WORKDIR /app
+ENV PATH /app/node_modules/.bin:$PATH
+COPY package.json /app/package.json
+RUN npm install npm@8.9.0 -g
+RUN npm install react-scripts@5.0.0 -g
+RUN npm install --legacy-peer-deps
+COPY ./ ./
+CMD [ "npm", "run", "start" ]

@@ -1,25 +1,24 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { RecoilRoot } from 'recoil';
+import CharacterCounter from './CharacterCounter';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import styled from '@emotion/styled';
+
+const queryClient = new QueryClient();
+
+const StyledApp = styled.div`
+  display: block;
+  max-width: 100vw;
+`;
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          응 여기야
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <RecoilRoot>
+        <StyledApp>
+          <CharacterCounter/>
+        </StyledApp>
+      </RecoilRoot>
+    </QueryClientProvider>
   );
 }
 
