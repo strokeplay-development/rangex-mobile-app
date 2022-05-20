@@ -1,24 +1,31 @@
-import { RecoilRoot } from 'recoil';
-import CharacterCounter from './CharacterCounter';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import styled from '@emotion/styled';
+import { useRecoilState } from 'recoil';
+import { createTheme, CssBaseline, ThemeProvider } from '@mui/material';
+import { ThemeMode, themeModeState } from './recoil/theme';
+import { base, darkColors, darkPalette, reset } from './styles/themes';
+import { Route, Routes } from 'react-router-dom';
+import HomePage from './pages/home/HomePage';
 
-const queryClient = new QueryClient();
+const theme = (mode: ThemeMode) => createTheme({
+  ...reset,
+  ...base,
+  ...darkColors,
+  palette: {
+    mode: mode,
+    ...darkPalette
+  },
+});
 
-const StyledApp = styled.div`
-  display: block;
-  max-width: 100vw;
-`;
 
 function App() {
+  const [themeMode] = useRecoilState(themeModeState);
+  
   return (
-    <QueryClientProvider client={queryClient}>
-      <RecoilRoot>
-        <StyledApp>
-          <CharacterCounter/>
-        </StyledApp>
-      </RecoilRoot>
-    </QueryClientProvider>
+    <ThemeProvider theme={theme(themeMode)}>
+      <CssBaseline enableColorScheme/>
+      <Routes>
+        <Route path='/home' element={HomePage()}/>
+      </Routes>
+    </ThemeProvider>
   );
 }
 

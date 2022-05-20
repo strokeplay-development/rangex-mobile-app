@@ -37,8 +37,6 @@ class _ReactWebviewState extends State<ReactWebview> {
           final authRepo = RepositoryProvider.of<AuthRepository>(context);
 
           ctrl.runJavascript(await tokensToCookie(authRepo));
-
-          print("??");
         },
       ),
     );

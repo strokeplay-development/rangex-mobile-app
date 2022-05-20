@@ -12,7 +12,7 @@ class _FeedPageState extends State<FeedPage> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: ReactWebview(initialUrl: 'http://localhost:3000'),
+      body: ReactWebview(initialUrl: 'http://localhost:3000/home'),
     );
   }
 }
