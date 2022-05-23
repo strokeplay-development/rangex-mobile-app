@@ -1,10 +1,16 @@
+import { Paper } from "@mui/material";
 import { useEffect, useState } from "react";
+import SectionHeader from "../../components/common/section/SectionHeader";
+import { StatData } from "../../components/common/stats";
+import StatsGrid from "../../components/common/stats/StatsGrid";
+import ProfileBox from "../../components/profile/ProfileBox";
 import { Record, RecordType } from "../../components/record";
 import RecordPaper from "../../components/record/RecordPaper";
-import { BoxList, Section } from "../../styles/common";
+import { BoxList, PaperBox, Section } from "../../styles/common";
 
 export default function HomePage() {
     const [records, setRecords] = useState<Record[]>([]);
+    const [stats, setStats] = useState<StatData[]>([]); 
 
     useEffect(() => {
         setRecords([
@@ -35,22 +41,34 @@ export default function HomePage() {
                 shopName: 'rangex 양재'
             },
         ]);
+
+        setStats([
+            { dataType: 'SHOTS AVG.', data: 117 },
+            { dataType: 'SHOT', data: 1137 },
+            { dataType: 'PRACTICES', data: 17 },
+            { dataType: 'DRIVER AVG.', data: 244.5, digit: 'm' },
+            { dataType: 'LONGEST', data: 234.7, digit: 'm' },
+        ]);
     }, []);
 
     return (
         <div>
             {/* Overview */}
-            <div>
-                <header></header>
-                <div>
-                    <div className="profile"></div>
-                    <div className="stats"></div>
-                </div>
-            </div>
+            <Section>
+                <SectionHeader title="OVERVIEW"/>
+                <PaperBox>
+                    <ProfileBox/>
+                    {/* 라인 */}
+                    <div>
+
+                        <StatsGrid cols={3} stats={stats}/>
+                    </div>
+                </PaperBox>
+            </Section>
             
             {/* History */}
             <Section>
-                <header></header>
+                <SectionHeader title="HISTORY"/>
                 <BoxList>
                     {records.map((record, index) => 
                         <li key={index}>

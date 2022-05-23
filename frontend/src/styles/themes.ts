@@ -1,7 +1,8 @@
 import { PaletteOptions, ThemeOptions } from "@mui/material";
 import { BG_NAVY, BG_WHITE, BOX_NAVY, ERR_RED, POINT_YELLOW, REC_NEW_RECOTD, REC_PRACTICE, TXT_BLACK, TXT_BLUE, TXT_GREY } from "./colors";
-import { FONT_BASIC, FONT_SMALL } from "./fonts";
+import { FONT_BASIC, FONT_MEDIUM, FONT_SMALL } from "./fonts";
 
+// 기본 CSS값 리셋
 export const reset: ThemeOptions = {
     components: {
         MuiCssBaseline: {
@@ -27,12 +28,21 @@ export const reset: ThemeOptions = {
     }
 }
 
+// BASE
+// - 공통 기본값 새로 설정 
+// - 커스텀 CSS 스타일 설정
 export const base: ThemeOptions = {
     fontStyle: {
-        label: `font-size: ${FONT_SMALL}px; font-weight: 400;`
+        subhead: `font-size: ${FONT_MEDIUM}px; font-weight: 600;`,
+        label: `font-size: ${FONT_SMALL}px; font-weight: 500;`
     }
 }
 
+/**
+ * Dark Themes
+ */
+
+// 색상 값들 (MUI 컴포넌트에도 적용됨)
 export const darkPalette: PaletteOptions = {
     primary: {
         main: POINT_YELLOW,
@@ -60,6 +70,7 @@ export const darkPalette: PaletteOptions = {
     }
 }
 
+// 커스텀 색상 값들
 export const darkColors: ThemeOptions = {
     recordColor: {
         newRecord: REC_NEW_RECOTD,

@@ -1,7 +1,12 @@
-import { styled } from "@mui/material";
+import { Paper, styled } from "@mui/material";
 
 export const Section = styled('section')`
     padding: 0 20px;
+`;
+
+export const PaperBox = styled(Paper)`
+    box-shadow: none;
+    padding: 16px;
 `;
 
 export const BoxList = styled('ul')`

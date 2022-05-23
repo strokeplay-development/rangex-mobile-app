@@ -1,9 +1,10 @@
-import { Paper, styled } from "@mui/material";
+import { styled } from "@mui/material";
 import { StyledRecordEmblemProps } from ".";
+import { PaperBox } from "../../styles/common";
 
-export const RecordLayout = styled(Paper)`
+// Record Layout
+export const RecordLayout = styled(PaperBox)`
     display: flex;
-    padding: 16px;
     gap: 10px;
 
     & dl {
@@ -17,6 +18,7 @@ export const RecordLayout = styled(Paper)`
     }
 `;
 
+// Record right side emblem
 export const StyledEmblem = styled('div', {shouldForwardProp: (prop) => prop !== 'bgColor'})<StyledRecordEmblemProps>`
     width: 64px;
     height: 64px;
@@ -28,6 +30,7 @@ export const StyledEmblem = styled('div', {shouldForwardProp: (prop) => prop !==
     flex-direction: column;
 `;
 
+// Record contents - descriptions
 export const StyledRecordDesc = styled('p')`
     & strong {
         color: ${(props) => props.theme.palette.primary.main};

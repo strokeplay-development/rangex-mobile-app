@@ -12,6 +12,7 @@ declare module '@mui/material/styles' {
             blue: string,
         },
         fontStyle: {
+            subhead: string;
             label: string;
         }
     }
@@ -27,6 +28,7 @@ declare module '@mui/material/styles' {
             blue?: string,
         },
         fontStyle?: {
+            subhead?: string;
             label?: string;
         }
     }
