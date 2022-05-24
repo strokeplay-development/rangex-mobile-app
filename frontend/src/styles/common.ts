@@ -2,6 +2,7 @@ import { Paper, styled } from "@mui/material";
 
 export const Section = styled('section')`
     padding: 0 20px;
+    margin-bottom: 24px;
 `;
 
 export const PaperBox = styled(Paper)`

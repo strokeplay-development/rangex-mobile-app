@@ -5,6 +5,14 @@ import { FONT_BASIC, FONT_MEDIUM, FONT_SMALL } from "./fonts";
 // 기본 CSS값 리셋
 export const reset: ThemeOptions = {
     components: {
+        MuiGrid: {
+            styleOverrides: {
+                container: {
+                    padding: 0,
+                    margin: 0
+                }
+            }
+        },
         MuiCssBaseline: {
             styleOverrides: {
                 ul: {

@@ -8,6 +8,11 @@ export enum RecordType {
     REGISTER = 'register'
 }
 
+export interface Distance {
+    distance: number;
+    digit: string;
+}
+
 interface RecordBase {
     type: RecordType
     date: string;
@@ -16,14 +21,12 @@ interface RecordBase {
     shotCount?: number;
 }
 
-interface Distance {
-    distance?: number;
-    digit?: string;
+export type RecordWithDistance = Partial<Distance> & {
     club?: string;
     dataType?: string;
 }
 
-export type Record = RecordBase & Distance;
+export type Record = RecordBase & RecordWithDistance;
 
 export interface RecordPaperProps {
     recordData: Record
