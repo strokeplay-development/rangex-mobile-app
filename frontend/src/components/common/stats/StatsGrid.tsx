@@ -33,7 +33,7 @@ export default function StatsGrid({ cols, stats }: PropsWithChildren<StatsGridPr
             {Array.from({ length: rows }).map((_, idx) => (
                 //  Rows
                 // 첫번재 열은 위쪽 spacing 없음
-                <Grid key={idx} container item sx={{":first-child": { paddingTop: 0 }}}>
+                <Grid key={idx} container item sx={{":first-of-type": { paddingTop: 0 }}}>
                     { gridItems(idx * cols) }
                 </Grid>
             ))}

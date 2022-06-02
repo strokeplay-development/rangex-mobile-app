@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { MonthSortedList, SwingList } from ".";
-import SectionHeader from "../../components/common/section/SectionHeader";
+import SectionHeader from "../../components/common/layout/section/SectionHeader";
 import { Section } from "../../styles/common";
 import SwingGrid from "./SwingGrid";
 import SwingItem from "./SwingItem";

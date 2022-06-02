@@ -1,28 +1,22 @@
 import { Avatar } from "@mui/material";
-import { PropsWithChildren, useState } from "react";
+import { PropsWithChildren } from "react";
 import { ProfileBoxProps } from ".";
 import { StyledProfile } from "./style";
 
-export default function ProfileBox({ desc }: PropsWithChildren<ProfileBoxProps>) {
-    const [me, setMe] = useState({
-        profileImage: null,
-        userName: 'Mitchell Kim',
-        updatedAt: '2022-05-14'
-    });
-
+export default function ProfileBox({ image, username, desc }: PropsWithChildren<ProfileBoxProps>) {
     return (
         <StyledProfile>
             <Avatar 
-                alt={me.userName}
-                src={me.profileImage || undefined}
+                alt={username}
+                src={image || undefined}
                 sx={{
                     width: 42,
                     height: 42
                 }}
             />
             <dl>
-                <dt>{me.userName}</dt>
-                <dd>{me.updatedAt}</dd>
+                <dt>{username}</dt>
+                <dd>{desc}</dd>
             </dl>
         </StyledProfile>
     );
