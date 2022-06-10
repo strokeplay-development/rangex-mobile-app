@@ -4,6 +4,7 @@ import { BG_NAVY } from "../../styles/colors";
 import { FONT_BASIC, FONT_MEDIUM } from "../../styles/fonts";
 import firstLinkBgImage from "../../assets/images/link_shop.svg";
 import { BottomFullButton } from "../../styles/common";
+import { useNavigate } from "react-router-dom";
 
 /**
  * Types
@@ -62,25 +63,29 @@ const StyledFirstLink = styled('div')`
 `
 
 export default function FirstLink({ username }: PropsWithChildren<FirstLinkProps>) {
+    const nav = useNavigate();
+    
+    const goConfirmLink = () => {
+        nav("/link");
+    }
+
     return (
-            <StyledFirstLink>
-                <header>
-                    <h2>Welcome, <strong>{username}</strong>!</h2>
-                    <p>
-                        After rangex shop linking,<br/>
-                        you can meet your swing motion and<br/>
-                        shot data analysis from this app.
-                    </p>
-                </header>
-                <div className="back_img">
-                    <img src={firstLinkBgImage} alt="need_link_to_shop"/>
-                </div>
-                <p className="help">You should link rangex shop at least one.</p>
-                <BottomFullButton>
-                    REGISTER or LINK
-                </BottomFullButton>
-            </StyledFirstLink>
-        // <Slide direction="up" mountOnEnter unmountOnExit>
-        // </Slide>
+        <StyledFirstLink>
+            <header>
+                <h2>Welcome, <strong>{username}</strong>!</h2>
+                <p>
+                    After rangex shop linking,<br/>
+                    you can meet your swing motion and<br/>
+                    shot data analysis from this app.
+                </p>
+            </header>
+            <div className="back_img">
+                <img src={firstLinkBgImage} alt="need_link_to_shop"/>
+            </div>
+            <p className="help">You should link rangex shop at least one.</p>
+            <BottomFullButton onClick={goConfirmLink}>
+                REGISTER or LINK
+            </BottomFullButton>
+        </StyledFirstLink>
     )
 }

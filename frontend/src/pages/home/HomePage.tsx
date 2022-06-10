@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import SectionHeader from "../../components/common/layout/section/SectionHeader";
 import { StatGridData } from "../../components/common/stats";
 import StatsGrid from "../../components/common/stats/StatsGrid";
-import FirstLink from "../../components/link/FirstLink";
+import FirstLink from "../link/FirstLink";
 import ProfileBox from "../../components/profile/ProfileBox";
 import { Record, RecordType } from "../../components/record";
 import RecordPaper from "../../components/record/RecordPaper";

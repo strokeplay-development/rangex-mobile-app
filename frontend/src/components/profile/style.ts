@@ -1,3 +1,4 @@
+import { FONT_BASIC, FONT_MEDIUM } from './../../styles/fonts';
 import { styled } from "@mui/material";
 
 export const StyledProfile = styled('div')`
@@ -7,10 +8,10 @@ export const StyledProfile = styled('div')`
 
     & dl {
         & dt {
-
+            ${props => props.theme.fontStyle.subhead}
         }
         & dd {
-            ${props => props.theme.fontStyle.label}
+            font-size: ${FONT_BASIC}px;
             color: ${props => props.theme.fontColor.grey};
         }
     }

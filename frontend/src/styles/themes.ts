@@ -1,6 +1,6 @@
 import { PaletteOptions, ThemeOptions } from "@mui/material";
-import { BG_NAVY, BG_WHITE, BOX_NAVY, ERR_RED, POINT_YELLOW, REC_NEW_RECOTD, REC_PRACTICE, TXT_BLACK, TXT_BLUE, TXT_GREY } from "./colors";
-import { FONT_BASIC, FONT_MEDIUM, FONT_SMALL } from "./fonts";
+import { BG_NAVY, BG_WHITE, BOX_BLUE, BOX_GREYBLUE, BOX_NAVY, ERR_RED, ICON_BLUE, POINT_YELLOW, REC_NEW_RECOTD, REC_PRACTICE, TXT_BLACK, TXT_BLUE, TXT_GREY } from "./colors";
+import { FONT_BASIC, FONT_LARGE, FONT_MEDIUM, FONT_SMALL } from "./fonts";
 
 // 기본 CSS값 리셋
 export const reset: ThemeOptions = {
@@ -15,6 +15,16 @@ export const reset: ThemeOptions = {
         },
         MuiCssBaseline: {
             styleOverrides: {
+                h2: {
+                    fontSize: FONT_LARGE,
+                    fontWeight: 600,
+                    margin: 0
+                },
+                h3: {
+                    fontSize: FONT_MEDIUM,
+                    fontWeight: 600,
+                    margin: 0
+                },
                 ul: {
                     listStyleType: 'none',
                     margin: 0,
@@ -41,8 +51,13 @@ export const reset: ThemeOptions = {
 // - 커스텀 CSS 스타일 설정
 export const base: ThemeOptions = {
     fontStyle: {
+        ellipsis: `
+            display: block;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        `,
         subhead: `font-size: ${FONT_MEDIUM}px; font-weight: 600;`,
-        label: `font-size: ${FONT_SMALL}px; font-weight: 500;`
+        label: `font-size: ${FONT_SMALL}px; font-weight: 500;`,
     }
 }
 
@@ -89,4 +104,15 @@ export const darkColors: ThemeOptions = {
         grey: TXT_GREY,
         blue: TXT_BLUE,
     },
+    inputColor: {
+        main: {
+            bg: BOX_GREYBLUE
+        },
+        focus: {
+            border: ICON_BLUE
+        },
+        active: {
+
+        }
+    }
 }

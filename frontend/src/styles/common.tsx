@@ -1,4 +1,11 @@
 import { Button, ButtonProps, Paper, styled } from "@mui/material";
+import { BOX_BLUE } from "./colors";
+
+export const PageWithHeader = styled('div')`
+    padding: 56px 20px 24px 20px;
+    min-height: 100%;
+    overflow: auto;
+`;
 
 export const Section = styled('section')`
     padding: 0 20px;
@@ -19,10 +26,18 @@ export const BoxList = styled('ul')`
         }
     }
 `;
-  
-export const BottomFullButton = styled((props: ButtonProps) => (
-    <Button variant="contained" {...props}>{props.children}</Button>
-))`
+
+export const BasicButton = styled((props: ButtonProps) => (<Button variant="contained" {...props}>{props.children}</Button>))`
+    background-color: ${BOX_BLUE};
+    box-shadow: none;
+
+    &:hover {
+        background-color: ${BOX_BLUE};
+    }
+`;
+
+
+export const BottomFullButton = styled((props: ButtonProps) => (<Button variant="contained" {...props}>{props.children}</Button>))`
     position: fixed;
     bottom: 0;
     left: 0;
@@ -32,4 +47,11 @@ export const BottomFullButton = styled((props: ButtonProps) => (
     box-shadow: none;
     font-weight: 600;
     border-radius: 0;
-`
+`;
+
+export const FlexForm = styled('form')`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+`;

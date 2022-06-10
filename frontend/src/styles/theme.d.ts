@@ -12,8 +12,26 @@ declare module '@mui/material/styles' {
             blue: string,
         },
         fontStyle: {
+            ellipsis: string;
             subhead: string;
             label: string;
+        },
+        inputColor: {
+            main: {
+                bg: string;
+                border: string;
+                placeholder: string;
+            }
+            focus: {
+                bg: string;
+                border: string;
+                placeholder: string;
+            };
+            active: {
+                bg: string;
+                border: string;
+                placeholder: string;
+            };
         }
     }
 
@@ -28,8 +46,26 @@ declare module '@mui/material/styles' {
             blue?: string,
         },
         fontStyle?: {
+            ellipsis?: string;
             subhead?: string;
             label?: string;
+        },
+        inputColor?: {
+            main?: {
+                bg?: string;
+                border?: string;
+                placeholder?: string;
+            }
+            focus?: {
+                bg?: string;
+                border?: string;
+                placeholder?: string;
+            };
+            active?: {
+                bg?: string;
+                border?: string;
+                placeholder?: string;
+            };
         }
     }
 }
