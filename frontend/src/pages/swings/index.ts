@@ -12,7 +12,8 @@ export interface SwingListItem extends Distance {
 export type SwingList = SwingListItem[];
 
 export interface SwingGridProps {
-    swings: SwingList
+    swings: SwingList,
+    cols: number
 }
 
 export interface SwingGridRowProps {

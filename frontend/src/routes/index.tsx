@@ -4,8 +4,10 @@ import LinkShop from '../pages/link/LinkShop';
 
 const Home = React.lazy(() => import('../pages/home/HomePage'));
 const Swings = React.lazy(() => import('../pages/swings/SwingsPage'));
-const More = React.lazy(() => import('../pages/more/MorePage'));
+
 // More
+const More = React.lazy(() => import('../pages/more/MorePage'));
+const Clubs = React.lazy(() => import('../pages/club/ClubPage'));
 
 export default function PageRoutes() {
     const routes = useRoutes([
@@ -19,7 +21,11 @@ export default function PageRoutes() {
         },
         {
             path: '/more',
-            element: <More/>
+            element: <More/>,
+        },
+        {
+            path: '/clubs',
+            element: <Clubs/>
         },
         {
             path: '/link',

@@ -78,7 +78,7 @@ export default function SwingsPage() {
                 swings.length > 0 ? 
                 <Section key={idx}>
                     <SectionHeader title={MONTH[idx - 1]}/>
-                    <SwingGrid swings={swings}/>
+                    <SwingGrid swings={swings} cols={3}/>
                 </Section> : null
             ))}
         </div>

@@ -4,15 +4,12 @@ import { SwingGridProps, SwingGridRowProps } from ".";
 import { StyledSwingItem } from "./style";
 import SwingItem from "./SwingItem";
 
-const COLS = 3;
-
-
 export default function SwingGrid(props: PropsWithChildren<SwingGridProps>) {
-    const rows = props.swings.length / COLS + 1;
+    const rows = props.swings.length / props.cols + 1;
 
     const SwingGridRow = ({ initIdex }: PropsWithChildren<SwingGridRowProps>) => {
         return <>
-            {Array.from({ length: COLS }).map((_, idx) => {
+            {Array.from({ length: props.cols }).map((_, idx) => {
                 const itemIdx = initIdex + idx;
                 const data = props.swings[itemIdx];
 

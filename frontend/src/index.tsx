@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {createRoot} from 'react-dom/client'
@@ -14,9 +14,11 @@ root.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <RecoilRoot>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
+        <Suspense fallback>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </Suspense>
       </RecoilRoot>
     </QueryClientProvider>
   </React.StrictMode>

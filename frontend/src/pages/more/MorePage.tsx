@@ -1,4 +1,5 @@
 import { styled } from "@mui/material"
+import { Outlet, useNavigate } from "react-router-dom";
 import MenuBox from "../../components/common/layout/menu/MenuBox";
 import ProfileBox from "../../components/profile/ProfileBox";
 import { BG_BLACK } from "../../styles/colors";
@@ -14,6 +15,18 @@ const StyledMorePage = styled('div')`
 `;
 
 export default function MorePage() {
+    const nav = useNavigate();
+
+    const goChangeClub = () => nav("/clubs");
+
+    const goGameOptions = () => nav("");
+
+    const goLinkToShop = () => nav("");
+
+    const goPrivacyPolicy = () => nav("");
+
+    const goTermsOfService = () => nav("");
+
     return (
         <StyledMorePage>
             <ul>
@@ -27,8 +40,8 @@ export default function MorePage() {
                 />
             </ul>
             <ul>
-                <MenuBox>Change Club</MenuBox>
-                <MenuBox>Practice Options</MenuBox>
+                <MenuBox onClick={goChangeClub}>Change Club</MenuBox>
+                <MenuBox>Game Options</MenuBox>
                 <MenuBox>Link to Shop</MenuBox>
             </ul>
             <ul>
@@ -41,6 +54,8 @@ export default function MorePage() {
             <ul>
                 <MenuBox desc="1.0.2">Version</MenuBox>
             </ul>
+
+            <Outlet/>
         </StyledMorePage>
     )
 }
