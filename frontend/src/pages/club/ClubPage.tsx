@@ -1,9 +1,11 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { styled } from "@mui/material";
 import { MouseEventHandler, useState } from "react";
+import InfoModal from "../../components/common/help/InfoModal";
+import TopBar from "../../components/common/layout/bar/TopBar";
 import GridLayout from "../../components/common/layout/grid/GridLayout";
 import SectionHeader from "../../components/common/layout/section/SectionHeader";
-import { Section } from "../../styles/common";
+import { BottomFullButton, PageWithHeader, Section } from "../../styles/common";
 
 /**
  * types
@@ -32,11 +34,11 @@ const VisibleSwitch = styled('div')`
 const ClubVisibleSwitch = (clubInfo: Partial<ClubVisibility> & {onClick: MouseEventHandler}) => {
     return (
         <VisibleSwitch onClick={clubInfo.onClick}>
-            <h3 style={{ opacity: clubInfo.visible ? '100%' : '50%' }}>{clubInfo.club}</h3>
+            <h3 style={{ opacity: clubInfo.visible ? '100%' : '35%' }}>{clubInfo.club}</h3>
             {
                 clubInfo.visible
                 ? <Visibility fontSize="small"/> 
-                : <VisibilityOff fontSize="small" sx={{ opacity: '50%' }}/>
+                : <VisibilityOff fontSize="small" sx={{ opacity: '30%' }}/>
             }
         </VisibleSwitch>
     );
@@ -117,7 +119,13 @@ export default function ClubPage() {
     }
 
     return (
-        <div>
+        <PageWithHeader className="no_horizon_padding">
+            <TopBar fix title="Clubs Visibility">
+                <InfoModal title="Clubs Visibility">
+                    dfklnasdkfm; dfkm sd;f kedfe4r4mfd; dfk findkd fd45 5fm ddf5 dfklnas dkfm; df5 dsd;fkemfd; fddfdfkefindkfm dfdfklnasdkfm; dfkm sd;fkemfd; dfkefindkfm dfdfklnasdkfm; dfkm sd;fkemfd; dfkefindkfm dfdfklnasdkfm; dfkm sd;fkemfd; dfkefindkfm df
+                </InfoModal>
+            </TopBar>
+
             <Section>
                 <SectionHeader title="Wood"/>
                 <GridLayout
@@ -196,6 +204,8 @@ export default function ClubPage() {
                     }
                 </GridLayout>
             </Section>
-        </div>
+
+            <BottomFullButton>Save</BottomFullButton>
+        </PageWithHeader>
     )    
 }

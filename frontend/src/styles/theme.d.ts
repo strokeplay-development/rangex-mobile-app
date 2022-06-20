@@ -15,6 +15,7 @@ declare module '@mui/material/styles' {
             ellipsis: string;
             subhead: string;
             label: string;
+            information: string;
         },
         inputColor: {
             main: {
@@ -49,6 +50,7 @@ declare module '@mui/material/styles' {
             ellipsis?: string;
             subhead?: string;
             label?: string;
+            information?: string;
         },
         inputColor?: {
             main?: {

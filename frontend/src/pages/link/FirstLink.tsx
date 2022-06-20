@@ -2,9 +2,11 @@ import { styled } from "@mui/material";
 import { PropsWithChildren } from "react";
 import { BG_NAVY } from "../../styles/colors";
 import { FONT_BASIC, FONT_MEDIUM } from "../../styles/fonts";
-import firstLinkBgImage from "../../assets/images/link_shop.svg";
 import { BottomFullButton } from "../../styles/common";
 import { useNavigate } from "react-router-dom";
+
+import logo_white from "../../assets/images/logo_white.svg";
+import bg_circle from "../../assets/images/bg_circle.svg";
 
 /**
  * Types
@@ -32,6 +34,7 @@ const StyledFirstLink = styled('div')`
         flex-direction: column;
         position: fixed;
         top: 104px;
+        z-index: 10;
     }
 
     & h2 {
@@ -62,6 +65,38 @@ const StyledFirstLink = styled('div')`
     }
 `
 
+const LogoCircluarImage = styled('div')`
+    position: relative;
+
+
+    & img {
+        position: absolute;
+        display: block;
+        max-width: 90vw;
+
+        &.logo {
+            width: 24vw;
+            left: calc(50% - 10vw);
+            animation: showin 2s linear;
+        }
+
+
+        &.circle {
+            animation: infinite_rotate 1.5s linear;
+        }
+
+        @keyframes infinite_rotate {
+            from { transform: rotate(0deg); opacity: 0; }
+            to { transform: rotate(360deg); opacity: 100%; }
+        }
+
+        @keyframes showin {
+            from { opacity: 0; }
+            to { opacity: 100%; }
+        }
+    }  
+`;
+
 export default function FirstLink({ username }: PropsWithChildren<FirstLinkProps>) {
     const nav = useNavigate();
     
@@ -79,10 +114,14 @@ export default function FirstLink({ username }: PropsWithChildren<FirstLinkProps
                     shot data analysis from this app.
                 </p>
             </header>
-            <div className="back_img">
-                <img src={firstLinkBgImage} alt="need_link_to_shop"/>
-            </div>
+
+            <LogoCircluarImage className="back_img">
+                <img className="logo" src={logo_white} alt="need_link_to_shop"/>
+                <img className="circle" src={bg_circle} alt="need_link_to_shop"/>
+            </LogoCircluarImage>
+
             <p className="help">You should link rangex shop at least one.</p>
+
             <BottomFullButton onClick={goConfirmLink}>
                 REGISTER or LINK
             </BottomFullButton>

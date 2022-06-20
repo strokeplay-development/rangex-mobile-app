@@ -19,7 +19,7 @@ export default function MorePage() {
 
     const goChangeClub = () => nav("/clubs");
 
-    const goGameOptions = () => nav("");
+    const goGameOptions = () => nav("/options");
 
     const goLinkToShop = () => nav("");
 
@@ -41,7 +41,7 @@ export default function MorePage() {
             </ul>
             <ul>
                 <MenuBox onClick={goChangeClub}>Change Club</MenuBox>
-                <MenuBox>Game Options</MenuBox>
+                <MenuBox onClick={goGameOptions}>Game Options</MenuBox>
                 <MenuBox>Link to Shop</MenuBox>
             </ul>
             <ul>

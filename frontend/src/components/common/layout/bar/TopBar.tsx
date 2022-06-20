@@ -1,6 +1,6 @@
 import { styled } from "@mui/material"
 import { PropsWithChildren, useState } from "react";
-import { LINE_DARKGREY } from "../../../../styles/colors";
+import { BG_NAVY, LINE_DARKGREY } from "../../../../styles/colors";
 
 interface TopBarProps {
     border?: boolean,
@@ -17,6 +17,7 @@ const StyledBar = styled('header')`
     width: 100%;
     padding: 0 16px;
     height: 56px;
+    background-color: ${BG_NAVY};
 
     &.border {
         border-bottom: 1px solid ${LINE_DARKGREY};
@@ -29,8 +30,8 @@ const StyledBar = styled('header')`
     }
 
     & > div {
-        min-width: 24px;
-        min-height: 24px;
+        min-width: 40px;
+        min-height: 40px;
     }
 
     & .back {
@@ -57,10 +58,8 @@ export default function TopBar(props: PropsWithChildren<TopBarProps>) {
     return (
         <StyledBar className={barClass}>
             {props.hideBack ? null : <div className="back"></div>}
-            <div className="title">
-                {props.title ? <h2>{props.title}</h2> : null}
-                {props.subtitle ? <h3>{props.subtitle}</h3> : null}
-            </div>
+            {props.title ? <h2>{props.title}</h2> : null}
+            {props.subtitle ? <h3>{props.subtitle}</h3> : null}
             <div className="actions">{props.children}</div>
         </StyledBar>
     )

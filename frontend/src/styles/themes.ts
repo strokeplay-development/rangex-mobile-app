@@ -40,6 +40,9 @@ export const reset: ThemeOptions = {
                     margin: 0,
                     fontSize: FONT_BASIC,
                     lineHeight: '140%'
+                },
+                input: {
+                    margin: 0
                 }
             }
         }
@@ -58,6 +61,7 @@ export const base: ThemeOptions = {
         `,
         subhead: `font-size: ${FONT_MEDIUM}px; font-weight: 600;`,
         label: `font-size: ${FONT_SMALL}px; font-weight: 500;`,
+        information: `font-size: ${FONT_MEDIUM}px; font-weight: 500`
     }
 }
 

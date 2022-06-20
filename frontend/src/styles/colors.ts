@@ -7,6 +7,7 @@ export const BG_WHITE = '#FFFFFF';
 export const BOX_NAVY = '#0B243C';
 export const BOX_GREYBLUE = '#172D42';
 export const BOX_BLUE = '#143859';
+export const BOX_DARKGREY = '#272E34';
 export const BOX_GREY = '#838B93';
 
 // Border Line

@@ -1,20 +1,57 @@
 import { Button, ButtonProps, Paper, styled } from "@mui/material";
-import { BOX_BLUE } from "./colors";
+import { BG_BLACK, BG_NAVY, BOX_BLUE } from "./colors";
 
 export const PageWithHeader = styled('div')`
-    padding: 56px 20px 24px 20px;
+    padding: 56px 20px 72px 20px;
     min-height: 100%;
     overflow: auto;
+
+    &.no_horizon_padding {
+        padding-left: 0;
+        padding-right: 0;
+    }
 `;
+
+export const PageWithBlockSection = styled('div')`
+    padding: 56px 0 72px 0;
+    min-height: 100vh;
+    overflow: auto;
+    background-color: ${BG_BLACK};
+    
+    & section {
+        padding: 24px 20px;
+        background-color: ${BG_NAVY};
+        margin-bottom: 16px;
+    }
+`
 
 export const Section = styled('section')`
     padding: 0 20px;
-    margin-bottom: 24px;
+    margin-top: 24px;
 `;
 
 export const PaperBox = styled(Paper)`
     box-shadow: none;
     padding: 16px;
+
+    &.modal {
+        padding: 24px 20px;
+
+        & h2 {
+            margin-bottom: 16px;
+        }
+        & p {
+            ${props => props.theme.fontStyle.information};
+            line-height: 160%;
+        }
+    }
+
+    &.bottom {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: calc(100%);
+    }
 `;
 
 export const BoxList = styled('ul')`
@@ -47,6 +84,12 @@ export const BottomFullButton = styled((props: ButtonProps) => (<Button variant=
     box-shadow: none;
     font-weight: 600;
     border-radius: 0;
+    background-color: ${BOX_BLUE};
+    z-index: 9999;
+
+    &:hover {
+        background-color: ${BOX_BLUE};
+    }
 `;
 
 export const FlexForm = styled('form')`
