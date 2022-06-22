@@ -1,9 +1,10 @@
 
 import { Cached } from "@mui/icons-material";
-import { IconButton, styled } from "@mui/material";
+import { IconButton, Slider, styled } from "@mui/material";
 import SquareRadioButton from "../../components/common/button/SquareRadioButton";
 import TopBar from "../../components/common/layout/bar/TopBar";
 import { BottomFullButton, PageWithBlockSection, PageWithHeader } from "../../styles/common";
+import OptionSlider from "./OptionSlider";
 
 const normalUnits = [
     {
@@ -20,10 +21,37 @@ const normalUnits = [
     },
 ];
 
+const temperatureUnits = [
+    {
+        label: 'C',
+        value: 'c'
+    },
+    {
+        label: 'F',
+        value: 'f'
+    },
+];
+
+const altitudeUnits = [
+    {
+        label: 'm',
+        value: 'm'
+    },
+    {
+        label: 'yd',
+        value: 'yd'
+    },
+    {
+        label: 'ft',
+        value: 'ft'
+    },
+];
+
 const OptionSection = styled('section')`
     & h2 {
         margin-bottom: 24px;
     }
+
     & .option {
         margin-bottom: 24px;
 
@@ -31,10 +59,20 @@ const OptionSection = styled('section')`
             margin-bottom: 0;
         }
 
-        & span {
+        & .option_label {
             display: block;
             margin-bottom: 8px;
             color: ${props => props.theme.fontColor.grey};
+
+            &.has_unit {
+                margin-bottom: 0;
+            }
+        }
+
+        & .option_header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
     }
 `;
@@ -62,30 +100,57 @@ export default function GameOptionsPage() {
                     <Cached/>
                 </IconButton>
             </TopBar>
-            
+
             <OptionSection>
-                <h2>Unit</h2>
-                {
-                    unitOptions.map(option => (
-                        <div className="option">
-                            <span>{option.optionName}</span>
-                            <SquareRadioButton 
-                                name={option.optionName}
-                                requisites={option.units}
-                                stretch
-                            />
-                        </div>
-                    ))
-                }
+                <h2>Environment</h2>
+                <div className="option">
+                    <div className="option_header">
+                        <span className="option_label has_unit">Temperature</span>
+                        <SquareRadioButton
+                            name="Temperature"
+                            requisites={temperatureUnits}
+                            stretch
+                            small
+                        />
+                    </div>
+                    <OptionSlider/>
+                </div>
+                <div className="option">
+                    <div className="option_header">
+                        <span className="option_label has_unit">Altitude</span>
+                        <SquareRadioButton
+                            name="Altitude"
+                            requisites={altitudeUnits}
+                            stretch
+                            small
+                        />
+                    </div>
+                    <OptionSlider/>
+                </div>
+                <div className="option">
+                    <div className="option_header">
+                        <span className="option_label has_unit">Humidity</span>
+                    </div>
+                    <OptionSlider/>
+                </div>
+                <div className="option">
+                    <span className="option_label">Ground</span>
+                    <SquareRadioButton
+                        name="Ground"
+                        requisites={normalUnits}
+                        stretch
+                    />
+                </div>
             </OptionSection>
 
             <OptionSection>
                 <h2>Unit</h2>
                 {
-                    unitOptions.map(option => (
-                        <div className="option">
-                            <span>{option.optionName}</span>
-                            <SquareRadioButton 
+                    unitOptions.map((option, idx) => (
+                        <div className="option" key={idx}>
+                            <span className="option_label">{option.optionName}</span>
+                            <SquareRadioButton
+                                key={option.optionName}
                                 name={option.optionName}
                                 requisites={option.units}
                                 stretch

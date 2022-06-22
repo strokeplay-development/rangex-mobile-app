@@ -61,9 +61,7 @@ export default function HomePage() {
 
     return (
         <>
-            {me.linkedShops.length < 1 
-                ? <FirstLink username={me.userName}/>
-                : <div>
+            {<div>
                     {/* Overview */}
                     <Section>
                         <SectionHeader title="OVERVIEW"/>
