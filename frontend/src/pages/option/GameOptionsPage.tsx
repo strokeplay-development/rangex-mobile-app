@@ -1,51 +1,11 @@
 
 import { Cached } from "@mui/icons-material";
-import { IconButton, Slider, styled } from "@mui/material";
+import { IconButton, styled } from "@mui/material";
 import SquareRadioButton from "../../components/common/button/SquareRadioButton";
 import TopBar from "../../components/common/layout/bar/TopBar";
-import { BottomFullButton, PageWithBlockSection, PageWithHeader } from "../../styles/common";
+import { BottomFullButton, PageWithBlockSection } from "../../styles/common";
+import OptionSelect from "./OptionSelect";
 import OptionSlider from "./OptionSlider";
-
-const normalUnits = [
-    {
-        label: 'SOFT',
-        value: 'soft'
-    },
-    {
-        label: 'NORMAL',
-        value: 'normal'
-    },
-    {
-        label: 'HARD',
-        value: 'hard'
-    },
-];
-
-const temperatureUnits = [
-    {
-        label: 'C',
-        value: 'c'
-    },
-    {
-        label: 'F',
-        value: 'f'
-    },
-];
-
-const altitudeUnits = [
-    {
-        label: 'm',
-        value: 'm'
-    },
-    {
-        label: 'yd',
-        value: 'yd'
-    },
-    {
-        label: 'ft',
-        value: 'ft'
-    },
-];
 
 const OptionSection = styled('section')`
     & h2 {
@@ -77,22 +37,32 @@ const OptionSection = styled('section')`
     }
 `;
 
-const unitOptions = [
-    {
-        optionName: 'Speed',
-        units: normalUnits
-    },
-    {
-        optionName: 'Distance',
-        units: normalUnits
-    },
-    {
-        optionName: 'Green Distance',
-        units: normalUnits
-    }
-]
-
 export default function GameOptionsPage() {
+    const teeUnits = [25, 30, 35, 40, 45, 50, 55];
+
+    const normalUnits = [
+        { label: 'SOFT', value: 'soft' },
+        { label: 'NORMAL', value: 'normal' },
+        { label: 'HARD', value: 'hard' },
+    ];
+    
+    const temperatureUnits = [
+        { label: 'C', value: 'c' },
+        { label: 'F', value: 'f' },
+    ];
+    
+    const altitudeUnits = [
+        { label: 'm', value: 'm' },
+        { label: 'yd', value: 'yd' },
+        { label: 'ft', value: 'ft' },
+    ];
+
+    const unitOptions = [
+        { optionName: 'Speed', units: normalUnits },
+        { optionName: 'Distance', units: normalUnits },
+        { optionName: 'Green Distance', units: normalUnits }
+    ];
+
     return (
         <PageWithBlockSection>
             <TopBar fix title="Game Options">
@@ -100,6 +70,15 @@ export default function GameOptionsPage() {
                     <Cached/>
                 </IconButton>
             </TopBar>
+
+            <OptionSection>
+                <div className="option">
+                    <div className="option_header">
+                        <span className="option_label has_unit">Tee Height</span>
+                        <OptionSelect menus={teeUnits}/>
+                    </div>
+                </div>
+            </OptionSection>
 
             <OptionSection>
                 <h2>Environment</h2>
