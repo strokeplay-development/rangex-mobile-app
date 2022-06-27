@@ -7,7 +7,8 @@ interface TopBarProps {
     title?: string,
     subtitle?: string,
     hideBack?: boolean,
-    fix?: boolean
+    fix?: boolean,
+    prominent?: boolean
 }
 
 const StyledBar = styled('header')`
@@ -45,12 +46,11 @@ const StyledBar = styled('header')`
     & .actions {
         display: flex;
         align-items: center;
+        justify-content: flex-end;
     }
 `;
 
 export default function TopBar(props: PropsWithChildren<TopBarProps>) {
-    //const [barClass, setBarClass] = useState();
-
     const barClass = `
         ${props.fix ? 'fix' : null} ${props.border ? 'border' : null} 
     `;

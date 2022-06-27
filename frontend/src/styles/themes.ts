@@ -72,7 +72,7 @@ export const base: ThemeOptions = {
 // 색상 값들 (MUI 컴포넌트에도 적용됨)
 export const darkPalette: PaletteOptions = {
     primary: {
-        main: POINT_YELLOW,
+        main: BOX_BLUE,
         contrastText: BG_WHITE
     },
     // secondary: {

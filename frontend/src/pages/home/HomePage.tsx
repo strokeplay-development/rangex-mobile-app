@@ -7,7 +7,7 @@ import FirstLink from "../link/FirstLink";
 import ProfileBox from "../../components/profile/ProfileBox";
 import { Record, RecordType } from "../../components/record";
 import RecordPaper from "../../components/record/RecordPaper";
-import { BoxList, PaperBox, Section } from "../../styles/common";
+import { BoxList, PageWithHeader, PaperBox, Section } from "../../styles/common";
 
 export default function HomePage() {
     const [records, setRecords] = useState<Record[]>([]);
@@ -60,35 +60,32 @@ export default function HomePage() {
     }, []);
 
     return (
-        <>
-            {<div>
-                    {/* Overview */}
-                    <Section>
-                        <SectionHeader title="OVERVIEW"/>
-                        <PaperBox>
-                            <ProfileBox 
-                                username={me.userName} 
-                                image={me.profileImage || undefined} 
-                                desc={me.updatedAt}    
-                            />
-                            <Divider sx={{mt: '16px', mb: '16px'}}/>
-                            <StatsGrid cols={3} stats={stats}/>
-                        </PaperBox>
-                    </Section>
-                    
-                    {/* History */}
-                    <Section>
-                        <SectionHeader title="HISTORY"/>
-                        <BoxList>
-                            {records.map((record, index) => 
-                                <li key={index}>
-                                    <RecordPaper recordData={record}/>
-                                </li>
-                            )}
-                        </BoxList>
-                    </Section>
-                </div>
-            }
-        </>
+        <PageWithHeader className="no_horizon_padding">
+            {/* Overview */}
+            <Section>
+                <SectionHeader title="OVERVIEW"/>
+                <PaperBox>
+                    <ProfileBox 
+                        username={me.userName} 
+                        image={me.profileImage || undefined} 
+                        desc={me.updatedAt}    
+                    />
+                    <Divider sx={{mt: '16px', mb: '16px'}}/>
+                    <StatsGrid cols={3} stats={stats}/>
+                </PaperBox>
+            </Section>
+            
+            {/* History */}
+            <Section>
+                <SectionHeader title="HISTORY"/>
+                <BoxList>
+                    {records.map((record, index) => 
+                        <li key={index}>
+                            <RecordPaper recordData={record}/>
+                        </li>
+                    )}
+                </BoxList>
+            </Section>
+        </PageWithHeader>
     );
 }

@@ -1,5 +1,6 @@
 import { styled } from "@mui/material";
 import { StyledRecordEmblemProps } from ".";
+import { POINT_YELLOW } from "../../styles/colors";
 import { PaperBox } from "../../styles/common";
 
 // Record Layout
@@ -33,6 +34,6 @@ export const StyledEmblem = styled('div', {shouldForwardProp: (prop) => prop !==
 // Record contents - descriptions
 export const StyledRecordDesc = styled('p')`
     & strong {
-        color: ${(props) => props.theme.palette.primary.main};
+        color: ${POINT_YELLOW};
     }
 `;

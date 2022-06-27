@@ -1,6 +1,6 @@
 import { MenuItem, Select, SelectProps, styled } from "@mui/material";
 import { PropsWithChildren } from "react";
-import { ICON_GREY } from "../../styles/colors";
+import { ICON_GREY } from "../../../../styles/colors";
 
 type OptionSelectProps = SelectProps & { menus: number[] }
 

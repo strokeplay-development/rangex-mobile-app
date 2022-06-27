@@ -1,4 +1,4 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogProps, DialogTitle, styled } from "@mui/material";
+import { Dialog, styled } from "@mui/material";
 import { useState } from "react";
 import FullButton from "../../components/common/button/FullButton";
 import { BOX_NAVY } from "../../styles/colors";

@@ -10,6 +10,8 @@ const StyledTextField = styled('div')`
     position: relative;
     width: 100%;
     background-color: ${props => props.theme.inputColor.main.bg};
+    border-radius: 4px;
+    flex: 1;
     
     & label {
         ${props => props.theme.fontStyle.ellipsis}
@@ -47,7 +49,6 @@ const StyledTextField = styled('div')`
 export default function TextInput(props: TextInputProps) {
     return (
         <StyledTextField>
-            {/* <label htmlFor=":txt:" id=":txt:-label">{props.label}</label> */}
             <div className="input-root">
                 <input 
                     type={props.type || 'text'} 

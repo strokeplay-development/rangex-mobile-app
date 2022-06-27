@@ -4,7 +4,7 @@ import { IconButton, styled } from "@mui/material";
 import SquareRadioButton from "../../components/common/button/SquareRadioButton";
 import TopBar from "../../components/common/layout/bar/TopBar";
 import { BottomFullButton, PageWithBlockSection } from "../../styles/common";
-import OptionSelect from "./OptionSelect";
+import OptionSelect from "../../components/common/layout/menu/OptionSelect";
 import OptionSlider from "./OptionSlider";
 
 const OptionSection = styled('section')`
