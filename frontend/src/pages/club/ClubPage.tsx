@@ -1,6 +1,7 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { styled } from "@mui/material";
 import { MouseEventHandler, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import InfoModal from "../../components/common/help/InfoModal";
 import TopBar from "../../components/common/layout/bar/TopBar";
 import GridLayout from "../../components/common/layout/grid/GridLayout";
@@ -45,6 +46,8 @@ const ClubVisibleSwitch = (clubInfo: Partial<ClubVisibility> & {onClick: MouseEv
 }
 
 export default function ClubPage() {
+    const nav = useNavigate();
+
     // Woods
     const [woods, setWoods] = useState([
         { club: 'Driver', visible: true },
@@ -116,6 +119,11 @@ export default function ClubPage() {
     const toggleWedge = (index: number) => {
         wedges[index].visible = !wedges[index].visible;
         setWedges([...wedges]);
+    }
+
+    // Save
+    const saveClubOptions = () => {
+        nav(-1);
     }
 
     return (
@@ -205,7 +213,7 @@ export default function ClubPage() {
                 </GridLayout>
             </Section>
 
-            <BottomFullButton>Save</BottomFullButton>
+            <BottomFullButton onClick={saveClubOptions}>Save</BottomFullButton>
         </PageWithHeader>
     )    
 }

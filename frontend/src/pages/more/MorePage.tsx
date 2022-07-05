@@ -16,11 +16,13 @@ const StyledMorePage = styled('div')`
 export default function MorePage() {
     const nav = useNavigate();
 
+    const goEditProfile = () => nav("/profile");
+    
     const goChangeClub = () => nav("/clubs");
 
     const goGameOptions = () => nav("/options");
 
-    const goLinkToShop = () => nav("");
+    const goLinkToShop = () => nav("/link");
 
     const goPrivacyPolicy = () => nav("");
 
@@ -36,12 +38,13 @@ export default function MorePage() {
                             desc="Edit Profile"
                         />
                     }
+                    onClick={goEditProfile}
                 />
             </ul>
             <ul>
                 <MenuBox onClick={goChangeClub}>Change Club</MenuBox>
                 <MenuBox onClick={goGameOptions}>Game Options</MenuBox>
-                <MenuBox>Link to Shop</MenuBox>
+                <MenuBox onClick={goLinkToShop}>Link to Shop</MenuBox>
             </ul>
             <ul>
                 <MenuBox>Privacy Policy</MenuBox>

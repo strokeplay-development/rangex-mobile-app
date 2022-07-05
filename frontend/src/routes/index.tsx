@@ -1,7 +1,5 @@
-import { FlutterDashTwoTone } from '@mui/icons-material';
 import React from 'react';
 import { useRoutes } from 'react-router-dom';
-import LinkShop from '../pages/link/LinkShop';
 
 // Sign up
 const RequiredSignup = React.lazy(() => import('../pages/signup/RequiredSignupPage'));
@@ -13,8 +11,10 @@ const Swings = React.lazy(() => import('../pages/swings/SwingsPage'));
 
 // More
 const More = React.lazy(() => import('../pages/more/MorePage'));
+const EditProfile = React.lazy(() => import('../pages/profile/EditProfilePage'));
 const Clubs = React.lazy(() => import('../pages/club/ClubPage'));
 const GameOptions = React.lazy(() => import('../pages/option/GameOptionsPage'));
+const LinkToShops = React.lazy(() => import('../pages/link/LinkShop'));
 
 export default function PageRoutes() {
     const routes = useRoutes([
@@ -44,6 +44,10 @@ export default function PageRoutes() {
             element: <More/>,
         },
         {
+            path: '/profile',
+            element: <EditProfile/>
+        },
+        {
             path: '/clubs',
             element: <Clubs/>
         },
@@ -53,7 +57,7 @@ export default function PageRoutes() {
         },
         {
             path: '/link',
-            element: <LinkShop/>
+            element: <LinkToShops/>
         }
     ]);
 

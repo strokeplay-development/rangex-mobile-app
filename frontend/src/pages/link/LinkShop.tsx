@@ -7,7 +7,7 @@ export default function LinkShop() {
     return (
         <PageWithHeader>
             <TopBar fix/>
-            <h2>Enter shop signup code</h2>
+            <h2 style={{margin: '8px 0 12px 0'}}>Enter shop signup code</h2>
             <FlexForm>
                 <TextInput label="Code"/>
                 <ConfirmLink/>

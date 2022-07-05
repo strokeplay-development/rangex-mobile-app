@@ -42,10 +42,16 @@ const StyledSquareRadio = styled('div',{
 
         ${props => props.stretch ? 'flex: 1;' : null}
         ${props => props.small ? `font-size: ${FONT_SMALL}px;` : null}
+
+        &:active {
+            transition: none;
+        }
     }
 
     & input[type="radio"] {
         appearance: none;
+        -webkit-appearance: none;
+        -webkit-border-radius: 4px;
         position: absolute;
         width: 100%;
         height: 100%;
@@ -53,7 +59,6 @@ const StyledSquareRadio = styled('div',{
         left: 0;
         z-index: -1;
         background-color: ${BOX_DARKGREY};
-        
         &:checked {
             background-color: ${BOX_BLUE};
         }
@@ -72,6 +77,7 @@ export default function SquareRadioButton(props: PropsWithChildren<SquareRadioBu
             small={props.small}
             stretch={props.stretch}
             vertical={props.vertical}
+
         >
             {
                 props.requisites.map((button, idx) => (

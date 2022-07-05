@@ -30,6 +30,10 @@ export const PageWithBlockSection = styled('div')`
         background-color: ${BG_NAVY};
         margin-bottom: 16px;
     }
+
+    & ul {
+        margin-bottom: 16px
+    }
 `
 
 export const Section = styled('section')`
