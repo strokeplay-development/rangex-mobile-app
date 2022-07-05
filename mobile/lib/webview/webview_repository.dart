@@ -1,6 +1,8 @@
 import 'dart:io';
-
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile/authentication/repositories/auth_repository.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 typedef UrlChangeHandler = void Function(String url);
@@ -48,7 +50,15 @@ class WebviewRepository {
               onUrlChanged(message.message);
             }
           },
-        )
+        ),
+        JavascriptChannel(
+          name: 'LogoutRequested',
+          onMessageReceived: (message) {
+            RepositoryProvider.of<AuthRepository>(context).logOut();
+            context.router.popUntil((route) => false);
+            context.router.pushNamed('/welcome');
+          },
+        ),
       },
     );
   }
