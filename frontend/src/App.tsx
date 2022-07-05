@@ -3,6 +3,8 @@ import { createTheme, CssBaseline, ThemeProvider } from '@mui/material';
 import { ThemeMode, themeModeState } from './recoil/theme';
 import { base, darkColors, darkPalette, reset } from './styles/themes';
 import PageRoutes from './routes';
+import { useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 
 const theme = (mode: ThemeMode) => createTheme({
   ...reset,
@@ -14,9 +16,19 @@ const theme = (mode: ThemeMode) => createTheme({
   },
 });
 
-
 function App() {
   const [themeMode] = useRecoilState(themeModeState);
+  const location = useLocation();
+
+
+  useEffect(() => {
+    console.log(location);
+
+    if (window.LocationChanged) {
+      window.LocationChanged.postMessage(location.pathname);
+    }
+
+  }, [location]);
   
   return (
     <ThemeProvider theme={theme(themeMode)}>

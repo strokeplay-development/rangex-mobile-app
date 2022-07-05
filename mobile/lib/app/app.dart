@@ -5,6 +5,7 @@ import 'package:mobile/authentication/repositories/auth_repository.dart';
 import 'package:mobile/authentication/repositories/user_repository.dart';
 import 'package:mobile/routes/app_router.gr.dart';
 import 'package:mobile/routes/router_guards.dart';
+import 'package:mobile/webview/webview_repository.dart';
 
 /// App
 /// 글로벌 레포지토리 등록
@@ -63,6 +64,7 @@ class _AppViewState extends State<AppView> {
     return MaterialApp.router(
       routerDelegate: _appRouter.delegate(),
       routeInformationParser: _appRouter.defaultRouteParser(),
+      theme: ThemeData(brightness: Brightness.dark),
     );
   }
 }

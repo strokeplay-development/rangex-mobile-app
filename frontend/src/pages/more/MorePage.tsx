@@ -6,7 +6,6 @@ import { BG_BLACK } from "../../styles/colors";
 
 const StyledMorePage = styled('div')`
     min-height: 100vh;
-    padding: 56px 0 80px 0;
     background-color: ${BG_BLACK};
 
     & ul {

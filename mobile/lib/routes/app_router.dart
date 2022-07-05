@@ -5,10 +5,7 @@ import 'package:mobile/authentication/views/signup_page.dart';
 import 'package:mobile/authentication/views/welcome_page.dart';
 import 'package:mobile/routes/entry_page.dart';
 import 'package:mobile/routes/router_guards.dart';
-import 'package:mobile/screens/feed/views/feed_page.dart';
-import 'package:mobile/screens/more/views/more_page.dart';
 import 'package:mobile/screens/root_wrap.dart';
-import 'package:mobile/screens/swing/views/swing_page.dart';
 
 @MaterialAutoRouter(
   replaceInRouteName: 'Page,Route',
@@ -46,30 +43,6 @@ import 'package:mobile/screens/swing/views/swing_page.dart';
       path: '/main',
       name: 'RootWrapRouter',
       page: RootWrap,
-      children: [
-        AutoRoute<dynamic>(
-          guards: [CheckIfAuthenticated],
-          path: 'feed',
-          name: 'FeedRouter',
-          page: FeedPage,
-          meta: <String, String>{'title': 'HOME'},
-        ),
-        AutoRoute<dynamic>(
-          guards: [CheckIfAuthenticated],
-          path: 'swing',
-          name: 'SwingRouter',
-          page: SwingPage,
-          meta: <String, String>{'title': 'SWING'},
-        ),
-        AutoRoute<dynamic>(
-          guards: [CheckIfAuthenticated],
-          path: 'more',
-          name: 'MoreRouter',
-          page: MorePage,
-          meta: <String, String>{'title': 'MORE'},
-        ),
-        RedirectRoute(path: '*', redirectTo: 'feed')
-      ],
     ),
   ],
 )

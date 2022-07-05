@@ -60,7 +60,7 @@ export default function HomePage() {
     }, []);
 
     return (
-        <PageWithHeader className="no_horizon_padding">
+        <div>
             {/* Overview */}
             <Section>
                 <SectionHeader title="OVERVIEW"/>
@@ -86,6 +86,6 @@ export default function HomePage() {
                     )}
                 </BoxList>
             </Section>
-        </PageWithHeader>
+        </div>
     );
 }
