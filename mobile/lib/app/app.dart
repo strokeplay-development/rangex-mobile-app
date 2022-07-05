@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile/app/app_theme.dart';
 import 'package:mobile/authentication/bloc/auth_bloc.dart';
 import 'package:mobile/authentication/repositories/auth_repository.dart';
 import 'package:mobile/authentication/repositories/user_repository.dart';
@@ -64,7 +65,7 @@ class _AppViewState extends State<AppView> {
     return MaterialApp.router(
       routerDelegate: _appRouter.delegate(),
       routeInformationParser: _appRouter.defaultRouteParser(),
-      theme: ThemeData(brightness: Brightness.dark),
+      theme: darkTheme,
     );
   }
 }

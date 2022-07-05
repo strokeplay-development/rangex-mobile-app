@@ -2,6 +2,7 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile/app/app_theme.dart';
 import 'package:mobile/screens/feed/views/feed_appbar.dart';
 import 'package:mobile/screens/more/views/more_appbar.dart';
 import 'package:mobile/screens/swing/views/swings_appbar.dart';
@@ -45,65 +46,77 @@ class _RootWrapState extends State<RootWrap> {
             appBar: state is WebviewStateRoot ? appBars[selectedTap] : null,
             body: Padding(
               padding: EdgeInsets.only(top: statusBarHeight),
-              child: _webviewRepository.getWebviewWidget(
-                onUrlChanged: (changedUrl) {
-                  setState(() {
-                    _webviewBloc?.add(WebviewUrlChanged(changedUrl));
-                  });
-                },
-              ),
+              child: Stack(children: [
+                _webviewRepository.getWebviewWidget(
+                  context: context,
+                  onUrlChanged: (changedUrl) {
+                    setState(() {
+                      _webviewBloc?.add(WebviewUrlChanged(changedUrl));
+                    });
+                  },
+                ),
+                Visibility(
+                  visible: state is! WebviewStateRoot,
+                  child: Positioned(
+                    top: 4,
+                    left: 6,
+                    child: IconButton(
+                      icon: const Icon(
+                        Icons.arrow_back,
+                        color: Colors.white,
+                      ),
+                      onPressed: () async {
+                        if (await _webviewRepository.canGoBack) {
+                          if (state is WebviewStateRoot) {
+                            setState(() {
+                              selectedTap = tapIndexStack.removeLast();
+                            });
+                          }
+                          _webviewRepository.goBack();
+                        }
+                      },
+                    ),
+                  ),
+                ),
+              ]),
             ),
             bottomNavigationBar: state is WebviewStateRoot
-                ? BottomNavigationBar(
-                    currentIndex: selectedTap,
-                    onTap: (idx) async {
-                      _webviewRepository.loadRootUrl(idx);
+                ? Container(
+                    decoration: BoxDecoration(
+                        border: Border(
+                            top: BorderSide(
+                                color: Theme.of(context).dividerColor,
+                                width: 1))),
+                    child: BottomNavigationBar(
+                      currentIndex: selectedTap,
+                      onTap: (idx) async {
+                        _webviewRepository.loadRootUrl(idx);
 
-                      if (idx != selectedTap) {
-                        setState(() {
-                          // 탭 인덱스가 변했던 기록을 스택에 쌓음
-                          tapIndexStack.add(selectedTap);
-                          selectedTap = idx;
-                        });
-                      }
-                    },
-                    items: const <BottomNavigationBarItem>[
-                      BottomNavigationBarItem(
-                        icon: Icon(Icons.home),
-                        label: 'Home',
-                      ),
-                      BottomNavigationBarItem(
-                        icon: Icon(Icons.sports_golf),
-                        label: 'Swing',
-                      ),
-                      BottomNavigationBarItem(
-                        icon: Icon(Icons.more_horiz),
-                        label: 'More',
-                      ),
-                    ],
-                  )
-                : null,
-            floatingActionButton: state is! WebviewStateRoot
-                ? FloatingActionButton(
-                    backgroundColor: Colors.transparent,
-                    child: const Icon(
-                      Icons.arrow_back,
-                      color: Colors.white,
-                    ),
-                    onPressed: () async {
-                      if (await _webviewRepository.canGoBack) {
-                        if (state is WebviewStateRoot) {
+                        if (idx != selectedTap) {
                           setState(() {
-                            selectedTap = tapIndexStack.removeLast();
+                            // 탭 인덱스가 변했던 기록을 스택에 쌓음
+                            tapIndexStack.add(selectedTap);
+                            selectedTap = idx;
                           });
                         }
-                        _webviewRepository.goBack();
-                      }
-                    },
+                      },
+                      items: const <BottomNavigationBarItem>[
+                        BottomNavigationBarItem(
+                          icon: Icon(Icons.home),
+                          label: 'Home',
+                        ),
+                        BottomNavigationBarItem(
+                          icon: Icon(Icons.sports_golf),
+                          label: 'Swing',
+                        ),
+                        BottomNavigationBarItem(
+                          icon: Icon(Icons.more_horiz),
+                          label: 'More',
+                        ),
+                      ],
+                    ),
                   )
                 : null,
-            floatingActionButtonLocation:
-                FloatingActionButtonLocation.miniStartTop,
           ),
           onWillPop: () async {
             if (await _webviewRepository.canGoBack) {

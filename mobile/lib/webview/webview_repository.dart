@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 typedef UrlChangeHandler = void Function(String url);
@@ -16,10 +19,14 @@ class WebviewRepository {
   final List<String> rootPaths = ['/home', '/swings', '/more'];
 
   WebView getWebviewWidget({
+    required BuildContext context,
     Function? onCreated,
     UrlChangeHandler? onUrlChanged,
   }) {
+    if (Platform.isAndroid) WebView.platform = AndroidWebView();
+
     return WebView(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       javascriptMode: JavascriptMode.unrestricted,
       initialUrl: rootUrls[0],
       onWebViewCreated: (control) {
