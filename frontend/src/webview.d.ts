@@ -1,4 +1,7 @@
 interface Window {
+    SignupCompleted: {
+        postMessage: (message: any) => void;
+    }
     LocationChanged: {
         postMessage: (message: any) => void;
     };

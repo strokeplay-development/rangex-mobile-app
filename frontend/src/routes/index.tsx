@@ -1,5 +1,6 @@
 import React from 'react';
 import { useRoutes } from 'react-router-dom';
+import { UserOptinalInfoPageMode } from '../pages/signup/OptionalSignupPage';
 
 // Sign up
 const RequiredSignup = React.lazy(() => import('../pages/signup/RequiredSignupPage'));
@@ -8,6 +9,7 @@ const OptionalSignup = React.lazy(() => import('../pages/signup/OptionalSignupPa
 // Main
 const Home = React.lazy(() => import('../pages/home/HomePage'));
 const Swings = React.lazy(() => import('../pages/swings/SwingsPage'));
+const ShotData = React.lazy(() => import('../pages/shot/ShotDataPage'));
 
 // More
 const More = React.lazy(() => import('../pages/more/MorePage'));
@@ -37,6 +39,10 @@ export default function PageRoutes() {
             path: '/swings',
             element: <Swings/>
         },
+        {
+            path: '/swings/:shotID',
+            element: <ShotData/>
+        },
 
         // More
         {
@@ -46,6 +52,10 @@ export default function PageRoutes() {
         {
             path: '/profile',
             element: <EditProfile/>
+        },
+        {
+            path: '/profile/optional',
+            element: <OptionalSignup mode={UserOptinalInfoPageMode.modify}/>
         },
         {
             path: '/clubs',

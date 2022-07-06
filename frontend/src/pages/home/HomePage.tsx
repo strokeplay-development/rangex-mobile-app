@@ -7,7 +7,7 @@ import FirstLink from "../link/FirstLink";
 import ProfileBox from "../../components/profile/ProfileBox";
 import { Record, RecordType } from "../../components/record";
 import RecordPaper from "../../components/record/RecordPaper";
-import { BoxList, PageWithHeader, PaperBox, Section } from "../../styles/common";
+import { BoxList, PageWithHeader, PaperBox, RootPage, Section } from "../../styles/common";
 
 export default function HomePage() {
     const [records, setRecords] = useState<Record[]>([]);
@@ -60,7 +60,7 @@ export default function HomePage() {
     }, []);
 
     return (
-        <div>
+        <RootPage>
             {/* Overview */}
             <Section>
                 <SectionHeader title="OVERVIEW"/>
@@ -86,6 +86,6 @@ export default function HomePage() {
                     )}
                 </BoxList>
             </Section>
-        </div>
+        </RootPage>
     );
 }

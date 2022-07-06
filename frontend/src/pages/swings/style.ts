@@ -1,4 +1,5 @@
 import { styled } from "@mui/material";
+import { POINT_YELLOW } from "../../styles/colors";
 import { FONT_SMALL } from "../../styles/fonts";
 
 export const StyledSwingItem = styled('div')`
@@ -27,7 +28,7 @@ export const StyledSwingItem = styled('div')`
         text-overflow: ellipsis;
 
         & > strong {
-            color: ${props => props.theme.palette.primary.main};
+            color: ${POINT_YELLOW};
         }
     }
 `;

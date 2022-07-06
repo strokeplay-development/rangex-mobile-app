@@ -80,7 +80,7 @@ export default function EditProfilePage() {
         },
     ];
 
-    const goEditProfile = () => nav('/signup/optional');
+    const goEditProfile = () => nav('/profile/optional');
 
     const onLogout = () => {
         window.LogoutRequested?.postMessage('logout');

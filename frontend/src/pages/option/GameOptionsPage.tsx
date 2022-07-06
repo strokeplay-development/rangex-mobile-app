@@ -6,6 +6,7 @@ import TopBar from "../../components/common/layout/bar/TopBar";
 import { BottomFullButton, PageWithBlockSection } from "../../styles/common";
 import OptionSelect from "../../components/common/layout/menu/OptionSelect";
 import OptionSlider from "./OptionSlider";
+import { useNavigate } from "react-router-dom";
 
 const OptionSection = styled('section')`
     & h2 {
@@ -38,6 +39,8 @@ const OptionSection = styled('section')`
 `;
 
 export default function GameOptionsPage() {
+    const nav = useNavigate();
+
     const teeUnits = [25, 30, 35, 40, 45, 50, 55];
 
     const normalUnits = [
@@ -62,6 +65,10 @@ export default function GameOptionsPage() {
         { optionName: 'Distance', units: normalUnits },
         { optionName: 'Green Distance', units: normalUnits }
     ];
+
+    const onSave = () => {
+        nav(-1);
+    }
 
     return (
         <PageWithBlockSection>
@@ -139,7 +146,7 @@ export default function GameOptionsPage() {
                 }
             </OptionSection>
 
-            <BottomFullButton>
+            <BottomFullButton onClick={onSave}>
                 SAVE
             </BottomFullButton>
         </PageWithBlockSection>

@@ -1,12 +1,14 @@
+import { MouseEventHandler } from "react";
 import { Distance } from "../../components/record";
 
 export type MonthSortedList<T> = Array<T>;
 
 export interface SwingListItem extends Distance {
     swingID: number
-    thumbnail?: string,
+    thumbnail?: any,
     createdAt: string,
     club: string,
+    onclick?: MouseEventHandler
 }
 
 export type SwingList = SwingListItem[];

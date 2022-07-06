@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { MonthSortedList, SwingList } from ".";
 import SectionHeader from "../../components/common/layout/section/SectionHeader";
-import { Section } from "../../styles/common";
+import { RootPage, Section } from "../../styles/common";
 import SwingGrid from "./SwingGrid";
 import SwingItem from "./SwingItem";
 
@@ -32,7 +32,7 @@ export default function SwingsPage() {
                 createdAt: '2022-01-14',
                 digit: 'm',
                 distance: 138.5,
-                swingID: 3
+                swingID: 3,
             },
             {
                 club: 'Driver',
@@ -73,7 +73,7 @@ export default function SwingsPage() {
     }, []);
 
     return (
-        <div>
+        <RootPage>
             {sortByMonth(swings).map((swings, idx) => (
                 swings.length > 0 ? 
                 <Section key={idx}>
@@ -81,6 +81,6 @@ export default function SwingsPage() {
                     <SwingGrid swings={swings} cols={3}/>
                 </Section> : null
             ))}
-        </div>
+        </RootPage>
     )
 }

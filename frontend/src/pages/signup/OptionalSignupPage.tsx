@@ -1,4 +1,5 @@
 import { Grid, styled } from "@mui/material";
+import { PropsWithChildren } from "react";
 import { useNavigate } from "react-router-dom";
 import SquareRadioButton from "../../components/common/button/SquareRadioButton";
 import TopBar from "../../components/common/layout/bar/TopBar";
@@ -19,7 +20,15 @@ const StyledForm = styled('form')`
     margin: 24px 0;
 `;
 
-export default function OptionalSignupPage() {
+export enum UserOptinalInfoPageMode {
+    signup, modify
+}
+
+interface OptionalInfoPageProps {
+    mode?: UserOptinalInfoPageMode
+}
+
+export default function OptionalSignupPage({ mode = UserOptinalInfoPageMode.signup }: PropsWithChildren<OptionalInfoPageProps>) {
     const nav = useNavigate();
 
     const genderList = [
@@ -33,13 +42,23 @@ export default function OptionalSignupPage() {
         },
     ];
 
+    let topBarTitle = 'Sign up'
+    let signupStepper = '2/2'
+    let bottomButtonText = 'CREATE ACCOUNT'
+
+    if (mode === UserOptinalInfoPageMode.modify) {
+        topBarTitle = 'Edit profile';
+        signupStepper = '';
+        bottomButtonText = 'MODIFY';
+    }
+    
     const onCreateAccount = () => {
-        nav('/home');
+        window.SignupCompleted?.postMessage('Signup');
     }
 
     return (
         <PageWithHeader>
-            <TopBar border fix title="Sign up">2/2</TopBar>
+            <TopBar border fix title={topBarTitle}>{signupStepper}</TopBar>
 
             <StyledForm>
                 <StyledField>
@@ -87,7 +106,7 @@ export default function OptionalSignupPage() {
                     </Grid>
                 </Grid>
 
-                <BottomFullButton onClick={onCreateAccount}>Create Account</BottomFullButton>
+                <BottomFullButton onClick={onCreateAccount}>{bottomButtonText}</BottomFullButton>
             </StyledForm>
         </PageWithHeader>
     );
