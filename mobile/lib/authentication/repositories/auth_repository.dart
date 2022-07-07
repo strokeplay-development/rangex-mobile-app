@@ -1,8 +1,7 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:mobile/api/api.dart';
+import 'package:rangex/api/api.dart';
 
 /// 인증상태
 enum AuthStatus { unknown, authenticated, unauthenticated }

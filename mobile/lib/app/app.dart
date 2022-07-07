@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile/app/app_theme.dart';
-import 'package:mobile/authentication/bloc/auth_bloc.dart';
-import 'package:mobile/authentication/repositories/auth_repository.dart';
-import 'package:mobile/authentication/repositories/user_repository.dart';
-import 'package:mobile/routes/app_router.gr.dart';
-import 'package:mobile/routes/router_guards.dart';
-import 'package:mobile/webview/webview_repository.dart';
+import 'package:rangex/app/app_theme.dart';
+import 'package:rangex/authentication/bloc/auth_bloc.dart';
+import 'package:rangex/authentication/repositories/auth_repository.dart';
+import 'package:rangex/authentication/repositories/user_repository.dart';
+import 'package:rangex/routes/app_router.gr.dart';
+import 'package:rangex/routes/router_guards.dart';
 
 /// App
 /// 글로벌 레포지토리 등록

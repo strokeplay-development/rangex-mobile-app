@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile/webview/webview_event.dart';
-import 'package:mobile/webview/webview_repository.dart';
-import 'package:mobile/webview/webview_state.dart';
+import 'package:rangex/webview/webview_event.dart';
+import 'package:rangex/webview/webview_repository.dart';
+import 'package:rangex/webview/webview_state.dart';
 
 class WebviewBloc extends Bloc<WebviewEvent, WebviewState> {
   WebviewBloc({

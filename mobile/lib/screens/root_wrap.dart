@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:mobile/screens/feed/views/feed_appbar.dart';
-import 'package:mobile/screens/more/views/more_appbar.dart';
-import 'package:mobile/screens/swing/views/swings_appbar.dart';
-import 'package:mobile/webview/webview_bloc.dart';
-import 'package:mobile/webview/webview_event.dart';
-import 'package:mobile/webview/webview_repository.dart';
-import 'package:mobile/webview/webview_state.dart';
+import 'package:rangex/screens/feed/views/feed_appbar.dart';
+import 'package:rangex/screens/more/views/more_appbar.dart';
+import 'package:rangex/screens/swing/views/swings_appbar.dart';
+import 'package:rangex/webview/webview_bloc.dart';
+import 'package:rangex/webview/webview_event.dart';
+import 'package:rangex/webview/webview_repository.dart';
+import 'package:rangex/webview/webview_state.dart';
 
 class RootWrap extends StatefulWidget {
   const RootWrap({Key? key}) : super(key: key);

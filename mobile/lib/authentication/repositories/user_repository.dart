@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:mobile/api/api.dart';
-import 'package:mobile/authentication/models/user.dart';
+import 'package:rangex/api/api.dart';
+import 'package:rangex/authentication/models/user.dart';
 
 class UserRepository {
   User? _user;

@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile/authentication/bloc/auth_event.dart';
-import 'package:mobile/authentication/bloc/auth_state.dart';
-import 'package:mobile/authentication/repositories/auth_repository.dart';
-import 'package:mobile/authentication/repositories/user_repository.dart';
+import 'package:rangex/authentication/bloc/auth_event.dart';
+import 'package:rangex/authentication/bloc/auth_state.dart';
+import 'package:rangex/authentication/repositories/auth_repository.dart';
+import 'package:rangex/authentication/repositories/user_repository.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc({
@@ -45,7 +45,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       case AuthStatus.unknown:
         return emit(const AuthState.unknown());
       case AuthStatus.unauthenticated:
-        return emit(const AuthState.unauthenticated());
+        return emit(AuthState.unauthenticated());
 
       /// 사용자 정보가 있을 때만 authenticated 상태를 뱉음.
       case AuthStatus.authenticated:
@@ -56,7 +56,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         return emit(
           user != null
               ? AuthState.authenticated(user)
-              : const AuthState.unauthenticated(),
+              : AuthState.unauthenticated(),
         );
     }
   }

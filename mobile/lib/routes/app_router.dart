@@ -1,11 +1,11 @@
 import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:mobile/authentication/views/login_page.dart';
-import 'package:mobile/authentication/views/signup_page.dart';
-import 'package:mobile/authentication/views/welcome_page.dart';
-import 'package:mobile/routes/entry_page.dart';
-import 'package:mobile/routes/router_guards.dart';
-import 'package:mobile/screens/root_wrap.dart';
+import 'package:rangex/authentication/views/login_page.dart';
+import 'package:rangex/authentication/views/signup_page.dart';
+import 'package:rangex/authentication/views/welcome_page.dart';
+import 'package:rangex/routes/entry_page.dart';
+import 'package:rangex/routes/router_guards.dart';
+import 'package:rangex/screens/root_wrap.dart';
 
 @MaterialAutoRouter(
   replaceInRouteName: 'Page,Route',

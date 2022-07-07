@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile/authentication/bloc/login_event.dart';
-import 'package:mobile/authentication/bloc/login_state.dart';
-import 'package:mobile/authentication/repositories/auth_repository.dart';
+import 'package:rangex/authentication/bloc/login_event.dart';
+import 'package:rangex/authentication/bloc/login_state.dart';
+import 'package:rangex/authentication/repositories/auth_repository.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc({required AuthRepository authRepository})

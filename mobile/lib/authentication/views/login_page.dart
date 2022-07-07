@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile/authentication/bloc/login_bloc.dart';
-import 'package:mobile/authentication/repositories/auth_repository.dart';
-import 'package:mobile/authentication/widgets/login_form.dart';
+import 'package:rangex/authentication/bloc/login_bloc.dart';
+import 'package:rangex/authentication/repositories/auth_repository.dart';
+import 'package:rangex/authentication/widgets/login_form.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);

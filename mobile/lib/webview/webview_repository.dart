@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile/authentication/repositories/auth_repository.dart';
+import 'package:rangex/authentication/repositories/auth_repository.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 typedef UrlChangeHandler = void Function(String url);

@@ -1,9 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile/authentication/bloc/login_bloc.dart';
-import 'package:mobile/authentication/bloc/login_event.dart';
-import 'package:mobile/authentication/bloc/login_state.dart';
+import 'package:rangex/authentication/bloc/login_bloc.dart';
+import 'package:rangex/authentication/bloc/login_event.dart';
+import 'package:rangex/authentication/bloc/login_state.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({

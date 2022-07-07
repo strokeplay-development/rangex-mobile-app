@@ -7,9 +7,9 @@
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobile/app/app.dart';
-import 'package:mobile/authentication/repositories/auth_repository.dart';
-import 'package:mobile/authentication/repositories/user_repository.dart';
+import 'package:rangex/app/app.dart';
+import 'package:rangex/authentication/repositories/auth_repository.dart';
+import 'package:rangex/authentication/repositories/user_repository.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {

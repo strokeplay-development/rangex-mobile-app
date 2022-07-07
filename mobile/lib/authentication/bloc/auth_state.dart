@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:mobile/authentication/models/user.dart';
-import 'package:mobile/authentication/repositories/auth_repository.dart';
+import 'package:rangex/authentication/models/user.dart';
+import 'package:rangex/authentication/repositories/auth_repository.dart';
 
 class AuthState extends Equatable {
   /// Constructor
