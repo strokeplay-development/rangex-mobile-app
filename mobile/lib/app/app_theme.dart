@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 
 final darkTheme = ThemeData(
   brightness: Brightness.dark,
+  cardColor: const Color(0xff143859),
+  highlightColor: const Color(0xff417BB1),
+  disabledColor: const Color(0xff838B93),
   dividerColor: const Color(0xff2A3947),
   scaffoldBackgroundColor: const Color(0xff04182B),
   appBarTheme: const AppBarTheme(
@@ -11,6 +14,11 @@ final darkTheme = ThemeData(
     backgroundColor: Color(0xff04182B),
     unselectedItemColor: Color(0xff838B93),
     selectedItemColor: Color(0xffffffff),
+  ),
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+      primary: const Color(0xff143859),
+    ),
   ),
 );
 

@@ -1,8 +1,6 @@
-import 'dart:collection';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile/app/app_theme.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mobile/screens/feed/views/feed_appbar.dart';
 import 'package:mobile/screens/more/views/more_appbar.dart';
 import 'package:mobile/screens/swing/views/swings_appbar.dart';
@@ -19,7 +17,9 @@ class RootWrap extends StatefulWidget {
 }
 
 class _RootWrapState extends State<RootWrap> {
-  final _webviewRepository = WebviewRepository();
+  final _webviewRepository = WebviewRepository(
+    baseUrl: dotenv.env['WEBVIEW_BASE_URL']!,
+  );
   late WebviewBloc? _webviewBloc;
 
   int selectedTap = 0;

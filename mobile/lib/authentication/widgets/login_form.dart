@@ -71,6 +71,7 @@ class _LoginFormState extends State<LoginForm> {
                   label: Text('Account'),
                 ),
               ),
+              const SizedBox(height: 8),
               TextFormField(
                 obscureText: true,
                 controller: _userPWCtrler,
@@ -78,9 +79,13 @@ class _LoginFormState extends State<LoginForm> {
                   label: Text('Password'),
                 ),
               ),
+              const SizedBox(height: 16),
               ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size.fromHeight(48),
+                ),
                 onPressed: _loginSubmiited,
-                child: const Text('로그인'),
+                child: const Text('SIGN IN'),
               )
             ],
           ),

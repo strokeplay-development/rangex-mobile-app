@@ -8,15 +8,19 @@ import 'package:webview_flutter/webview_flutter.dart';
 typedef UrlChangeHandler = void Function(String url);
 
 class WebviewRepository {
-  WebviewRepository();
+  WebviewRepository({required String baseUrl}) : _baseUrl = baseUrl {
+    rootUrls = [
+      '$_baseUrl/home',
+      '$_baseUrl/swings',
+      '$_baseUrl/more',
+    ];
+  }
+
+  final String _baseUrl;
 
   late WebViewController _controller;
 
-  final List<String> rootUrls = [
-    'http://localhost:3000/home',
-    'http://localhost:3000/swings',
-    'http://localhost:3000/more'
-  ];
+  List<String> rootUrls = [];
 
   final List<String> rootPaths = ['/home', '/swings', '/more'];
 

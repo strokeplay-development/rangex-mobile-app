@@ -52,7 +52,8 @@ class HttpInterceptor extends Interceptor {
 abstract class HttpBase {
   HttpBase({required this.rootPath});
 
-  final options = BaseOptions(baseUrl: 'http://localhost:4000/api');
+  final options =
+      BaseOptions(baseUrl: 'https://feature-api.dev-rangex.com/api');
   final dio = Dio();
 
   String rootPath = '';
