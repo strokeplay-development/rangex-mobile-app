@@ -7,5 +7,8 @@ interface Window {
     };
     LogoutRequested: {
         postMessage: (message: any) => void;
-    }
+    };
+    JoinRequested: {
+        postMessage: (message: any) => void;
+    };
 }

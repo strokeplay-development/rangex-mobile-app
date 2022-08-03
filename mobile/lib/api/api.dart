@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 /// Interceptors
@@ -41,6 +42,7 @@ class HttpInterceptor extends Interceptor {
 
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) {
+    print(err);
     print(
         'ERROR[${err.response?.statusCode}] => PATH: ${err.requestOptions.path}');
     super.onError(err, handler);
@@ -52,8 +54,7 @@ class HttpInterceptor extends Interceptor {
 abstract class HttpBase {
   HttpBase({required this.rootPath});
 
-  final options =
-      BaseOptions(baseUrl: 'https://feature-api.dev-rangex.com/api');
+  final options = BaseOptions(baseUrl: dotenv.env['API_BASE_URL']!);
   final dio = Dio();
 
   String rootPath = '';
@@ -69,23 +70,25 @@ abstract class HttpBase {
   }
 
   /// GET
-  Future<Response> _get(String requestPath,
+  Future<Response> httpGet(String requestPath,
       [Map<String, dynamic>? query, Options? options]) {
     return _.get(_path(requestPath), queryParameters: query, options: options);
   }
 
   /// POST
-  Future<Response> _post(String requestPath, [dynamic body, Options? options]) {
+  Future<Response> httpPost(String requestPath,
+      [dynamic body, Options? options]) {
     return _.post(_path(requestPath), data: body, options: options);
   }
 
   /// PUT
-  Future<Response> _put(String requestPath, [dynamic body, Options? options]) {
+  Future<Response> httpPut(String requestPath,
+      [dynamic body, Options? options]) {
     return _.put(_path(requestPath), data: body, options: options);
   }
 
   /// DELETE
-  Future<Response> _delete(String requestPath,
+  Future<Response> httpDelete(String requestPath,
       [dynamic body, Options? options]) {
     return _.delete(_path(requestPath), data: body, options: options);
   }
@@ -96,14 +99,18 @@ class AuthHttp extends HttpBase {
   AuthHttp() : super(rootPath: '/users');
 
   Future<Response> signup(dynamic body) async {
-    return await _post('/signup', body);
+    return await httpPost('/signup', body);
   }
 
   Future<Response> login(dynamic body) async {
-    return await _post('/signin', body);
+    return await httpPost('/signin', body);
   }
 
   Future<Response> fetchMe() async {
-    return await _get('/me');
+    return await httpGet('/me');
+  }
+
+  Future<Response> join(int joinNumber) async {
+    return await httpPost('/join', {'joinNumber': joinNumber});
   }
 }

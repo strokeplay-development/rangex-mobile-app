@@ -63,6 +63,14 @@ class WebviewRepository {
             context.router.pushNamed('/welcome');
           },
         ),
+        JavascriptChannel(
+          name: 'JoinRequested',
+          onMessageReceived: (message) {
+            print(message.message);
+            RepositoryProvider.of<AuthRepository>(context)
+                .joinShop(joinNumber: int.parse(message.message));
+          },
+        ),
       },
     );
   }

@@ -36,6 +36,12 @@ export default function ConfirmLink() {
     const openModal = () => setOpen(true);
     const closeModal = () => setOpen(false);
 
+    const requestJoinShop = () => {
+        window.JoinRequested?.postMessage(215092);
+
+        closeModal();
+    }
+
     return (
         <div style={{width: '100%'}}>
             {/* Activator */}
@@ -54,7 +60,7 @@ export default function ConfirmLink() {
 
                     <div className="actions">
                         <BasicButton variant="contained" onClick={closeModal}>CANCEL</BasicButton>
-                        <BasicButton variant="contained">CONFIRM</BasicButton>
+                        <BasicButton variant="contained" onClick={requestJoinShop}>CONFIRM</BasicButton>
                     </div>
                 </DialogBox>
             </Dialog>

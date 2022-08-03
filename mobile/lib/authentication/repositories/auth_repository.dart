@@ -51,6 +51,7 @@ class AuthRepository {
     required String userPW,
   }) async {
     try {
+      print('로그인시도 $userAccount // $userPW');
       final res = await AuthHttp().login({
         'userAccount': userAccount,
         'userPW': userPW,
@@ -76,6 +77,18 @@ class AuthRepository {
     await _tokenStorage.delete(key: 'refreshToken');
 
     _controller.add(AuthStatus.unauthenticated);
+  }
+
+  /// 매장가입
+  Future<void> joinShop({required int joinNumber}) async {
+    print('매장가입');
+
+    try {
+      final res = await AuthHttp().join(joinNumber);
+      print('가입ㅇㅋ $res');
+    } catch (e) {
+      print(e);
+    }
   }
 
   /// 인증상태 스트림 종료
