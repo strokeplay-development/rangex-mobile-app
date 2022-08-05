@@ -3,6 +3,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rangex/authentication/repositories/auth_repository.dart';
+import 'package:rangex/authentication/repositories/user_repository.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 typedef UrlChangeHandler = void Function(String url);
@@ -65,10 +66,16 @@ class WebviewRepository {
         ),
         JavascriptChannel(
           name: 'JoinRequested',
-          onMessageReceived: (message) {
-            print(message.message);
-            RepositoryProvider.of<AuthRepository>(context)
-                .joinShop(joinNumber: int.parse(message.message));
+          onMessageReceived: (message) async {
+            final me =
+                await RepositoryProvider.of<UserRepository>(context).getUser();
+
+            if (me != null) {
+              RepositoryProvider.of<AuthRepository>(context).joinShop(
+                userID: me.id!,
+                joinNumber: int.parse(message.message),
+              );
+            }
           },
         ),
       },

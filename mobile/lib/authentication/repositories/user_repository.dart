@@ -7,6 +7,7 @@ class UserRepository {
   User? _user;
 
   FutureOr<User?> getUser() async {
+    print('유저정보 가져오기');
     if (_user != null) return _user;
 
     try {

@@ -37,7 +37,7 @@ export default function ConfirmLink() {
     const closeModal = () => setOpen(false);
 
     const requestJoinShop = () => {
-        window.JoinRequested?.postMessage(215092);
+        window.JoinRequested?.postMessage(654932);
 
         closeModal();
     }

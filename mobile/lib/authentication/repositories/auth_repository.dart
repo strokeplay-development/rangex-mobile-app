@@ -80,11 +80,11 @@ class AuthRepository {
   }
 
   /// 매장가입
-  Future<void> joinShop({required int joinNumber}) async {
+  Future<void> joinShop({required int userID, required int joinNumber}) async {
     print('매장가입');
 
     try {
-      final res = await AuthHttp().join(joinNumber);
+      final res = await AuthHttp().join(userID, joinNumber);
       print('가입ㅇㅋ $res');
     } catch (e) {
       print(e);

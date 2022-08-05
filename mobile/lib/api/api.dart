@@ -110,7 +110,10 @@ class AuthHttp extends HttpBase {
     return await httpGet('/me');
   }
 
-  Future<Response> join(int joinNumber) async {
-    return await httpPost('/join', {'joinNumber': joinNumber});
+  Future<Response> join(int userID, int joinNumber) async {
+    return await httpPost('/join', {
+      'userID': userID,
+      'joinNumber': joinNumber,
+    });
   }
 }
