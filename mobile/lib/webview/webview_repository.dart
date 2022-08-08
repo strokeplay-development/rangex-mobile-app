@@ -73,7 +73,7 @@ class WebviewRepository {
             if (me != null) {
               RepositoryProvider.of<AuthRepository>(context).joinShop(
                 userID: me.id!,
-                joinNumber: int.parse(message.message),
+                joinCode: int.parse(message.message),
               );
             }
           },
