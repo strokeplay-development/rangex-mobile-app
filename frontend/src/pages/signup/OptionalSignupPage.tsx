@@ -1,10 +1,12 @@
 import { Grid, styled } from "@mui/material";
 import { PropsWithChildren } from "react";
 import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
 import SquareRadioButton from "../../components/common/button/SquareRadioButton";
 import TopBar from "../../components/common/layout/bar/TopBar";
 import TextInput from "../../components/common/layout/input/TextInput";
 import DatePicker from "../../components/common/layout/picker/DatePicker";
+import { signupState } from "../../recoil/signup";
 import { BottomFullButton, InputLabel, PageWithHeader } from "../../styles/common";
 
 const StyledField = styled('div')`
@@ -29,7 +31,7 @@ interface OptionalInfoPageProps {
 }
 
 export default function OptionalSignupPage({ mode = UserOptinalInfoPageMode.signup }: PropsWithChildren<OptionalInfoPageProps>) {
-    const nav = useNavigate();
+    const [signup] = useRecoilState(signupState);
 
     const genderList = [
         {
@@ -52,8 +54,8 @@ export default function OptionalSignupPage({ mode = UserOptinalInfoPageMode.sign
         bottomButtonText = 'MODIFY';
     }
     
-    const onCreateAccount = () => {
-        window.SignupCompleted?.postMessage('Signup');
+    const onCreateAccount = () => {        
+        window.SignupCompleted?.postMessage(JSON.stringify(signup));
     }
 
     return (

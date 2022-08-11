@@ -19,9 +19,10 @@ class UserRepository {
     }
   }
 
-  FutureOr<User?> signUp(User userInfo) async {
+  FutureOr<User?> signUp(Map<String, dynamic> userInfo) async {
     try {
-      final res = await AuthHttp().signup(userInfo.toJson());
+      print('<USER> $userInfo');
+      final res = await AuthHttp().signup(userInfo);
       return User.fromJson(res.data);
     } catch (e) {
       print(e);

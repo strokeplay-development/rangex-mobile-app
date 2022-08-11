@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rangex/authentication/models/user.dart';
 import 'package:rangex/authentication/repositories/user_repository.dart';
 
 /// State
@@ -19,7 +18,7 @@ class SignupStateFailure extends SignupState {}
 class SignupRequested extends Equatable {
   const SignupRequested(this.userInfo);
 
-  final User userInfo;
+  final Map<String, dynamic> userInfo;
 
   @override
   List<Object?> get props => [userInfo];

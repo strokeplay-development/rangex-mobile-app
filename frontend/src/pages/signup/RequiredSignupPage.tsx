@@ -1,8 +1,11 @@
 import { styled } from "@mui/material";
+import { FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
 import CheckButton from "../../components/common/button/CheckButton";
 import TopBar from "../../components/common/layout/bar/TopBar";
 import TextInput from "../../components/common/layout/input/TextInput";
+import { signupState, User } from "../../recoil/signup";
 import { BottomFullButton, PageWithHeader } from "../../styles/common";
 
 const ConfirmInput = styled('div')`
@@ -19,9 +22,20 @@ const StyledForm = styled('form')`
 
 export default function RequiredSignupPage() {
     const nav = useNavigate();
+    const [signup, setSignup] = useRecoilState<User>(signupState);
 
     const goOptionalPage = () => {
         nav('/signup/optional');
+    }
+
+    const onChangeTextInput = (e: FormEvent<HTMLInputElement>) => {
+        const { name, value } = e.currentTarget;
+        console.log(name, value);
+        
+        setSignup({
+            ...signup,
+            [name]: value
+        });
     }
 
     return (
@@ -30,16 +44,16 @@ export default function RequiredSignupPage() {
 
             <StyledForm>
                 <ConfirmInput>
-                    <TextInput label="Account"/>
+                    <TextInput label="Account" name="userAccount" onChange={onChangeTextInput}/>
                     <CheckButton complete={false}/>
                 </ConfirmInput>
                 <ConfirmInput>
-                    <TextInput label="Nick name"/>
+                    <TextInput label="Nick name" name="nickName" onChange={onChangeTextInput}/>
                     <CheckButton complete={false}/>
                 </ConfirmInput>
-                <TextInput label="Name"/>
-                <TextInput label="Password" type="password"/>
-                <TextInput label="Password Confirm" type="password"/>
+                <TextInput label="Name" name="name" onChange={onChangeTextInput}/>
+                <TextInput label="Password" type="password" name="userPW" onChange={onChangeTextInput}/>
+                <TextInput label="Password Confirm" type="password" onChange={onChangeTextInput}/>
 
                 <BottomFullButton onClick={goOptionalPage}>NEXT</BottomFullButton>
             </StyledForm>
