@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:rangex/api/api.dart';
+import 'package:rangex/authentication/bloc/login_event.dart';
 
 /// 인증상태
 enum AuthStatus { unknown, authenticated, unauthenticated }
@@ -70,6 +71,9 @@ class AuthRepository {
       throw Exception(e);
     }
   }
+
+  /// 소셜로그인
+  void socialLogIn({required LoginType loginType}) {}
 
   /// 로그아웃
   Future<void> logOut() async {

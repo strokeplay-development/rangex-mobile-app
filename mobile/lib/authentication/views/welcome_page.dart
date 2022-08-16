@@ -42,6 +42,7 @@ class _WelcomePageState extends State<WelcomePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Expanded(
+                flex: 0,
                 child: Center(
                   child: SvgPicture.asset(
                     'assets/images/logo_origin.svg',

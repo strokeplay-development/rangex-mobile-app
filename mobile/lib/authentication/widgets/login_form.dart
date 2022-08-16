@@ -4,6 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rangex/authentication/bloc/login_bloc.dart';
 import 'package:rangex/authentication/bloc/login_event.dart';
 import 'package:rangex/authentication/bloc/login_state.dart';
+import 'package:rangex/authentication/views/social_login.dart';
+import 'package:rangex/routes/app_router.gr.dart';
+import 'package:rangex/utils/lifecycle.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({
@@ -24,28 +27,13 @@ class _LoginFormState extends State<LoginForm> {
   final _userAccountCtrler = TextEditingController();
   final _userPWCtrler = TextEditingController();
 
-  /// 로그인 버튼 클릭 핸들러
-  void _loginSubmiited() {
-    print('클릭됨');
-    _loginBloc.add(LoginRequested(
-      _userAccountCtrler.text,
-      _userPWCtrler.text,
-    ));
-  }
-
-  void _onWidgetDidBuild(Function callback) {
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
-      callback();
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LoginBloc, LoginState>(
       bloc: _loginBloc,
       builder: (context, state) {
         /// 위젯 빌드 후 실행
-        _onWidgetDidBuild(() {
+        LifeCycle.onWidgetDidBuild(() {
           if (state is LoginStateSuccess) {
             context.router.popUntil((route) => false);
             context.router.pushNamed('/main');
@@ -58,6 +46,12 @@ class _LoginFormState extends State<LoginForm> {
                 backgroundColor: Colors.red,
               ),
             );
+          }
+
+          if (state is LoginStateSocial) {
+            print('요기능?');
+            context.pushRoute(SocialLoginRouter(
+                loginType: loginTypeToString(state.loginType)));
           }
         });
 
@@ -84,13 +78,30 @@ class _LoginFormState extends State<LoginForm> {
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size.fromHeight(48),
                 ),
-                onPressed: _loginSubmiited,
+                onPressed: () => _loginSubmiited(LoginType.direct),
                 child: const Text('SIGN IN'),
-              )
+              ),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size.fromHeight(48),
+                ),
+                onPressed: () => _loginSubmiited(LoginType.kakao),
+                child: const Text('KAKAO LOGIN'),
+              ),
             ],
           ),
         );
       },
     );
+  }
+
+  /// 로그인 버튼 클릭 핸들러
+  void _loginSubmiited(LoginType type) {
+    _loginBloc.add(LoginRequested(
+      type,
+      _userAccountCtrler.text,
+      _userPWCtrler.text,
+    ));
   }
 }

@@ -20,11 +20,17 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     Emitter<LoginState> emit,
   ) async {
     try {
-      await _authRepository.logIn(
-        userAccount: event.userAccount,
-        userPW: event.userPW,
-      );
-      emit(LoginStateSuccess());
+      if (event.type == LoginType.direct) {
+        await _authRepository.logIn(
+          userAccount: event.userAccount,
+          userPW: event.userPW,
+        );
+
+        emit(LoginStateSuccess());
+      } else {
+        print('요기? ${event.type}');
+        emit(LoginStateSocial(loginType: event.type));
+      }
     } catch (e) {
       emit(LoginStateFailure(e));
     }

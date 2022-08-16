@@ -1,6 +1,7 @@
 import React from 'react';
 import { useRoutes } from 'react-router-dom';
 import { UserOptinalInfoPageMode } from '../pages/signup/OptionalSignupPage';
+import SocialAuthPage from './auth';
 
 // Sign up
 const RequiredSignup = React.lazy(() => import('../pages/signup/RequiredSignupPage'));
@@ -68,6 +69,10 @@ export default function PageRoutes() {
         {
             path: '/link',
             element: <LinkToShops/>
+        },
+        {
+            path: '/kakao/redirect',
+            element: <SocialAuthPage/>
         }
     ]);
 
