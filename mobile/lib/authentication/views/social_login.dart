@@ -1,7 +1,16 @@
+import 'dart:convert';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:rangex/api/kakao_auth.dart';
+import 'package:rangex/authentication/bloc/login_bloc.dart';
 import 'package:rangex/authentication/bloc/login_event.dart';
+import 'package:rangex/authentication/bloc/login_state.dart';
+import 'package:rangex/authentication/repositories/auth_repository.dart';
+import 'package:rangex/utils/auth.dart';
+import 'package:rangex/utils/lifecycle.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class SocialLoginPage extends StatefulWidget {
@@ -18,36 +27,55 @@ class SocialLoginPage extends StatefulWidget {
 
 class _SocialLoginPageState extends State<SocialLoginPage> {
   late WebViewController _ctrler;
+  late final AuthRepository _authRepository;
+  late final LoginBloc _loginBloc;
+
+  @override
+  void initState() {
+    _authRepository = RepositoryProvider.of<AuthRepository>(context);
+    _loginBloc = LoginBloc(authRepository: _authRepository);
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return WebView(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      initialUrl: getLoginUrl(),
-      onWebViewCreated: (controller) {
-        _ctrler = controller;
+    return BlocBuilder<LoginBloc, LoginState>(
+      bloc: _loginBloc,
+      builder: (context, state) {
+        LifeCycle.onWidgetDidBuild(() {
+          if (state is LoginStateSuccess) {
+            context.router.popUntil((route) => false);
+            context.router.pushNamed('/main');
+          }
+        });
+
+        return WebView(
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          initialUrl: KakaoAuthHttp().kakaoAuthRequestUrl,
+          onWebViewCreated: (controller) {
+            _ctrler = controller;
+          },
+          javascriptMode: JavascriptMode.unrestricted,
+          javascriptChannels: {
+            JavascriptChannel(
+              name: 'SocialLogin',
+              onMessageReceived: _onReceiveKakaoAuthCode,
+            ),
+          },
+        );
       },
-      javascriptMode: JavascriptMode.unrestricted,
-      // javascriptChannels: {
-      //   JavascriptChannel(
-      //     name: 'SignupCompleted',
-      //     onMessageReceived: _onSignupSubmitted,
-      //   ),
-      // },
     );
   }
 
-  // get social login url
-  getLoginUrl() {
-    if (widget._loginType == 'kakao') {
-      // ignore: constant_identifier_names
-      const HOST_GET_ADDR = 'https://kauth.kakao.com/oauth/authorize';
-      // ignore: non_constant_identifier_names
-      final REST_API_KEY = dotenv.env['KAKAO_AUTH_REST_API_KEY'];
-      // ignore: non_constant_identifier_names
-      final REDIRECT_URI = dotenv.env['KAKAO_AUTH_REDIRECT_URI'];
+  void _onReceiveKakaoAuthCode(JavascriptMessage message) {
+    print(message.message);
 
-      return '$HOST_GET_ADDR?client_id=$REST_API_KEY&redirect_uri=$REDIRECT_URI&response_type=code';
-    }
+    _loginBloc.add(LoginRequested(
+      LoginType.kakao,
+      null,
+      null,
+      message.message,
+    ));
   }
 }

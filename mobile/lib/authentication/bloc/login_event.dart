@@ -20,12 +20,27 @@ class LoginEvent extends Equatable {
 
 /// 로그인 요청 이벤트
 class LoginRequested extends LoginEvent {
-  LoginRequested(this.type, this.userAccount, this.userPW);
+  LoginRequested(
+    this.type, [
+    this.userAccount,
+    this.userPW,
+    this.authCode,
+  ]);
 
   final LoginType type;
-  final String userAccount;
-  final String userPW;
+  final String? userAccount;
+  final String? userPW;
+  final dynamic authCode;
 
   @override
   List<Object?> get props => [userAccount];
+}
+
+class SocialLoginRequested extends LoginEvent {
+  SocialLoginRequested(this.type);
+
+  final LoginType type;
+
+  @override
+  List<Object?> get props => [type];
 }

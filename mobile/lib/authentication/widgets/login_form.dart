@@ -49,7 +49,6 @@ class _LoginFormState extends State<LoginForm> {
           }
 
           if (state is LoginStateSocial) {
-            print('요기능?');
             context.pushRoute(SocialLoginRouter(
                 loginType: loginTypeToString(state.loginType)));
           }
@@ -86,7 +85,7 @@ class _LoginFormState extends State<LoginForm> {
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size.fromHeight(48),
                 ),
-                onPressed: () => _loginSubmiited(LoginType.kakao),
+                onPressed: () => _socialLoginRequest(LoginType.kakao),
                 child: const Text('KAKAO LOGIN'),
               ),
             ],
@@ -103,5 +102,9 @@ class _LoginFormState extends State<LoginForm> {
       _userAccountCtrler.text,
       _userPWCtrler.text,
     ));
+  }
+
+  void _socialLoginRequest(LoginType type) {
+    _loginBloc.add(SocialLoginRequested(type));
   }
 }

@@ -8,6 +8,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       : _authRepository = authRepository,
         super(LoginStateNone()) {
     on(_onLoginRequested);
+    on(_onSocialLoginRequested);
   }
 
   final AuthRepository _authRepository;
@@ -27,12 +28,24 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         );
 
         emit(LoginStateSuccess());
-      } else {
-        print('요기? ${event.type}');
-        emit(LoginStateSocial(loginType: event.type));
+      }
+
+      if (event.type == LoginType.kakao) {
+        await _authRepository.kakaoLogin(event.authCode);
+
+        emit(LoginStateSuccess());
       }
     } catch (e) {
       emit(LoginStateFailure(e));
     }
+  }
+
+  /// 소셜로그인 요청 이벤트 발생 시
+  /// 소셜로그인 상태를 내보냄
+  Future<void> _onSocialLoginRequested(
+    SocialLoginRequested event,
+    Emitter<LoginState> emit,
+  ) async {
+    emit(LoginStateSocial(loginType: event.type));
   }
 }

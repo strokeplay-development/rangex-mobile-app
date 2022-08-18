@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:rangex/api/api.dart';
+import 'package:rangex/api/kakao_auth.dart';
 import 'package:rangex/authentication/bloc/login_event.dart';
 
 /// 인증상태
@@ -48,8 +49,8 @@ class AuthRepository {
 
   /// 로그인
   Future<void> logIn({
-    required String userAccount,
-    required String userPW,
+    required String? userAccount,
+    required String? userPW,
   }) async {
     try {
       print('로그인시도 $userAccount // $userPW');
@@ -72,9 +73,6 @@ class AuthRepository {
     }
   }
 
-  /// 소셜로그인
-  void socialLogIn({required LoginType loginType}) {}
-
   /// 로그아웃
   Future<void> logOut() async {
     await _tokenStorage.delete(key: 'accessToken');
@@ -92,6 +90,36 @@ class AuthRepository {
       print('가입ㅇㅋ $res');
     } catch (e) {
       print(e);
+    }
+  }
+
+  Future<void> kakaoLogin(dynamic code) async {
+    try {
+      if (code == null) {
+        throw Error();
+      }
+
+      final res = await KakaoAuthHttp().requestToken(code);
+
+      if (res.statusCode == 200) {
+        print('카카오 인증완료');
+
+        final result = await AuthHttp().kakaoLogin(res.data);
+
+        print('카카오 서버인증 완료 $result');
+
+        String accessToken = result.data['accessToken'] as String;
+        String refreshToken = result.data['refreshToken'] as String;
+
+        // Store in secure storage
+        await _tokenStorage.write(key: 'accessToken', value: accessToken);
+        await _tokenStorage.write(key: 'refreshToken', value: refreshToken);
+
+        _controller.add(AuthStatus.authenticated);
+      }
+    } catch (e) {
+      _controller.add(AuthStatus.unauthenticated);
+      Exception(e);
     }
   }
 

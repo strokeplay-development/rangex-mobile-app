@@ -1,14 +1,11 @@
+interface WebViewMessage {
+    postMessage: (message: any) => void;
+}
+
 interface Window {
-    SignupCompleted: {
-        postMessage: (message: any) => void;
-    }
-    LocationChanged: {
-        postMessage: (message: any) => void;
-    };
-    LogoutRequested: {
-        postMessage: (message: any) => void;
-    };
-    JoinRequested: {
-        postMessage: (message: any) => void;
-    };
+    SignupCompleted: WebViewMessage
+    LocationChanged: WebViewMessage;
+    LogoutRequested: WebViewMessage;
+    JoinRequested: WebViewMessage;
+    SocialLogin: WebViewMessage
 }

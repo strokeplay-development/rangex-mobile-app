@@ -22,11 +22,7 @@ function App() {
 
 
   useEffect(() => {
-    console.log(location);
-
-    if (window.LocationChanged) {
-      window.LocationChanged.postMessage(location.pathname);
-    }
+    window.LocationChanged?.postMessage(location.pathname);
 
   }, [location]);
   

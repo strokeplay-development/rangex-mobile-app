@@ -18,6 +18,7 @@ class HttpInterceptor extends Interceptor {
     options.headers['access-token'] = accessToken;
     options.headers['refresh-token'] = refreshToken;
 
+    print('REQUEST[${options.method}] => PATH: ${options.baseUrl}');
     print('REQUEST[${options.method}] => PATH: ${options.path}');
 
     super.onRequest(options, handler);
@@ -42,7 +43,7 @@ class HttpInterceptor extends Interceptor {
 
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) {
-    print(err);
+    print(err.response);
     print(
         'ERROR[${err.response?.statusCode}] => PATH: ${err.requestOptions.path}');
     super.onError(err, handler);
@@ -52,45 +53,48 @@ class HttpInterceptor extends Interceptor {
 /// *Base
 /// Api Http 클래스를 위한 추상클래스
 abstract class HttpBase {
-  HttpBase({required this.rootPath});
+  HttpBase({required this.rootPath, this.baseUrl}) {
+    baseUrl ??= dotenv.env['API_BASE_URL'];
+  }
 
-  final options = BaseOptions(baseUrl: dotenv.env['API_BASE_URL']!);
+  String? baseUrl;
+  final String rootPath;
+  late BaseOptions options;
+
   final dio = Dio();
 
-  String rootPath = '';
-
   Dio get _ {
-    dio.options = options;
+    dio.options = BaseOptions(baseUrl: baseUrl!);
     dio.interceptors.add(HttpInterceptor());
     return dio;
   }
 
-  String _path(String requestPath) {
+  String path(String requestPath) {
     return rootPath + requestPath;
   }
 
   /// GET
   Future<Response> httpGet(String requestPath,
       [Map<String, dynamic>? query, Options? options]) {
-    return _.get(_path(requestPath), queryParameters: query, options: options);
+    return _.get(path(requestPath), queryParameters: query, options: options);
   }
 
   /// POST
   Future<Response> httpPost(String requestPath,
       [dynamic body, Options? options]) {
-    return _.post(_path(requestPath), data: body, options: options);
+    return _.post(path(requestPath), data: body, options: options);
   }
 
   /// PUT
   Future<Response> httpPut(String requestPath,
       [dynamic body, Options? options]) {
-    return _.put(_path(requestPath), data: body, options: options);
+    return _.put(path(requestPath), data: body, options: options);
   }
 
   /// DELETE
   Future<Response> httpDelete(String requestPath,
       [dynamic body, Options? options]) {
-    return _.delete(_path(requestPath), data: body, options: options);
+    return _.delete(path(requestPath), data: body, options: options);
   }
 }
 
@@ -98,12 +102,12 @@ abstract class HttpBase {
 class AuthHttp extends HttpBase {
   AuthHttp() : super(rootPath: '/users');
 
-  Future<Response> signup(dynamic body) async {
-    return await httpPost('/signup', body);
+  Future<Response> signup(dynamic body, [Options? options]) async {
+    return await httpPost('/signup', body, options);
   }
 
-  Future<Response> login(dynamic body) async {
-    return await httpPost('/signin', body);
+  Future<Response> login(dynamic body, [Options? options]) async {
+    return await httpPost('/signin', body, options);
   }
 
   Future<Response> fetchMe() async {
@@ -115,5 +119,9 @@ class AuthHttp extends HttpBase {
       'userID': userID,
       'joinCode': joinCode,
     });
+  }
+
+  Future<Response> kakaoLogin(dynamic body, [Options? options]) async {
+    return await httpPost('/signin/kakao', body, options);
   }
 }
