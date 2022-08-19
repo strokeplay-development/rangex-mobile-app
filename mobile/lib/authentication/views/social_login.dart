@@ -69,8 +69,6 @@ class _SocialLoginPageState extends State<SocialLoginPage> {
   }
 
   void _onReceiveKakaoAuthCode(JavascriptMessage message) {
-    print(message.message);
-
     _loginBloc.add(LoginRequested(
       LoginType.kakao,
       null,

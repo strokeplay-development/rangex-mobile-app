@@ -48,32 +48,16 @@ class AuthRepository {
   }
 
   /// 로그인
-  Future<void> logIn({
-    required String? userAccount,
-    required String? userPW,
-  }) async {
-    try {
-      print('로그인시도 $userAccount // $userPW');
-      final res = await AuthHttp().login({
-        'userAccount': userAccount,
-        'userPW': userPW,
-      });
+  /// API 서버로부터 전달받은 토큰들을 저장한다.
+  Future<void> logIn(String accessToken, String refreshToken) async {
+    await _tokenStorage.write(key: 'accessToken', value: accessToken);
+    await _tokenStorage.write(key: 'refreshToken', value: refreshToken);
 
-      String accessToken = res.data['accessToken'] as String;
-      String refreshToken = res.data['refreshToken'] as String;
-
-      // Store in secure storage
-      await _tokenStorage.write(key: 'accessToken', value: accessToken);
-      await _tokenStorage.write(key: 'refreshToken', value: refreshToken);
-
-      _controller.add(AuthStatus.authenticated);
-    } catch (e) {
-      _controller.add(AuthStatus.unauthenticated);
-      throw Exception(e);
-    }
+    _controller.add(AuthStatus.authenticated);
   }
 
   /// 로그아웃
+  /// 저장되어 있는 토큰들을 삭제한다.
   Future<void> logOut() async {
     await _tokenStorage.delete(key: 'accessToken');
     await _tokenStorage.delete(key: 'refreshToken');
@@ -87,23 +71,48 @@ class AuthRepository {
 
     try {
       final res = await AuthHttp().join(userID, joinCode);
-      print('가입ㅇㅋ $res');
     } catch (e) {
       print(e);
     }
   }
 
-  Future<void> kakaoLogin(dynamic code) async {
+  /// 로그인
+  Future<void> directAuthenticate({
+    required String? userAccount,
+    required String? userPW,
+  }) async {
+    try {
+      print('로그인시도 $userAccount // $userPW');
+      final res = await AuthHttp().login({
+        'userAccount': userAccount,
+        'userPW': userPW,
+      });
+
+      if (res.statusCode == 200) {
+        String accessToken = res.data['accessToken'] as String;
+        String refreshToken = res.data['refreshToken'] as String;
+
+        await logIn(accessToken, refreshToken);
+      }
+    } catch (e) {
+      _controller.add(AuthStatus.unauthenticated);
+      throw Exception(e);
+    }
+  }
+
+  Future<void> kakaoAuthenticate(dynamic code) async {
     try {
       if (code == null) {
         throw Error();
       }
 
-      final res = await KakaoAuthHttp().requestToken(code);
+      final kakaoAuth = KakaoAuthHttp();
+      final res = await kakaoAuth.requestToken(code);
 
       if (res.statusCode == 200) {
         print('카카오 인증완료');
-
+        // ID토큰검증 문자열 전달
+        res.data['nonce'] = kakaoAuth.NONCE;
         final result = await AuthHttp().kakaoLogin(res.data);
 
         print('카카오 서버인증 완료 $result');
@@ -111,11 +120,7 @@ class AuthRepository {
         String accessToken = result.data['accessToken'] as String;
         String refreshToken = result.data['refreshToken'] as String;
 
-        // Store in secure storage
-        await _tokenStorage.write(key: 'accessToken', value: accessToken);
-        await _tokenStorage.write(key: 'refreshToken', value: refreshToken);
-
-        _controller.add(AuthStatus.authenticated);
+        await logIn(accessToken, refreshToken);
       }
     } catch (e) {
       _controller.add(AuthStatus.unauthenticated);

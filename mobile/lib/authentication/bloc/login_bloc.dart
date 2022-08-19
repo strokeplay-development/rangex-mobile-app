@@ -22,7 +22,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   ) async {
     try {
       if (event.type == LoginType.direct) {
-        await _authRepository.logIn(
+        await _authRepository.directAuthenticate(
           userAccount: event.userAccount,
           userPW: event.userPW,
         );
@@ -31,7 +31,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       }
 
       if (event.type == LoginType.kakao) {
-        await _authRepository.kakaoLogin(event.authCode);
+        await _authRepository.kakaoAuthenticate(event.authCode);
 
         emit(LoginStateSuccess());
       }

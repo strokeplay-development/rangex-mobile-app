@@ -12,8 +12,6 @@ export default function SocialAuthPage() {
     const [message, setMessage] = useState<string>();
 
     useEffect(() => {
-        console.log('왜 두번이야!');
-        
         const query: KakaoAuthQueries = getQueryJSON(location);
         window.SocialLogin?.postMessage(query.code);
 
@@ -21,6 +19,6 @@ export default function SocialAuthPage() {
     }, []);
 
     return (
-        <div>{message || 'Kakao talk redirection...'}</div>
+        <div>{'Kakao Talk Authenticating...'}</div>
     )
 }
