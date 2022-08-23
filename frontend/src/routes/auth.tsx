@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import { useQueries, useQuery } from "react-query";
-import { useLocation, useSearchParams } from "react-router-dom"
-import { getQueryJSON, QueryObject } from "../utils";
+import { useLocation } from "react-router-dom"
+import { getQueryJSON } from "../utils";
 
 interface KakaoAuthQueries {
     code?: string;

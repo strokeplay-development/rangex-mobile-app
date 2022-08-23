@@ -3,9 +3,10 @@ interface WebViewMessage {
 }
 
 interface Window {
-    SignupCompleted: WebViewMessage
+    SignupCompleted: WebViewMessage;
+    ModifyUserRequested: WebViewMessage;
     LocationChanged: WebViewMessage;
     LogoutRequested: WebViewMessage;
     JoinRequested: WebViewMessage;
-    SocialLogin: WebViewMessage
+    SocialLogin: WebViewMessage;
 }

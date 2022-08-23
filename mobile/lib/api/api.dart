@@ -124,4 +124,8 @@ class AuthHttp extends HttpBase {
   Future<Response> kakaoLogin(dynamic body, [Options? options]) async {
     return await httpPost('/signin/kakao', body, options);
   }
+
+  Future<Response> modifyNe(dynamic body, [Options? options]) async {
+    return await httpPost('/me', body, options);
+  }
 }

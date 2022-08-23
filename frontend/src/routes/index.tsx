@@ -15,6 +15,7 @@ const ShotData = React.lazy(() => import('../pages/shot/ShotDataPage'));
 // More
 const More = React.lazy(() => import('../pages/more/MorePage'));
 const EditProfile = React.lazy(() => import('../pages/profile/EditProfilePage'));
+const EditNickname = React.lazy(() => import('../pages/profile/EditNicknamePage'));
 const Clubs = React.lazy(() => import('../pages/club/ClubPage'));
 const GameOptions = React.lazy(() => import('../pages/option/GameOptionsPage'));
 const LinkToShops = React.lazy(() => import('../pages/link/LinkShop'));
@@ -53,6 +54,10 @@ export default function PageRoutes() {
         {
             path: '/profile',
             element: <EditProfile/>
+        },
+        {
+            path: '/profile/nickname',
+            element: <EditNickname/>
         },
         {
             path: '/profile/optional',

@@ -81,6 +81,7 @@ export default function EditProfilePage() {
     ];
 
     const goEditProfile = () => nav('/profile/optional');
+    const goEditNickname = () => nav('/profile/nickname');
 
     const onLogout = () => {
         window.LogoutRequested?.postMessage('logout');
@@ -116,7 +117,7 @@ export default function EditProfilePage() {
                 </div>
                 {
                     profileInfo.map(info => (
-                        <StyledInfo>
+                        <StyledInfo key={info.key}>
                             <dt>{info.key}</dt>
                             <dd>{info.value}</dd>
                         </StyledInfo>
@@ -125,15 +126,15 @@ export default function EditProfilePage() {
             </StyledProfileSection>
             
             <ul>
-                <MenuBox>Edit Nick name</MenuBox>
+                <MenuBox key={0} onClick={goEditNickname}>Edit Nick name</MenuBox>
             </ul>
 
             <ul>
-                <MenuBox>Edit Password</MenuBox>
+                <MenuBox key={0}>Edit Password</MenuBox>
             </ul>
 
             <ul>
-                <MenuBox onClick={onLogout}>Logout</MenuBox>
+                <MenuBox key={0} onClick={onLogout}>Logout</MenuBox>
             </ul>
         </PageWithBlockSection>
     )

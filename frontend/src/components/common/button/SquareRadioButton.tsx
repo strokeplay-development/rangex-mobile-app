@@ -1,5 +1,5 @@
 import { styled } from "@mui/material";
-import { FormEventHandler, PropsWithChildren } from "react";
+import { FormEventHandler, MutableRefObject, PropsWithChildren, Ref, RefObject, useEffect } from "react";
 import { BOX_BLUE, BOX_DARKGREY } from "../../../styles/colors";
 import { FONT_BASIC, FONT_SMALL } from "../../../styles/fonts";
 
@@ -16,8 +16,9 @@ interface RadioButtonStyleProps {
 
 type SquareRadioButtonProps = {
     name: string;
-    requisites: RadioRequisite[]
-    onChange?: FormEventHandler
+    requisites: RadioRequisite[];
+    onChange?: FormEventHandler;
+    defaultValue?: unknown;
 } & RadioButtonStyleProps;
 
 const StyledSquareRadio = styled('div',{
@@ -73,11 +74,9 @@ export default function SquareRadioButton(props: PropsWithChildren<SquareRadioBu
     return (
         <StyledSquareRadio
             className={props.vertical ? 'vertical' : undefined}
-            onChange={props.onChange}
             small={props.small}
             stretch={props.stretch}
             vertical={props.vertical}
-
         >
             {
                 props.requisites.map((button, idx) => (
@@ -88,7 +87,8 @@ export default function SquareRadioButton(props: PropsWithChildren<SquareRadioBu
                             id={`:${button.value}_${idx}`} 
                             name={props.name} 
                             value={button.value} 
-                            defaultChecked={idx === 0}
+                            defaultChecked={button.value === props.defaultValue}
+                            onChange={props.onChange}
                         />
                         {button.label}
                     </label>

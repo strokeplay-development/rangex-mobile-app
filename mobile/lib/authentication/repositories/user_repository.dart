@@ -16,16 +16,32 @@ class UserRepository {
       return _user = User.fromJson(res.data);
     } catch (e) {
       print(e);
+
+      return null;
     }
   }
 
   FutureOr<User?> signUp(Map<String, dynamic> userInfo) async {
     try {
-      print('<USER> $userInfo');
+      print('<Sign up> $userInfo');
       final res = await AuthHttp().signup(userInfo);
       return User.fromJson(res.data);
     } catch (e) {
       print(e);
+
+      return null;
+    }
+  }
+
+  FutureOr<User?> modifyOptionals(Map<String, dynamic> userInfo) async {
+    try {
+      print('<Modify Optionals> $userInfo');
+
+      final res = await AuthHttp().modifyNe(userInfo);
+
+      return User.fromJson(res.data);
+    } catch (e) {
+      throw Exception(e);
     }
   }
 }
