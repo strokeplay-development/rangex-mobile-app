@@ -3,6 +3,7 @@ interface WebViewMessage {
 }
 
 interface Window {
+    WebviewMounted: WebViewMessage;
     SignupCompleted: WebViewMessage;
     ModifyUserRequested: WebViewMessage;
     LocationChanged: WebViewMessage;

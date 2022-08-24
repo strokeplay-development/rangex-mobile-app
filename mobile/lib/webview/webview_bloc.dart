@@ -10,17 +10,21 @@ class WebviewBloc extends Bloc<WebviewEvent, WebviewState> {
     required WebviewRepository webviewRepository,
   })  : _webviewRepository = webviewRepository,
         super(WebviewStateNotLoaded()) {
-    on(_onWebviewUrlChanged);
+    on(_onWebviewEvent);
   }
 
   final WebviewRepository _webviewRepository;
 
   late StreamSubscription<WebviewEvent> _webviewEventSubscription;
 
-  void _onWebviewUrlChanged(
+  void _onWebviewEvent(
     WebviewEvent event,
     Emitter<WebviewState> emit,
   ) {
+    if (event is WebviewCreateReady) {
+      return emit(WebviewStateReady());
+    }
+
     if (event is WebviewCreated) {
       return emit(WebviewStateCreated());
     }

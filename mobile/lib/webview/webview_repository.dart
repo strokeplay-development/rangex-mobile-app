@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rangex/authentication/repositories/auth_repository.dart';
 import 'package:rangex/authentication/repositories/user_repository.dart';
+import 'package:rangex/utils/auth.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 typedef UrlChangeHandler = void Function(String url);
@@ -30,6 +31,7 @@ class WebviewRepository {
     required BuildContext context,
     Function? onCreated,
     UrlChangeHandler? onUrlChanged,
+    List<WebViewCookie> cookies = const [],
   }) {
     if (Platform.isAndroid) WebView.platform = AndroidWebView();
 
@@ -37,11 +39,41 @@ class WebviewRepository {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       javascriptMode: JavascriptMode.unrestricted,
       initialUrl: rootUrls[0],
+      initialCookies: cookies,
       onWebViewCreated: (control) {
         _controller = control;
 
         if (onCreated != null) {
           onCreated();
+        }
+      },
+      onPageFinished: (url) async {
+        final webCookies =
+            await _controller.runJavascriptReturningResult('document.cookie');
+        final mappedCookie = AuthUtils.getCookies(webCookies);
+
+        String? accessToken;
+        String? refreshToken;
+
+        accessToken = mappedCookie?['accessToken'];
+        refreshToken = mappedCookie?['refreshToken'];
+
+        final authRepo = RepositoryProvider.of<AuthRepository>(context);
+
+        if (accessToken == null) {
+          final setAccess = AuthUtils.jsStringSetCookie(
+            'accessToken',
+            await authRepo.accessToken,
+          );
+          _controller.runJavascript(setAccess);
+        }
+
+        if (refreshToken == null) {
+          final setRefresh = AuthUtils.jsStringSetCookie(
+            'refreshToken',
+            await authRepo.refreshToken,
+          );
+          _controller.runJavascript(setRefresh);
         }
       },
       navigationDelegate: (req) {
@@ -82,7 +114,6 @@ class WebviewRepository {
         JavascriptChannel(
           name: 'ModifyUserRequested',
           onMessageReceived: (message) async {
-            print(message.message);
             await RepositoryProvider.of<UserRepository>(context)
                 .modifyOptionals(jsonDecode(message.message));
           },

@@ -17,6 +17,9 @@ class AuthRepository {
   ) : _tokenStorage = secureStorage;
 
   final FlutterSecureStorage _tokenStorage;
+  String? _accessToken;
+  String? _refreshToken;
+
   final _controller = StreamController<AuthStatus>();
 
   /// 인증상태 스트림 getter
@@ -39,12 +42,12 @@ class AuthRepository {
 
   // 액세스 토큰
   Future<String?> get accessToken async {
-    return await _tokenStorage.read(key: 'accessToken');
+    return _accessToken ??= await _tokenStorage.read(key: 'accessToken');
   }
 
   // 리프레쉬 토큰
   Future<String?> get refreshToken async {
-    return await _tokenStorage.read(key: 'refreshToken');
+    return _refreshToken ??= await _tokenStorage.read(key: 'refreshToken');
   }
 
   /// 로그인

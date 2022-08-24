@@ -6,6 +6,8 @@ class WebviewEvent extends Equatable {
   List<Object?> get props => [];
 }
 
+class WebviewCreateReady extends WebviewEvent {}
+
 class WebviewCreated extends WebviewEvent {}
 
 class WebviewUrlChanged extends WebviewEvent {

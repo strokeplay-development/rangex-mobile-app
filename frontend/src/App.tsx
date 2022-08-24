@@ -5,6 +5,7 @@ import { base, darkColors, darkPalette, reset } from './styles/themes';
 import PageRoutes from './routes';
 import { useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
+import { useCookies } from 'react-cookie';
 
 const theme = (mode: ThemeMode) => createTheme({
   ...reset,
@@ -19,11 +20,12 @@ const theme = (mode: ThemeMode) => createTheme({
 function App() {
   const [themeMode] = useRecoilState(themeModeState);
   const location = useLocation();
+  const [cookies] = useCookies(['accessToken', 'refreshToken']);
 
 
   useEffect(() => {
     window.LocationChanged?.postMessage(location.pathname);
-
+    window.WebviewMounted?.postMessage(document.cookie);
   }, [location]);
   
   return (

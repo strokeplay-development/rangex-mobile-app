@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:rangex/authentication/repositories/auth_repository.dart';
 import 'package:rangex/screens/feed/views/feed_appbar.dart';
 import 'package:rangex/screens/more/views/more_appbar.dart';
 import 'package:rangex/screens/swing/views/swings_appbar.dart';
@@ -8,6 +11,7 @@ import 'package:rangex/webview/webview_bloc.dart';
 import 'package:rangex/webview/webview_event.dart';
 import 'package:rangex/webview/webview_repository.dart';
 import 'package:rangex/webview/webview_state.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class RootWrap extends StatefulWidget {
   const RootWrap({Key? key}) : super(key: key);
@@ -21,6 +25,9 @@ class _RootWrapState extends State<RootWrap> {
     baseUrl: dotenv.env['WEBVIEW_BASE_URL']!,
   );
   late WebviewBloc? _webviewBloc;
+  late AuthRepository _authRepo;
+
+  List<WebViewCookie> _cookies = const [];
 
   int selectedTap = 0;
   List<int> tapIndexStack = [];
@@ -30,6 +37,8 @@ class _RootWrapState extends State<RootWrap> {
   @override
   void initState() {
     _webviewBloc = WebviewBloc(webviewRepository: _webviewRepository);
+    _authRepo = RepositoryProvider.of<AuthRepository>(context);
+
     super.initState();
   }
 
@@ -38,6 +47,13 @@ class _RootWrapState extends State<RootWrap> {
     return BlocBuilder<WebviewBloc, WebviewState>(
       bloc: _webviewBloc,
       builder: (context, state) {
+        print('[WEBVIEW] state: $state');
+
+        if (state is WebviewStateNotLoaded) {
+          readyWebviewCreate();
+          return Container();
+        }
+
         statusBarHeight =
             state is WebviewStateDeep ? MediaQuery.of(context).padding.top : 0;
 
@@ -50,10 +66,9 @@ class _RootWrapState extends State<RootWrap> {
                 _webviewRepository.getWebviewWidget(
                   context: context,
                   onUrlChanged: (changedUrl) {
-                    setState(() {
-                      _webviewBloc?.add(WebviewUrlChanged(changedUrl));
-                    });
+                    _webviewBloc?.add(WebviewUrlChanged(changedUrl));
                   },
+                  cookies: _cookies,
                 ),
                 Visibility(
                   visible: state is! WebviewStateRoot,
@@ -130,5 +145,42 @@ class _RootWrapState extends State<RootWrap> {
         );
       },
     );
+  }
+
+  /// 토큰을 쿠키로 만들기
+  List<WebViewCookie> bakeTokens(String? access, String? refresh) {
+    final tokens = <WebViewCookie>[];
+
+    if (access != null) {
+      tokens.add(
+        WebViewCookie(
+          name: 'accessToken',
+          value: access,
+          domain: dotenv.env['WEBVIEW_BASE_URL']!,
+        ),
+      );
+    }
+
+    if (refresh != null) {
+      tokens.add(
+        WebViewCookie(
+          name: 'refreshToken',
+          value: refresh,
+          domain: dotenv.env['WEBVIEW_BASE_URL']!,
+        ),
+      );
+    }
+
+    print('TOKEN COOKIES: $tokens');
+
+    return tokens;
+  }
+
+  /// 웹뷰 생성 준비하기
+  Future<void> readyWebviewCreate() async {
+    _cookies =
+        bakeTokens(await _authRepo.accessToken, await _authRepo.refreshToken);
+
+    _webviewBloc?.add(WebviewCreateReady());
   }
 }

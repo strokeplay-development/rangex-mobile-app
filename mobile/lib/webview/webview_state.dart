@@ -7,6 +7,8 @@ class WebviewState extends Equatable {
 
 class WebviewStateNotLoaded extends WebviewState {}
 
+class WebviewStateReady extends WebviewState {}
+
 class WebviewStateCreated extends WebviewState {}
 
 class WebviewStateRoot extends WebviewState {}
