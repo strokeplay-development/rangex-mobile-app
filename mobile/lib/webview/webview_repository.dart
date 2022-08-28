@@ -52,26 +52,30 @@ class WebviewRepository {
             await _controller.runJavascriptReturningResult('document.cookie');
         final mappedCookie = AuthUtils.getCookies(webCookies);
 
-        String? accessToken;
-        String? refreshToken;
-
-        accessToken = mappedCookie?['accessToken'];
-        refreshToken = mappedCookie?['refreshToken'];
+        String? accessToken = mappedCookie?['accessToken'];
+        String? refreshToken = mappedCookie?['refreshToken'];
 
         final authRepo = RepositoryProvider.of<AuthRepository>(context);
 
-        if (accessToken == null) {
+        String? newAccessToken = await authRepo.accessToken;
+        String? newRefreshToken = await authRepo.refreshToken;
+
+        if (accessToken == null ||
+            accessToken == '' ||
+            accessToken != newAccessToken) {
           final setAccess = AuthUtils.jsStringSetCookie(
             'accessToken',
-            await authRepo.accessToken,
+            newAccessToken,
           );
           _controller.runJavascript(setAccess);
         }
 
-        if (refreshToken == null) {
+        if (refreshToken == null ||
+            refreshToken == '' ||
+            refreshToken != newRefreshToken) {
           final setRefresh = AuthUtils.jsStringSetCookie(
             'refreshToken',
-            await authRepo.refreshToken,
+            newRefreshToken,
           );
           _controller.runJavascript(setRefresh);
         }
@@ -82,6 +86,18 @@ class WebviewRepository {
       gestureNavigationEnabled: true,
       javascriptChannels: {
         JavascriptChannel(
+          name: 'ResponseReceived',
+          onMessageReceived: (message) {
+            print(message.message);
+          },
+        ),
+        JavascriptChannel(
+          name: 'WebviewMounted',
+          onMessageReceived: (message) {
+            print(message.message);
+          },
+        ),
+        JavascriptChannel(
           name: 'LocationChanged',
           onMessageReceived: (message) {
             if (onUrlChanged != null) {
@@ -91,8 +107,8 @@ class WebviewRepository {
         ),
         JavascriptChannel(
           name: 'LogoutRequested',
-          onMessageReceived: (message) {
-            RepositoryProvider.of<AuthRepository>(context).logOut();
+          onMessageReceived: (message) async {
+            await RepositoryProvider.of<AuthRepository>(context).logOut();
             context.router.popUntil((route) => false);
             context.router.pushNamed('/welcome');
           },

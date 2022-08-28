@@ -20,12 +20,9 @@ const theme = (mode: ThemeMode) => createTheme({
 function App() {
   const [themeMode] = useRecoilState(themeModeState);
   const location = useLocation();
-  const [cookies] = useCookies(['accessToken', 'refreshToken']);
-
 
   useEffect(() => {
     window.LocationChanged?.postMessage(location.pathname);
-    window.WebviewMounted?.postMessage(document.cookie);
   }, [location]);
   
   return (

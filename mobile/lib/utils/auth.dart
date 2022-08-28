@@ -10,17 +10,24 @@ class AuthUtils {
   }
 
   static String jsStringSetCookie(String name, String? value) {
-    return 'document.cookie = "$name=$value;"';
+    return 'document.cookie = "$name=${value ?? ''};"';
   }
 
-  static Map<String, String>? getCookies(String cookieString) {
+  static Map<String, String>? getCookies(String? cookieString) {
     final mapped = <String, String>{};
 
-    final cookies = cookieString.split('; ');
-    for (var element in cookies) {
-      final cookie = element.split('=');
+    if (cookieString != null) {
+      final cookies = cookieString.split('; ');
 
-      mapped[cookie[0]] = cookie[1];
+      if (cookies.isNotEmpty) {
+        for (var element in cookies) {
+          final cookie = element.split('=');
+
+          if (cookie.length > 1) {
+            mapped[cookie[0]] = cookie[1] == 'null' ? '' : cookie[1];
+          }
+        }
+      }
     }
 
     return mapped;

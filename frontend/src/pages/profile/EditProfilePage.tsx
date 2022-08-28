@@ -1,8 +1,15 @@
 import { Add } from "@mui/icons-material";
 import { Avatar, Button, Fab, styled } from "@mui/material";
+import { AxiosError } from "axios";
+import { useEffect, useState } from "react";
+import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
+import { domainToASCII } from "url";
+import instance from "../../api";
+import { fetchMe } from "../../api/user";
 import TopBar from "../../components/common/layout/bar/TopBar";
 import MenuBox from "../../components/common/layout/menu/MenuBox";
+import { User } from "../../recoil/user";
 import { BG_NAVY } from "../../styles/colors";
 import { PageWithBlockSection } from "../../styles/common";
 import { FONT_MEDIUM } from "../../styles/fonts";
@@ -48,37 +55,50 @@ const StyledInfo = styled('dl')`
 
 export default function EditProfilePage() {
     const nav = useNavigate();
+    const { isLoading, isError, data } = useQuery(['me'], fetchMe);
 
-    const profileInfo = [
-        {
-            key: 'Name',
-            value: 'Do Kwon'
-        },
-        {
-            key: 'Nick name',
-            value: 'Luna'
-        },
-        {
-            key: 'Phone',
-            value: '+8201034354949'
-        },
-        {
-            key: 'Email',
-            value: 'terra@rangex.golf'
-        },
-        {
-            key: 'Gender',
-            value: 'Male'
-        },
-        {
-            key: 'Birthday',
-            value: '1994.05.14'
-        },
-        {
-            key: 'Address',
-            value: '14-33, Yanjae st., Seocho-gu, Seoul-si, Republic of Korea'
-        },
-    ];
+    if (isLoading) {
+        return <p>Now loading...</p>
+    }
+
+    if (isError) {
+        window.ResponseReceived.postMessage('API networks failed');
+    }
+
+    let profileInfo: any[] = [];
+
+    if (data) {
+        profileInfo = [
+            {
+                key: 'Name',
+                value: data.name
+            },
+            {
+                key: 'Nick name',
+                value: data.nickName
+            },
+            {
+                key: 'Phone',
+                value: data.phoneNumber
+            },
+            {
+                key: 'Email',
+                value: data.email
+            },
+            {
+                key: 'Gender',
+                value: data.gender === 0 ? 'MALE' : 'FEMALE'
+            },
+            {
+                key: 'Birthday',
+                value: data.birthday
+            },
+            {
+                key: 'Address',
+                value: data.address1 + ',' + data.address2
+            },
+        ];
+    }
 
     const goEditProfile = () => nav('/profile/optional');
     const goEditNickname = () => nav('/profile/nickname');
