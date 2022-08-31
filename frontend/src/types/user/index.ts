@@ -1,5 +1,3 @@
-import { atom } from 'recoil';
-
 export interface User {
     userAccount?: string;
     name?: string;
@@ -18,8 +16,3 @@ export interface User {
     zipCode?: string;
     lastLoginDate?: string;
 }
-
-export const signupState = atom<User>({
-    key: 'signup',
-    default: {}
-});

@@ -1,20 +1,17 @@
 import { useEffect, useState } from "react";
-import { MonthSortedList, SwingList } from ".";
 import SectionHeader from "../../components/common/layout/section/SectionHeader";
-import { RootPage, Section } from "../../styles/common";
+import { MONTH } from "../../constants";
+import { PageWithBox, SectionBox } from "../../styles";
+import { ShotVideoList } from "../../types";
 import SwingGrid from "./SwingGrid";
-import SwingItem from "./SwingItem";
 
-const MONTH: string[] = [
-    'JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 
-    'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'
-];
+type ArraySortedByMonth<T> = Array<T>;
 
-const sortByMonth = (list: SwingList): MonthSortedList<SwingList> => {
-    const result: MonthSortedList<SwingList> = Array.from({length: 12}, () => []);
+const sortByMonth = (list: ShotVideoList): ArraySortedByMonth<ShotVideoList> => {
+    const result: ArraySortedByMonth<ShotVideoList> = Array.from({length: 12}, () => []);
 
     list.forEach((item) => {
-        const month = Number(item.createdAt.split('-')[1]);
+        const month = Number(item.createdAt?.split('-')[1]);
 
         result[month].push(item);
     });
@@ -23,64 +20,64 @@ const sortByMonth = (list: SwingList): MonthSortedList<SwingList> => {
 }
 
 export default function SwingsPage() {
-    const [swings, setSwings] = useState<SwingList>([]);
+    const [swings, setSwings] = useState<ShotVideoList>([]);
 
     useEffect(() => {
         setSwings([
             {
                 club: 'Wedge',
                 createdAt: '2022-01-14',
-                digit: 'm',
+                unit: 0,
                 distance: 138.5,
-                swingID: 3,
+                id: 3,
             },
             {
                 club: 'Driver',
                 createdAt: '2022-01-14',
-                digit: 'm',
+                unit: 0,
                 distance: 238.5,
-                swingID: 3
+                id: 3
             },
             {
                 club: 'Wedge',
                 createdAt: '2022-02-14',
-                digit: 'm',
+                unit: 0,
                 distance: 138.5,
-                swingID: 3
+                id: 3
             },
             {
                 club: 'Wedge',
                 createdAt: '2022-05-14',
-                digit: 'm',
+                unit: 0,
                 distance: 138.5,
-                swingID: 3
+                id: 3
             },
             {
                 club: 'Wedge',
                 createdAt: '2022-05-14',
-                digit: 'm',
+                unit: 1,
                 distance: 138.5,
-                swingID: 3
+                id: 3
             },
             {
                 club: 'Wedge',
                 createdAt: '2022-05-14',
-                digit: 'm',
+                unit: 2,
                 distance: 138.5,
-                swingID: 3
+                id: 3
             },
         ]);
     }, []);
 
     return (
-        <RootPage>
+        <PageWithBox>
             {sortByMonth(swings).map((swings, idx) => (
                 swings.length > 0 ? 
-                <Section key={idx}>
+                <SectionBox>
                     <SectionHeader title={MONTH[idx - 1]}/>
                     <SwingGrid swings={swings} cols={3}/>
-                </Section> : null
+                </SectionBox> : null
             ))}
-        </RootPage>
+        </PageWithBox>
     )
 }

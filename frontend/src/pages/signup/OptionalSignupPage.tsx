@@ -1,13 +1,14 @@
 import { Grid, styled } from "@mui/material";
 import dayjs from "dayjs";
-import { FormEvent, PropsWithChildren, useRef } from "react";
+import { FormEvent, PropsWithChildren } from "react";
 import { useRecoilState } from "recoil";
 import SquareRadioButton from "../../components/common/button/SquareRadioButton";
 import TopBar from "../../components/common/layout/bar/TopBar";
 import TextInput from "../../components/common/layout/input/TextInput";
 import DatePicker, { TDateValue } from "../../components/common/layout/picker/DatePicker";
-import { signupState, User } from "../../recoil/signup";
+import { signupState } from "../../store/signup";
 import { BottomFullButton, InputLabel, PageWithHeader } from "../../styles/common";
+import { User } from "../../types";
 
 const StyledField = styled('div')`
     display: flex;

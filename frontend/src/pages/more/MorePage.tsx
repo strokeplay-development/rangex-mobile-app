@@ -1,36 +1,55 @@
-import { styled } from "@mui/material"
+
 import { Outlet, useNavigate } from "react-router-dom";
-import MenuBox from "../../components/common/layout/menu/MenuBox";
+import MenuBox, { MenuBoxProps } from "../../components/common/layout/menu/MenuBox";
 import ProfileBox from "../../components/profile/ProfileBox";
-import { BG_BLACK } from "../../styles/colors";
-
-const StyledMorePage = styled('div')`
-    min-height: 100vh;
-    background-color: ${BG_BLACK};
-    padding-bottom: 72px;
-
-    & ul {
-        margin-bottom: 16px;
-    }
-`;
+import { PageWithBox } from "../../styles";
 
 export default function MorePage() {
     const nav = useNavigate();
 
     const goEditProfile = () => nav("/profile");
-    
-    const goChangeClub = () => nav("/clubs");
 
-    const goGameOptions = () => nav("/options");
+    /// 클럽변경
+    const changeClubProps: MenuBoxProps = {
+        title: 'Change Club',
+        onClick: () => nav("/clubs")
+    };
 
-    const goLinkToShop = () => nav("/link");
+    /// 게임옵션 변경
+    const gameOptionProps: MenuBoxProps = {
+        title: 'Game Options',
+        onClick: () => nav("/options")
+    };
 
-    const goPrivacyPolicy = () => nav("");
+    /// 매장가입
+    const joinShopProps: MenuBoxProps = {
+        title: 'Join the shop',
+        onClick: () => nav("/join")
+    };
 
-    const goTermsOfService = () => nav("");
+    /// 정책
+    const policyProps: MenuBoxProps = {
+        title: 'Privacy Policy'
+    };
+
+    /// 이용약관
+    const termsProps: MenuBoxProps = {
+        title: 'Terms of Service'
+    }
+
+    /// 라이센스
+    const licenseProps: MenuBoxProps = {
+        title: 'Licenses'
+    }
+
+    /// 버전
+    const versionProps: MenuBoxProps = {
+        title: 'Version',
+        desc: '1.0.0'
+    }
 
     return (
-        <StyledMorePage>
+        <PageWithBox>
             <ul>
                 <MenuBox
                     head={
@@ -42,23 +61,27 @@ export default function MorePage() {
                     onClick={goEditProfile}
                 />
             </ul>
+
             <ul>
-                <MenuBox onClick={goChangeClub}>Change Club</MenuBox>
-                <MenuBox onClick={goGameOptions}>Game Options</MenuBox>
-                <MenuBox onClick={goLinkToShop}>Link to Shop</MenuBox>
+                <MenuBox {...changeClubProps}/>
+                <MenuBox {...gameOptionProps}/>
+                <MenuBox {...joinShopProps}/>
             </ul>
+
             <ul>
-                <MenuBox>Privacy Policy</MenuBox>
-                <MenuBox>Terms of Service</MenuBox>
+                <MenuBox {...policyProps}/>
+                <MenuBox {...termsProps}/>
             </ul>
+
             <ul>
-                <MenuBox>Licences</MenuBox>
+                <MenuBox {...licenseProps}/>
             </ul>
+
             <ul>
-                <MenuBox desc="1.0.2">Version</MenuBox>
+                <MenuBox {...versionProps}/>
             </ul>
 
             <Outlet/>
-        </StyledMorePage>
+        </PageWithBox>
     )
 }

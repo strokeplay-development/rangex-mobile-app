@@ -1,5 +1,5 @@
 interface WebViewMessage {
-    postMessage: (message: any) => void;
+    postMessage: (message?: any) => void;
 }
 
 interface Window {

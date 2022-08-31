@@ -1,14 +1,22 @@
 import { Grid } from "@mui/material";
 import { PropsWithChildren } from "react";
 import { useNavigate } from "react-router-dom";
-import { SwingGridProps, SwingGridRowProps } from ".";
-import { StyledSwingItem } from "./style";
-import SwingItem from "./SwingItem";
+import { ShotVideoList } from "../../types";
+import SwingItem, { StyledSwingItem } from "./SwingItem";
+
+interface SwingGridProps {
+    swings: ShotVideoList,
+    cols: number
+}
+
+interface SwingGridRowProps {
+    initIdex: number
+}
 
 export default function SwingGrid(props: PropsWithChildren<SwingGridProps>) {
     const nav = useNavigate();
 
-    const viewShotData = () => nav('/swings/1');
+    const viewShotData = (id: number) => nav(`/swings/${id}`);
 
     const rows = props.swings.length / props.cols + 1;
 
@@ -23,11 +31,11 @@ export default function SwingGrid(props: PropsWithChildren<SwingGridProps>) {
                         key={itemIdx}
                         club={data.club}
                         createdAt={data.createdAt}
-                        digit={data.digit}
+                        unit={data.unit}
                         distance={data.distance}
-                        swingID={data.swingID}
+                        id={data.id}
                         thumbnail={data.thumbnail}
-                        onclick={viewShotData}
+                        onClick={() => viewShotData(data.id)}
                     /> 
                     : <StyledSwingItem key={itemIdx}/>
             })}

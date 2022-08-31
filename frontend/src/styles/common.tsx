@@ -43,6 +43,10 @@ export const PageWithBlockSection = styled('div')`
 export const Section = styled('section')`
     padding: 0 20px;
     margin-top: 24px;
+
+    &:first-child {
+        margin-top: 0;
+    }
 `;
 
 export const PaperBox = styled(Paper)`

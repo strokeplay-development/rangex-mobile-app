@@ -108,6 +108,7 @@ class WebviewRepository {
         JavascriptChannel(
           name: 'LogoutRequested',
           onMessageReceived: (message) async {
+            print('[Logout Requested]');
             await RepositoryProvider.of<AuthRepository>(context).logOut();
             context.router.popUntil((route) => false);
             context.router.pushNamed('/welcome');

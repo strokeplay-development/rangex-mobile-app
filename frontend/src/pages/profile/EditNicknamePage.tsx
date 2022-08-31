@@ -1,8 +1,8 @@
 import { FormEvent, useState } from "react";
 import TopBar from "../../components/common/layout/bar/TopBar";
 import TextInput from "../../components/common/layout/input/TextInput";
-import { User } from "../../recoil/signup";
 import { BottomFullButton, FlexForm, PageWithHeader } from "../../styles/common";
+import { User } from "../../types";
 
 export default function EditNicknamePage() {
     const [nickname, setNickname] = useState<string>();

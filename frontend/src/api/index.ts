@@ -1,5 +1,11 @@
 import { Cookies } from 'react-cookie';
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
+import { HTTP_STATUS } from '../constants';
+
+interface AxiosError {
+    [key: string]: unknown;
+    response?: AxiosResponse;
+};
 
 const instance = axios.create({
     baseURL: 'http://localhost:4000/api'
@@ -13,15 +19,27 @@ instance.interceptors.request.use(
         return req;
     },
     err => {
-        console.error(err);   
+        console.error(err);
+        window.ResponseReceived.postMessage(JSON.stringify(err));
     }
 );
 
-instance.interceptors.response.use(res => {
-    window.WebviewMounted?.postMessage(res);
-    return res;
-}, (err) => {
-    window.WebviewMounted?.postMessage(err);
-});
+instance.interceptors.response.use(
+    res => {
+        window.WebviewMounted?.postMessage(res);
+        return res;
+    }, 
+    (err: AxiosError | undefined) => {
+        if (err?.response?.status === HTTP_STATUS.UNAUTHORIZED) {            
+            window.ResponseReceived.postMessage('<Unauthorized>' + JSON.stringify(err));
+            // 인가실패시 보유중인 토큰을 지우고 로그아웃 처리한다.
+            const cookies = new Cookies();
+            cookies.remove('accessToken');
+            cookies.remove('refreshToken');
+
+            window.LogoutRequested.postMessage();
+        }
+    }
+);
 
 export default instance;

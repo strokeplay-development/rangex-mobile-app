@@ -1,13 +1,16 @@
 import { ChevronRight } from "@mui/icons-material";
-import { ListItemButton, styled } from "@mui/material";
-import { MouseEventHandler, PropsWithChildren } from "react";
+import { ListItemButton, ListItemButtonProps, styled } from "@mui/material";
 import { BG_NAVY, TXT_GREY } from "../../../../styles/colors";
 
-interface MenuBoxProps {
-    onClick?: MouseEventHandler;
+export interface MenuBoxProps extends ListItemButtonProps {
     head?: JSX.Element;
+    title?: string;
+
+    // 오른쪽 렌더링 우선순위 1
     tail?: JSX.Element;
+    // 오른쪽 렌더링 우선순위 2
     desc?: string;
+    // 둘아 없으면 오른쪽 화살표 아이콘 렌더링
 }
 
 const StyledMenuBox = styled(ListItemButton)`
@@ -31,14 +34,9 @@ const StyledMenuBox = styled(ListItemButton)`
     }
 `;
 
-export default function MenuBox(props: PropsWithChildren<MenuBoxProps>) {
-    const renderHead = () => {
-        if (props.head) return props.head;
-        
-        return <h3>{props.children}</h3>
-    }
-
+export default function MenuBox(props: MenuBoxProps) {
     const renderTail = () => {
+        if (props.tail) return props.tail;
         if (props.desc) return <h3 className="desc tail">{props.desc}</h3>
         
         return <ChevronRight/>;
@@ -46,7 +44,8 @@ export default function MenuBox(props: PropsWithChildren<MenuBoxProps>) {
 
     return (
         <StyledMenuBox onClick={props.onClick}>
-            { renderHead() }
+            { props.head }
+            <h3>{ props.title }</h3>
             { renderTail() }
         </StyledMenuBox>
     )

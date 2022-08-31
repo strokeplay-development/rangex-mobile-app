@@ -1,15 +1,10 @@
 import { Add } from "@mui/icons-material";
 import { Avatar, Button, Fab, styled } from "@mui/material";
-import { AxiosError } from "axios";
-import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
-import { domainToASCII } from "url";
-import instance from "../../api";
 import { fetchMe } from "../../api/user";
 import TopBar from "../../components/common/layout/bar/TopBar";
-import MenuBox from "../../components/common/layout/menu/MenuBox";
-import { User } from "../../recoil/user";
+import MenuBox, { MenuBoxProps } from "../../components/common/layout/menu/MenuBox";
 import { BG_NAVY } from "../../styles/colors";
 import { PageWithBlockSection } from "../../styles/common";
 import { FONT_MEDIUM } from "../../styles/fonts";
@@ -62,7 +57,7 @@ export default function EditProfilePage() {
     }
 
     if (isError) {
-        window.ResponseReceived.postMessage('API networks failed');
+        window.ResponseReceived?.postMessage('API networks failed');
     }
 
     let profileInfo: any[] = [];
@@ -100,12 +95,27 @@ export default function EditProfilePage() {
         ];
     }
 
-    const goEditProfile = () => nav('/profile/optional');
-    const goEditNickname = () => nav('/profile/nickname');
+    /// 닉네임 변경
+    const nickNameProps: MenuBoxProps = {
+        title: 'Edit Nick name',
+        onClick: () => nav('/profile/nickname')
+    };
 
-    const onLogout = () => {
-        window.LogoutRequested?.postMessage('logout');
+    /// 패스워드 변경
+    const passwordProps: MenuBoxProps = {
+        title: 'Edit Password',
+        onClick: () => {}
+    };
+
+    /// 로그아웃
+    const logoutProps: MenuBoxProps = {
+        title: 'Log out',
+        onClick() {
+            window.LogoutRequested?.postMessage('logout');
+        }
     }
+
+    const goEditProfile = () => nav('/profile/optional');
 
     return (
         <PageWithBlockSection>
@@ -146,15 +156,15 @@ export default function EditProfilePage() {
             </StyledProfileSection>
             
             <ul>
-                <MenuBox key={0} onClick={goEditNickname}>Edit Nick name</MenuBox>
+                <MenuBox {...nickNameProps}/>
             </ul>
 
             <ul>
-                <MenuBox key={0}>Edit Password</MenuBox>
+                <MenuBox {...passwordProps}/>
             </ul>
 
             <ul>
-                <MenuBox key={0} onClick={onLogout}>Logout</MenuBox>
+                <MenuBox {...logoutProps}/>
             </ul>
         </PageWithBlockSection>
     )

@@ -33,6 +33,10 @@ declare module '@mui/material/styles' {
                 border: string;
                 placeholder: string;
             };
+        },
+        bgColor?: {
+            default?: string;
+            deep?: string;
         }
     }
 
@@ -68,6 +72,10 @@ declare module '@mui/material/styles' {
                 border?: string;
                 placeholder?: string;
             };
+        },
+        bgColor?: {
+            default?: string;
+            deep?: string;
         }
     }
 }

@@ -5,8 +5,9 @@ import { useRecoilState } from "recoil";
 import CheckButton from "../../components/common/button/CheckButton";
 import TopBar from "../../components/common/layout/bar/TopBar";
 import TextInput from "../../components/common/layout/input/TextInput";
-import { signupState, User } from "../../recoil/signup";
+import { signupState } from "../../store/signup";
 import { BottomFullButton, PageWithHeader } from "../../styles/common";
+import { User } from "../../types";
 
 const ConfirmInput = styled('div')`
     display: flex;
