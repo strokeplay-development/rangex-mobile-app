@@ -1,8 +1,9 @@
 import { styled } from "@mui/material";
 import { FormEvent, InputHTMLAttributes } from "react";
 import { FONT_MEDIUM } from "../../../../styles/fonts";
+import InputCover from "./InputCover";
 
-interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
+export interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
     label?: string;
 }
 
@@ -43,11 +44,10 @@ const StyledTextField = styled('div')`
             }
         }
     }
-
 `;
 
 export default function TextInput(props: TextInputProps) {
-    const isNumberOverMaxLength = (e: FormEvent<HTMLInputElement>) => {
+    const isOverMaxLength = (e: FormEvent<HTMLInputElement>) => {
         if (props.type !== 'number' || !props.maxLength) return;
         
         const value = e.currentTarget.value;
@@ -57,18 +57,22 @@ export default function TextInput(props: TextInputProps) {
     }
     
     return (
-        <StyledTextField>
-            <div className="input-root">
-                <input 
-                    type={props.type || 'text'}
-                    name={props.name}
-                    placeholder={props.label}
-                    onInput={isNumberOverMaxLength}
-                    onChange={props.onChange}
-                    maxLength={props.maxLength}
-                    minLength={props.minLength}
-                />
-            </div>
-        </StyledTextField>
+        <InputCover label={props.label}>
+            <StyledTextField>
+                <div className="input-root">
+                    <input 
+                        type={props.type || 'text'}
+                        name={props.name}
+                        value={props.defaultValue}
+                        placeholder={props.label}
+                        onInput={isOverMaxLength}
+                        onChange={props.onChange}
+                        onBlur={props.onBlur}
+                        maxLength={props.maxLength}
+                        minLength={props.minLength}
+                    />
+                </div>
+            </StyledTextField>
+        </InputCover>
     );
 }

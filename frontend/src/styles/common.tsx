@@ -5,13 +5,6 @@ export const RootPage = styled('div')`
     padding-bottom: 72px;
 `
 
-export const InputLabel = styled('span')`
-    display: block;
-    margin-bottom: 8px;
-    color: ${props => props.theme.fontColor.grey};
-    font-size: 14px;
-`;
-
 export const PageWithHeader = styled('div')`
     padding: 56px 20px 72px 20px;
     min-height: 100%;

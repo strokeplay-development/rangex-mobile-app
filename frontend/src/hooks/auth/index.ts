@@ -5,44 +5,30 @@ import { isEmptyObject } from './../../utils/common';
 import { me } from '../../store';
 import { useCookies } from 'react-cookie';
 import { fetchMe } from '../../api/user';
+import { useLocation } from 'react-router-dom';
 
 interface AuthorizeResult {
-    isAuthorized: boolean;
+    isAuthorized?: boolean;
     isAuthorizing: boolean;
 }
 
-export const useAuthorize = (currentPath?: string): AuthorizeResult => {
-    let result: AuthorizeResult = {
-        isAuthorized: true,
-        isAuthorizing: false
-    };
-
+export const useAuthorize = (): AuthorizeResult => {
+    const { pathname: currentPath } = useLocation();
     const [user, setUser] = useRecoilState(me);
-    const  isNoUser = isEmptyObject(user);
     const [tokens] = useCookies(['accessToken', 'refreshToken']);
-    const { isLoading, data, isError, error } = useQuery('fetchMe', fetchMe, { enabled: isNoUser });
-
-    // 갱신된 유저정보가 있으면
-    // 인가처리
-    if (isError) {
-        window.WebviewMounted?.postMessage('<Error>' + JSON.stringify(error));
-    }
     
-    if (data) {
-        window.WebviewMounted?.postMessage('<Fetched Me>');
-        setUser(data);
-        return result;
-    }
-
-    if (isLoading) {
-        result.isAuthorizing = true;
-        return result;
-    }
+    const  isNoUser = isEmptyObject(user);
+    const { isLoading, data } = useQuery('fetchMe', fetchMe, { enabled: isNoUser });
+    
+    let result: AuthorizeResult = {
+        isAuthorizing: false,
+        isAuthorized: !isNoUser
+    };
 
     // 프라이빗 라우트가 아니면 인가처리
     const currentRoute = routeInfoList.find(route => route.path === currentPath);
     if (!currentRoute?.isPrivate) {
-        window.WebviewMounted?.postMessage('<Route>' + JSON.stringify(currentRoute));
+        result.isAuthorized = true;
         return result;
     }
 
@@ -52,9 +38,17 @@ export const useAuthorize = (currentPath?: string): AuthorizeResult => {
         return result;
     }
 
-    // 유저정보가 있는지 체크
-    // 없으면 미인가
-    result.isAuthorized = !isNoUser;
+    if (isLoading) {
+        result.isAuthorizing = true;
+        return result;
+    }
+    
+    // 갱신된 유저정보가 있으면
+    // 인가처리
+    if (data) {
+        setUser(data);
+        result.isAuthorized = false;
+    }
 
     return result;
 }

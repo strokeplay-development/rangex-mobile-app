@@ -1,20 +1,17 @@
 import { Grid, styled } from "@mui/material";
 import dayjs from "dayjs";
-import { FormEvent, PropsWithChildren } from "react";
-import { useRecoilState } from "recoil";
-import SquareRadioButton from "../../components/common/button/SquareRadioButton";
+import { FormEvent, PropsWithChildren, useEffect } from "react";
+import { useRecoilState, useRecoilValue } from "recoil";
+import SquareRadioButton, { SquareRadioButtonProps } from "../../components/common/button/SquareRadioButton";
 import TopBar from "../../components/common/layout/bar/TopBar";
-import TextInput from "../../components/common/layout/input/TextInput";
-import DatePicker, { TDateValue } from "../../components/common/layout/picker/DatePicker";
+import InputCover from "../../components/common/layout/input/InputCover";
+import TextInput, { TextInputProps } from "../../components/common/layout/input/TextInput";
+import DatePicker, { DatePickerProps, TDateValue } from "../../components/common/layout/picker/DatePicker";
+import { useInput } from "../../hooks/common";
+import { me } from "../../store";
 import { signupState } from "../../store/signup";
-import { BottomFullButton, InputLabel, PageWithHeader } from "../../styles/common";
+import { BottomFullButton, PageWithHeader } from "../../styles/common";
 import { User } from "../../types";
-
-const StyledField = styled('div')`
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-`
 
 const StyledForm = styled('form')`
     display: flex;
@@ -56,39 +53,79 @@ const modifyPageInfo: IUserOptionalInfoPage = {
 };
 
 export default function OptionalSignupPage({ mode = UserOptinalInfoPageMode.signup }: PropsWithChildren<OptionalInfoPageProps>) {
-    const [signup, setSignup] = useRecoilState(signupState);
-
-    const genderList = [
-        { label: 'MALE', value: 0 },
-        { label: 'FEMALE', value: 1 },
-    ];
-
-    const defaultBirthDay = dayjs('2000-01-01');
+    const user = useRecoilValue(me);
+    const {inputValues, onChange, setInputValue} = useInput(...useRecoilState(signupState));
 
     const pageInfo = mode === UserOptinalInfoPageMode.modify
         ? modifyPageInfo : signUpPageInfo;
 
-    const onChangeTextInput = (e: FormEvent<HTMLInputElement>) => {
-        const { name, value } = e.currentTarget;
-        
-        setSignup({
-            ...signup,
-            [name]: value
-        });
+    useEffect(() => {
+        if (mode === UserOptinalInfoPageMode.modify) {
+            setInputValue(user);
+        }
+    }, []);
+
+    // Gender
+    const genderProps: SquareRadioButtonProps = {
+        name: 'Gender',
+        defaultValue: inputValues.gender,
+        requisites: [
+            { label: 'MALE', value: 0 },
+            { label: 'FEMALE', value: 1 },
+        ],
+        onChange(e: FormEvent<HTMLInputElement>) {
+            setInputValue({
+                ...inputValues,
+                gender: Number(e.currentTarget.value)
+            });
+        }
     }
 
-    const onChangeGender = (e: FormEvent<HTMLInputElement>) => {
-        setSignup({
-            ...signup,
-            gender: Number(e.currentTarget.value)
-        });   
+    // Birth day
+    const birthDayProps: DatePickerProps = {
+        defaultValue: dayjs(inputValues.birthday || '2000-01-01'),
+        onChange(date: TDateValue) {
+            console.log(date?.format('YYYY-MM-DD'));
+            
+            setInputValue({
+                ...inputValues,
+                birthday: date?.format('YYYY-MM-DD')
+            });
+        }
     }
 
-    const onChangeDate = (date: TDateValue) => {
-        setSignup({
-            ...signup,
-            birthday: date?.format('YYYY-MM-DD')
-        });
+    // Zip code
+    const zipCodeProps: TextInputProps = {
+        label: 'Zip code',
+        name: 'zipCode',
+        defaultValue: inputValues.zipCode,
+        onChange    
+    }
+    // Address1
+    const addr1Props: TextInputProps = {
+        label: 'Address1',
+        name: 'address1',
+        defaultValue: inputValues.address1,
+        onChange    
+    }
+    // Address2
+    const addr2Props: TextInputProps = {
+        label: 'Address2',
+        name: 'address2',
+        defaultValue: inputValues.address2,
+        onChange    
+    }
+    // City/Town
+    const cityProps: TextInputProps = {
+        label: 'City/Town',
+        name: 'city',
+        onChange    
+    }
+    // State/Province
+    const stateProps: TextInputProps = {
+        label: 'State/Province',
+        name: 'state',
+        onChange    
     }
 
     return (
@@ -96,53 +133,32 @@ export default function OptionalSignupPage({ mode = UserOptinalInfoPageMode.sign
             <TopBar border fix title={pageInfo.topBarTitle}>{pageInfo.stepper}</TopBar>
 
             <StyledForm>
-                <StyledField>
-                    <InputLabel>Gender</InputLabel>
-                    <SquareRadioButton
-                        name="gender"
-                        requisites={genderList}
-                        onChange={onChangeGender}
-                    />
-                </StyledField>
+                <InputCover label="Gender">
+                    <SquareRadioButton {...genderProps}/>
+                </InputCover>
 
-                <StyledField>
-                    <InputLabel>Birth Date</InputLabel>
-                    <DatePicker onChange={onChangeDate} defaultValue={defaultBirthDay}/>
-                </StyledField>
+                <InputCover label="Birth Day">
+                    <DatePicker {...birthDayProps}/>
+                </InputCover>
 
                 {/* ADDRESS */}
                 <Grid container rowSpacing={2}>
                     <Grid container item sx={{":first-of-type": { paddingTop: 0 }, gap: '8px'}}>
-                        <StyledField>
-                            <InputLabel>Zip Code</InputLabel>
-                            <TextInput label="Zip code" name="zipCode" onChange={onChangeTextInput}/>
-                        </StyledField>
-                        <StyledField>
-                            <InputLabel>Address1</InputLabel>
-                            <TextInput label="Address1" name="address1" onChange={onChangeTextInput}/>
-                        </StyledField>
+                        <TextInput {...zipCodeProps}/>
+                        <TextInput {...addr1Props}/>
                     </Grid>
 
                     <Grid container item>
-                        <StyledField>
-                            <InputLabel>Address2</InputLabel>
-                            <TextInput label="Address2" name="address2" onChange={onChangeTextInput}/>
-                        </StyledField>
+                        <TextInput {...addr2Props}/>
                     </Grid>
 
                     <Grid container item sx={{":first-of-type": { paddingTop: 0 }, gap: '8px'}}>
-                        <StyledField>
-                            <InputLabel>City/Town</InputLabel>
-                            <TextInput label="City/Town" name="city" onChange={onChangeTextInput}/>
-                        </StyledField>
-                        <StyledField>
-                            <InputLabel>State/Province</InputLabel>
-                            <TextInput label="State/Province" name="state" onChange={onChangeTextInput}/>
-                        </StyledField>
+                        <TextInput {...cityProps}/>
+                        <TextInput {...stateProps}/>
                     </Grid>
                 </Grid>
 
-                <BottomFullButton onClick={() => pageInfo.onClickBottomButton(signup)}>{pageInfo.bottomButtonText}</BottomFullButton>
+                <BottomFullButton onClick={() => pageInfo.onClickBottomButton(inputValues)}>{pageInfo.bottomButtonText}</BottomFullButton>
             </StyledForm>
         </PageWithHeader>
     );

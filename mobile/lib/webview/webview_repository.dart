@@ -100,6 +100,7 @@ class WebviewRepository {
         JavascriptChannel(
           name: 'LocationChanged',
           onMessageReceived: (message) {
+            print('[Current Path] ${message.message}');
             if (onUrlChanged != null) {
               onUrlChanged(message.message);
             }

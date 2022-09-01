@@ -2,7 +2,7 @@ import { Location } from "react-router-dom";
 
 export type QueryObject = {
     [key: string]: number | string;
-}
+};
 
 /**
  * URL 쿼리스트링을 Object로 변환
@@ -19,7 +19,7 @@ export const getQueryJSON = (location: Location): QueryObject => {
     }
 
     return queryObject;
-}
+};
 
 /**
  * 빈 오프젝트인지 확인
@@ -32,4 +32,12 @@ export const isEmptyObject = (target: object): boolean => {
     ) return true;
     
     return false;
-}
+};
+
+/**
+ * 웹뷰로 보내는 로그 스트링 생성
+ */
+export const webViewLog = (title: string, log?: unknown): string => {
+    const logMessage = typeof log === 'string' ? log : JSON.stringify(log);
+    return `[${title}] ${logMessage}`;
+};

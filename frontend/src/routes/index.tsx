@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { RouteObject, useLocation, useNavigate, useRoutes } from 'react-router-dom';
+import { LinearProgress } from '@mui/material';
+import React from 'react';
+import { RouteObject, useNavigate, useRoutes } from 'react-router-dom';
 import { PATHS } from '../constants';
 import { useAuthorize } from '../hooks';
 import { UserOptinalInfoPageMode } from '../pages/signup/OptionalSignupPage';
@@ -104,23 +105,16 @@ export const routeInfoList: RouteInfoList = [
 
 export default function PageRoutes() {
     const routes = useRoutes(routeInfoList);
-    const { pathname } = useLocation();
     const nav = useNavigate();
     
-    const { isAuthorized, isAuthorizing } = useAuthorize(pathname);
+    const { isAuthorized, isAuthorizing } = useAuthorize();
     
-    useEffect(() => {
-        window.LocationChanged?.postMessage(pathname);
-    }, []);
-
     if (isAuthorizing) {
         window.WebviewMounted?.postMessage('<대기중!!!>');
-        return <div>Authenticating...</div>
+        return <LinearProgress/>
     }
     
-    if (isAuthorized) {
-        window.WebviewMounted?.postMessage('<201>');
-    } else {
+    if (!isAuthorized) {
         window.WebviewMounted?.postMessage('<401>');
         nav(PATHS.REDIRECT.LOGOUT);
     }

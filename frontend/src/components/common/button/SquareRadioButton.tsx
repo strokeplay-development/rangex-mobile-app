@@ -14,7 +14,7 @@ interface RadioButtonStyleProps {
     small?: boolean;
 }
 
-type SquareRadioButtonProps = {
+export type SquareRadioButtonProps = {
     name: string;
     requisites: RadioRequisite[];
     onChange?: FormEventHandler;

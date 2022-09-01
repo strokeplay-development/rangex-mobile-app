@@ -26,7 +26,7 @@ export const LogoutRedirected: React.FC = () => {
 
     return (
         <div>
-            <button onClick={logout}>로그인 화면으로 돌아가기</button>
+            <button onClick={logout}>Go to Login Page</button>
         </div>
     )
 }

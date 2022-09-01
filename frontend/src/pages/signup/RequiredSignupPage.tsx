@@ -2,17 +2,12 @@ import { styled } from "@mui/material";
 import { FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import CheckButton from "../../components/common/button/CheckButton";
 import TopBar from "../../components/common/layout/bar/TopBar";
-import TextInput from "../../components/common/layout/input/TextInput";
+import TextInput, { TextInputProps } from "../../components/common/layout/input/TextInput";
+import { useInput } from "../../hooks/common";
 import { signupState } from "../../store/signup";
 import { BottomFullButton, PageWithHeader } from "../../styles/common";
 import { User } from "../../types";
-
-const ConfirmInput = styled('div')`
-    display: flex;
-    gap: 8px;
-`
 
 const StyledForm = styled('form')`
     display: flex;
@@ -22,21 +17,52 @@ const StyledForm = styled('form')`
 `;
 
 export default function RequiredSignupPage() {
-    const nav = useNavigate();
-    const [signup, setSignup] = useRecoilState<User>(signupState);
+    const nav = useNavigate();    
+    const { onChange, inputValues } = useInput<User>(...useRecoilState(signupState));
 
-    const goOptionalPage = () => {
-        nav('/signup/optional');
+    // Account
+    const accountProps: TextInputProps = {
+        label: 'Account',
+        name: 'userAccount',
+        onChange
+    };
+
+    // Nickname
+    const nicknameProps: TextInputProps = {
+        label: 'Nickname',
+        name: 'nickName',
+        onChange
+    };
+
+    // Name
+    const nameProps: TextInputProps = {
+        label: 'Name',
+        name: 'name',
+        onChange
+    };
+
+    // Password
+    const passwordProps: TextInputProps = {
+        label: 'Password',
+        name: 'password',
+        onChange,
+    };
+
+    // Password Confirm
+    const passwordConfirmProps: TextInputProps = {
+        label: 'Password confirm',
+        name: 'passwordConfirm',
+        onChange,
+        onBlur: () => {
+            console.log('반응함');
+            
+        }
     }
 
-    const onChangeTextInput = (e: FormEvent<HTMLInputElement>) => {
-        const { name, value } = e.currentTarget;
-        console.log(name, value);
+    const goOptionalPage = () => {
+        console.log(inputValues);
         
-        setSignup({
-            ...signup,
-            [name]: value
-        });
+        nav('/signup/optional');
     }
 
     return (
@@ -44,17 +70,11 @@ export default function RequiredSignupPage() {
             <TopBar border fix title="Sign up">1/2</TopBar>
 
             <StyledForm>
-                <ConfirmInput>
-                    <TextInput label="Account" name="userAccount" onChange={onChangeTextInput}/>
-                    <CheckButton complete={false}/>
-                </ConfirmInput>
-                <ConfirmInput>
-                    <TextInput label="Nick name" name="nickName" onChange={onChangeTextInput}/>
-                    <CheckButton complete={false}/>
-                </ConfirmInput>
-                <TextInput label="Name" name="name" onChange={onChangeTextInput}/>
-                <TextInput label="Password" type="password" name="userPW" onChange={onChangeTextInput}/>
-                <TextInput label="Password Confirm" type="password" onChange={onChangeTextInput}/>
+                <TextInput {...accountProps}/>
+                <TextInput {...nicknameProps}/>
+                <TextInput {...nameProps}/>
+                <TextInput {...passwordProps}/>
+                <TextInput {...passwordConfirmProps}/>
 
                 <BottomFullButton onClick={goOptionalPage}>NEXT</BottomFullButton>
             </StyledForm>

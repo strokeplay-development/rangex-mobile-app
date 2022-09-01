@@ -10,7 +10,7 @@ import dayjs, { Dayjs } from "dayjs";
 
 export type TDateValue = Dayjs | null;
 
-interface DatePickerProps {
+export interface DatePickerProps {
     onChange: (value: TDateValue) => void;
     defaultValue?: TDateValue
 }

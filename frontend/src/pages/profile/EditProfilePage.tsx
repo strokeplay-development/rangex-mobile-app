@@ -1,5 +1,6 @@
 import { Add } from "@mui/icons-material";
 import { Avatar, Button, Fab, styled } from "@mui/material";
+import dayjs from "dayjs";
 import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { fetchMe } from "../../api/user";
@@ -86,7 +87,7 @@ export default function EditProfilePage() {
             },
             {
                 key: 'Birthday',
-                value: data.birthday
+                value: dayjs(data.birthday).format('YYYY-MM-DD')
             },
             {
                 key: 'Address',
