@@ -47,7 +47,7 @@ export const useAuthorize = (): AuthorizeResult => {
     // 인가처리
     if (data) {
         setUser(data);
-        result.isAuthorized = false;
+        result.isAuthorized = true;
     }
 
     return result;

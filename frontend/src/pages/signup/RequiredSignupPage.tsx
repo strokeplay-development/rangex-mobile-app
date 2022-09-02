@@ -3,7 +3,7 @@ import { FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import TopBar from "../../components/common/layout/bar/TopBar";
-import TextInput, { TextInputProps } from "../../components/common/layout/input/TextInput";
+import TextInput, { TextInputProps, ValidateResult } from "../../components/common/layout/input/TextInput";
 import { useInput } from "../../hooks/common";
 import { signupState } from "../../store/signup";
 import { BottomFullButton, PageWithHeader } from "../../styles/common";
@@ -22,6 +22,7 @@ export default function RequiredSignupPage() {
 
     // Account
     const accountProps: TextInputProps = {
+        required: true,
         label: 'Account',
         name: 'userAccount',
         onChange
@@ -29,6 +30,7 @@ export default function RequiredSignupPage() {
 
     // Nickname
     const nicknameProps: TextInputProps = {
+        required: true,
         label: 'Nickname',
         name: 'nickName',
         onChange
@@ -36,6 +38,7 @@ export default function RequiredSignupPage() {
 
     // Name
     const nameProps: TextInputProps = {
+        required: true,
         label: 'Name',
         name: 'name',
         onChange
@@ -43,20 +46,32 @@ export default function RequiredSignupPage() {
 
     // Password
     const passwordProps: TextInputProps = {
+        required: true,
+        type: 'password',
         label: 'Password',
-        name: 'password',
+        name: 'userPW',
         onChange,
     };
 
     // Password Confirm
     const passwordConfirmProps: TextInputProps = {
+        type: 'password',
         label: 'Password confirm',
         name: 'passwordConfirm',
         onChange,
-        onBlur: () => {
-            console.log('반응함');
+        validate(event) {
+            console.log(inputValues.userPW, event.currentTarget.value);
             
-        }
+            const result: ValidateResult = {
+                isValid: inputValues.userPW === event.currentTarget.value
+            };
+            
+            if (result.isValid === false) {
+                result.message = 'Password not matched.';
+            }
+
+            return result;
+        },
     }
 
     const goOptionalPage = () => {

@@ -10,6 +10,7 @@ declare module '@mui/material/styles' {
             black: string,
             grey: string,
             blue: string,
+            error: string,
         },
         fontStyle: {
             ellipsis: string;
@@ -49,6 +50,7 @@ declare module '@mui/material/styles' {
             black?: string,
             grey?: string,
             blue?: string,
+            error?: string,
         },
         fontStyle?: {
             ellipsis?: string;
