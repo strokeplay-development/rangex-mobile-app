@@ -1,8 +1,9 @@
 import { LinearProgress } from '@mui/material';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { RouteObject, useNavigate, useRoutes } from 'react-router-dom';
 import { PATHS } from '../constants';
 import { useAuthorize } from '../hooks';
+import UnknownPage from '../pages/404';
 import { UserOptinalInfoPageMode } from '../pages/signup/OptionalSignupPage';
 import { LogoutRedirected, SocialAuthPage } from './auth';
 
@@ -30,6 +31,12 @@ const GameOptions = React.lazy(() => import('../pages/option/GameOptionsPage'));
 const JoinShop = React.lazy(() => import('../pages/link/LinkShop'));
 
 export const routeInfoList: RouteInfoList = [
+    {
+        path: '/*',
+        element: <UnknownPage/>,
+
+    },
+
     // Signup
     {
         path: PATHS.SIGNUP.REQUIRED,
@@ -108,16 +115,18 @@ export default function PageRoutes() {
     const nav = useNavigate();
     
     const { isAuthorized, isAuthorizing } = useAuthorize();
+
+    useEffect(() => {
+        if (!isAuthorizing && isAuthorized === false) {
+            window.WebviewMounted?.postMessage('<401>');
+            nav(PATHS.REDIRECT.LOGOUT);
+        }
+    }, []);
     
     if (isAuthorizing) {
         window.WebviewMounted?.postMessage('<대기중!!!>');
-        return <LinearProgress/>
+        return <LinearProgress aria-details='authorizing'/>
     }
     
-    if (!isAuthorized) {
-        window.WebviewMounted?.postMessage('<401>');
-        nav(PATHS.REDIRECT.LOGOUT);
-    }
-
     return routes;
 }

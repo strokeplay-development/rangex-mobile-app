@@ -12,6 +12,9 @@ interface AuthorizeResult {
     isAuthorizing: boolean;
 }
 
+/**
+ * 인가처리 확인
+ */
 export const useAuthorize = (): AuthorizeResult => {
     const { pathname: currentPath } = useLocation();
     const [user, setUser] = useRecoilState(me);

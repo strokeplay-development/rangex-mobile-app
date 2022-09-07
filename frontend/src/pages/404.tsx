@@ -1,7 +1,5 @@
 export default function UnknownPage() {
     return (
-        <div>
-            404
-        </div>
+        <div>404</div>
     );
 }

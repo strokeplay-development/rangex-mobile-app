@@ -6,7 +6,7 @@ import PageRoutes from './routes';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
-const theme = (mode: ThemeMode) => createTheme({
+export const theme = (mode: ThemeMode) => createTheme({
   ...reset,
   ...base,
   ...darkColors,

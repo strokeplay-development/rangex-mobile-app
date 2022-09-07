@@ -2,7 +2,9 @@ import { Check } from "@mui/icons-material";
 import { Button, ButtonProps } from "@mui/material";
 import { PropsWithChildren } from "react";
 
-type CheckButtonProps = ButtonProps & { complete: boolean };
+interface CheckButtonProps extends ButtonProps { 
+    complete: boolean 
+};
 
 export default function CheckButton(props: PropsWithChildren<CheckButtonProps>) {
     return (

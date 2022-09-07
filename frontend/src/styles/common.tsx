@@ -1,6 +1,8 @@
 import { Button, ButtonProps, Paper, styled } from "@mui/material";
 import { BG_BLACK, BG_NAVY, BOX_BLUE } from "./colors";
 
+
+
 export const RootPage = styled('div')`
     padding-bottom: 72px;
 `

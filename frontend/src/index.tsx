@@ -5,6 +5,7 @@ import {createRoot} from 'react-dom/client'
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { RecoilRoot } from 'recoil';
 import { BrowserRouter } from 'react-router-dom';
+import SkelGrid from './components/skeleton/SkelGrid';
 
 const container = document.getElementById('root') as HTMLElement;
 const root = createRoot(container);
@@ -14,7 +15,7 @@ root.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <RecoilRoot>
-        <Suspense fallback>
+        <Suspense fallback={SkelGrid()}>
           <BrowserRouter>
             <App />
           </BrowserRouter>

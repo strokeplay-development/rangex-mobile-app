@@ -43,7 +43,7 @@ export default function MenuBox(props: MenuBoxProps) {
     }
 
     return (
-        <StyledMenuBox onClick={props.onClick}>
+        <StyledMenuBox onClick={props.onClick} role={props.role}>
             { props.head }
             <h3>{ props.title }</h3>
             { renderTail() }
