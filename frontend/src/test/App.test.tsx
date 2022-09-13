@@ -1,22 +1,10 @@
 import { act, render, screen, waitFor } from '@testing-library/react';
-import { Suspense } from 'react';
-import { QueryClient, QueryClientProvider } from 'react-query';
 import { MemoryRouter } from 'react-router-dom';
-import { RecoilRoot } from 'recoil';
 import App from '../App';
 import { PATHS } from '../constants';
 import { darkPalette } from '../styles/themes';
 import * as hooks from '../hooks';
-
-export const rootWrapper: React.FC = ({ children }) => (
-  <QueryClientProvider client={new QueryClient()}>
-    <RecoilRoot>
-      <Suspense fallback>
-        { children }
-      </Suspense>
-    </RecoilRoot>
-  </QueryClientProvider>
-);
+import { rootWrapper } from './common';
 
 jest.mock('../hooks');
 
@@ -61,7 +49,7 @@ describe("라우팅", () => {
       );
     });
     
-    const progressbar = await screen.getByRole("progressbar");
+    const progressbar = await screen.getByRole("nav:authorizing");
     expect(progressbar).toBeInTheDocument();
   });
 

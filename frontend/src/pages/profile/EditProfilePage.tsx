@@ -3,12 +3,21 @@ import { Avatar, Button, Fab, styled } from "@mui/material";
 import dayjs from "dayjs";
 import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
+import { useRecoilValue } from "recoil";
 import { fetchMe } from "../../api/user";
 import TopBar from "../../components/common/layout/bar/TopBar";
 import MenuBox, { MenuBoxProps } from "../../components/common/layout/menu/MenuBox";
+import { PATHS } from "../../constants";
+import { me } from "../../store";
 import { BG_NAVY } from "../../styles/colors";
 import { PageWithBlockSection } from "../../styles/common";
 import { FONT_MEDIUM } from "../../styles/fonts";
+
+interface DescriptionProps {
+    role?: string;
+    key?: string;
+    value?: string | number;
+}
 
 const StyledProfileSection = styled('section')`
     display: flex;
@@ -51,65 +60,67 @@ const StyledInfo = styled('dl')`
 
 export default function EditProfilePage() {
     const nav = useNavigate();
-    const { isLoading, isError, data } = useQuery(['me'], fetchMe);
+    const user = useRecoilValue(me);
 
-    if (isLoading) {
-        return <p>Now loading...</p>
-    }
+    let profileInfo: DescriptionProps[] = [];
 
-    if (isError) {
-        window.ResponseReceived?.postMessage('API networks failed');
-    }
-
-    let profileInfo: any[] = [];
-
-    if (data) {
+    if (user) {
         profileInfo = [
             {
+                role: 'name',
                 key: 'Name',
-                value: data.name
+                value: user.name
             },
             {
+                role: 'nickname',
                 key: 'Nick name',
-                value: data.nickName
+                value: user.nickName
             },
             {
+                role: 'phone',
                 key: 'Phone',
-                value: data.phoneNumber
+                value: user.phoneNumber
             },
             {
+                role: 'email',
                 key: 'Email',
-                value: data.email
+                value: user.email
             },
             {
+                role: 'gender',
                 key: 'Gender',
-                value: data.gender === 0 ? 'MALE' : 'FEMALE'
+                value: user.gender === 0 ? 'MALE' : 'FEMALE'
             },
             {
+                role: 'birthday',
                 key: 'Birthday',
-                value: dayjs(data.birthday).format('YYYY-MM-DD')
+                value: dayjs(user.birthday).format('YYYY-MM-DD')
             },
             {
+                role: 'address',
                 key: 'Address',
-                value: data.address1 + ',' + data.address2
+                value: user.address1 + ', ' + user.address2
             },
         ];
     }
 
     /// 닉네임 변경
     const nickNameProps: MenuBoxProps = {
+        role: 'menu:edit-nickname',
         title: 'Edit Nick name',
         onClick: () => nav('/profile/nickname')
     };
 
     /// 패스워드 변경
     const passwordProps: MenuBoxProps = {
+        role: 'menu:edit-password',
         title: 'Edit Password',
-        onClick: () => {}
+        onClick: () => nav(PATHS.PROFILE.PASSWORD)
     };
 
     /// 로그아웃
     const logoutProps: MenuBoxProps = {
+        role: 'menu:logout',
         title: 'Log out',
         onClick() {
             window.LogoutRequested?.postMessage('logout');
@@ -121,7 +132,8 @@ export default function EditProfilePage() {
     return (
         <PageWithBlockSection>
             <TopBar fix>
-                <Button 
+                <Button
+                    role={'button:edit'} 
                     variant="text" 
                     color="inherit"
                     onClick={goEditProfile}
@@ -148,9 +160,13 @@ export default function EditProfilePage() {
                 </div>
                 {
                     profileInfo.map(info => (
-                        <StyledInfo key={info.key}>
+                        <StyledInfo 
+                            key={`key:${info.role}`} 
+                            role={`info:${info.role}`}
+                            aria-describedby={`desc:${info.role}`}
+                        >
                             <dt>{info.key}</dt>
-                            <dd>{info.value}</dd>
+                            <dd id={`desc:${info.role}`}>{info.value}</dd>
                         </StyledInfo>
                     ))
                 }

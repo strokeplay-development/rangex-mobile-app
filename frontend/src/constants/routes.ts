@@ -18,6 +18,7 @@ export const PATHS = {
         ROOT: '/profile',
         NICKNAME: '/profile/nickname',
         OPTIONAL: '/profile/optional',
+        PASSWORD: '/profile/password'
     },
 
     CLUBS: '/clubs',

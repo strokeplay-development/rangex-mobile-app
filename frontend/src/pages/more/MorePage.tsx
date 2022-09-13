@@ -10,7 +10,15 @@ export default function MorePage() {
     const nav = useNavigate();
     const user = useRecoilValue(me);
 
-    const goEditProfile = () => nav("/profile");
+    /// 프로필 편집
+    const profileProps = {
+        role: 'menu:edit-profile',
+        probileBox: {
+            username: user.nickName,
+            desc: 'Edit Profile'
+        },
+        onClick: () => nav("/profile")
+    }
 
     /// 클럽변경
     const changeClubProps: MenuBoxProps = {
@@ -62,14 +70,14 @@ export default function MorePage() {
         <PageWithBox>
             <ul>
                 <MenuBox
-                    role="menu:edit-profile"
+                    role={profileProps.role}
                     head={
                         <ProfileBox
-                            username={user.name || ''}
-                            desc="Edit Profile"
+                            username={profileProps.probileBox.username || ''}
+                            desc={profileProps.probileBox.desc}
                         />
                     }
-                    onClick={goEditProfile}
+                    onClick={profileProps.onClick}
                 />
             </ul>
 

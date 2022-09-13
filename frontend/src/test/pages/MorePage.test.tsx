@@ -1,20 +1,11 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import * as router from 'react-router-dom';
 import { MemoryRouter } from 'react-router-dom';
-import { theme } from '../../App';
 import { PATHS } from '../../constants';
 import MorePage from '../../pages/more/MorePage';
-import { ThemeProvider } from '@emotion/react';
-import { CssBaseline } from '@mui/material';
 import * as recoil from 'recoil';
 import { User } from '../../types';
-
-const themeWrapper: React.FC = ({ children }) => (
-    <ThemeProvider theme={theme('dark')}>
-        <CssBaseline enableColorScheme/>
-        { children }
-    </ThemeProvider>
-);
+import { themeWrapper } from '../common';
 
 jest.mock('react-router-dom', () => ({
     ...jest.requireActual('react-router-dom'),
@@ -25,13 +16,13 @@ jest.mock('recoil');
 describe("MorePage", () => {
     beforeEach(() => {
         (recoil.useRecoilValue as jest.Mock).mockImplementation((): User => ({
-            name: 'Test Name'
+            nickName: 'Test Name'
         }));        
     });
     
     test("렌더링 성공", () => {
         render(
-            <MemoryRouter initialEntries={[PATHS.MORE]}>
+            <MemoryRouter>
                 <MorePage/>
             </MemoryRouter>,
             { wrapper: themeWrapper }

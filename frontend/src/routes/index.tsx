@@ -1,10 +1,11 @@
 import { LinearProgress } from '@mui/material';
 import React, { useEffect } from 'react';
-import { RouteObject, useNavigate, useRoutes } from 'react-router-dom';
+import { RouteObject, useLocation, useNavigate, useRoutes } from 'react-router-dom';
 import { PATHS } from '../constants';
 import { useAuthorize } from '../hooks';
 import UnknownPage from '../pages/404';
 import { UserOptinalInfoPageMode } from '../pages/signup/OptionalSignupPage';
+import { webViewLog } from '../utils';
 import { LogoutRedirected, SocialAuthPage } from './auth';
 
 interface RouteInfo extends RouteObject {
@@ -111,22 +112,5 @@ export const routeInfoList: RouteInfoList = [
 ]
 
 export default function PageRoutes() {
-    const routes = useRoutes(routeInfoList);
-    const nav = useNavigate();
-    
-    const { isAuthorized, isAuthorizing } = useAuthorize();
-
-    useEffect(() => {
-        if (!isAuthorizing && isAuthorized === false) {
-            window.WebviewMounted?.postMessage('<401>');
-            nav(PATHS.REDIRECT.LOGOUT);
-        }
-    }, []);
-    
-    if (isAuthorizing) {
-        window.WebviewMounted?.postMessage('<대기중!!!>');
-        return <LinearProgress aria-details='authorizing'/>
-    }
-    
-    return routes;
+    return useRoutes(routeInfoList);
 }
