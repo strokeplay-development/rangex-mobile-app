@@ -36,7 +36,7 @@ export const useAuthorize = (): AuthorizeResult => {
     }
 
     // 토큰이 하나라도 없으면 미인가
-    if (!(tokens.accessToken || tokens.refreshToken)) {
+    if (!(tokens.accessToken && tokens.refreshToken)) {
         result.isAuthorized = false;
         return result;
     }

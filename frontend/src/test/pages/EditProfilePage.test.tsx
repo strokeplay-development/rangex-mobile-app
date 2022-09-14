@@ -74,16 +74,4 @@ describe('EditProfilePage', () => {
         fireEvent.click(screen.getByRole('menu:edit-password'));
         expect(mockedNavigate).toHaveBeenCalledWith(PATHS.PROFILE.PASSWORD);
     });
-
-    test('로그아웃 메뉴버튼을 누르면 앱의 로그인화면으로 이동된다.', () => {
-        /**
-         * 웹뷰를 생성한 주제가 있어야 웹뷰 메시지를 보낼 수 있는데
-         * 이걸 어떻게 테스트해야 될까?
-         * 
-         * 1. 로그아웃 처리되었을 때 웹에서 일어나는 일만 테스트 한다.
-         * 2. 생성주체를 모킹하여 앱에서 화면전환이 일어나는것 까지 테스트 한다. -> 개오바인거같은데
-         */
-        // fireEvent.click(screen.getByRole('menu:logout'));
-        // expect(window.LogoutRequested?.postMessage).toHaveBeenCalledWith('logout');
-    });
 });

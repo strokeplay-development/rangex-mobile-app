@@ -11,4 +11,5 @@ interface Window {
     LogoutRequested: WebViewMessage;
     JoinRequested: WebViewMessage;
     SocialLogin: WebViewMessage;
+    NewProfilePictureRequested: WebViewMessage;
 }

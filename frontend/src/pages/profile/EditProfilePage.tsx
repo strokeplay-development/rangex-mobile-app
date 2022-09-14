@@ -13,7 +13,7 @@ import { BG_NAVY } from "../../styles/colors";
 import { PageWithBlockSection } from "../../styles/common";
 import { FONT_MEDIUM } from "../../styles/fonts";
 
-interface DescriptionProps {
+interface ProfileInfoProps {
     role?: string;
     key?: string;
     value?: string | number;
@@ -62,7 +62,11 @@ export default function EditProfilePage() {
     const nav = useNavigate();
     const user = useRecoilValue(me);
 
-    let profileInfo: DescriptionProps[] = [];
+    const requestNewPicture = () => {
+        window.NewProfilePictureRequested?.postMessage('New Profile Picture');
+    };
+
+    let profileInfo: ProfileInfoProps[] = [];
 
     if (user) {
         profileInfo = [
@@ -153,7 +157,7 @@ export default function EditProfilePage() {
                         }}
                     />
                     <div className="edit_pic_btn">
-                        <Fab size="small">
+                        <Fab size="small" onClick={requestNewPicture}>
                             <Add/>
                         </Fab>
                     </div>
