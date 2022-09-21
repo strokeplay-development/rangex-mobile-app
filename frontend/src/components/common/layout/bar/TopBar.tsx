@@ -1,5 +1,5 @@
 import { styled } from "@mui/material"
-import { PropsWithChildren, useState } from "react";
+import { PropsWithChildren } from "react";
 import { BG_NAVY, LINE_DARKGREY } from "../../../../styles/colors";
 
 interface TopBarProps {

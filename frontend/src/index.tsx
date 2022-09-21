@@ -7,6 +7,9 @@ import { RecoilRoot } from 'recoil';
 import { BrowserRouter } from 'react-router-dom';
 import SkelGrid from './components/skeleton/SkelGrid';
 
+// Will be available via the context api.
+import './locales/i18n';
+
 const container = document.getElementById('root') as HTMLElement;
 const root = createRoot(container);
 const queryClient = new QueryClient();

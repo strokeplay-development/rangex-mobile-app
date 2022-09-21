@@ -1,11 +1,8 @@
-import { LinearProgress } from '@mui/material';
-import React, { useEffect } from 'react';
-import { RouteObject, useLocation, useNavigate, useRoutes } from 'react-router-dom';
+import React from 'react';
+import { RouteObject, useRoutes } from 'react-router-dom';
 import { PATHS } from '../constants';
-import { useAuthorize } from '../hooks';
 import UnknownPage from '../pages/404';
 import { UserOptinalInfoPageMode } from '../pages/signup/OptionalSignupPage';
-import { webViewLog } from '../utils';
 import { LogoutRedirected, SocialAuthPage } from './auth';
 
 interface RouteInfo extends RouteObject {

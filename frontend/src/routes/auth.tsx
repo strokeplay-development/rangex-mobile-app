@@ -12,7 +12,7 @@ export const SocialAuthPage: React.FC = () => {
     useEffect(() => {
         const query: KakaoAuthQueries = getQueryJSON(location);
         window.SocialLogin?.postMessage(query.code);
-    }, []);
+    }, [location]);
 
     return (
         <div>{'Kakao Talk Authenticating...'}</div>

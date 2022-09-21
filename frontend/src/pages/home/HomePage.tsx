@@ -1,13 +1,12 @@
-import { Divider, Paper } from "@mui/material";
+import { Divider } from "@mui/material";
 import { useEffect, useState } from "react";
 import SectionHeader from "../../components/common/layout/section/SectionHeader";
 import { StatGridData } from "../../components/common/stats";
 import StatsGrid from "../../components/common/stats/StatsGrid";
-import FirstLink from "../link/FirstLink";
 import ProfileBox from "../../components/profile/ProfileBox";
 import { Record, RecordType } from "../../components/record";
 import RecordPaper from "../../components/record/RecordPaper";
-import { BoxList, PageWithHeader, PaperBox, RootPage, Section } from "../../styles/common";
+import { BoxList, PaperBox, RootPage, Section } from "../../styles/common";
 
 export default function HomePage() {
     const [records, setRecords] = useState<Record[]>([]);

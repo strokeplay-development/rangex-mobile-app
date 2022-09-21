@@ -1,4 +1,4 @@
-import { FONT_BASIC, FONT_MEDIUM } from './../../styles/fonts';
+import { FONT_BASIC } from './../../styles/fonts';
 import { styled } from "@mui/material";
 
 export const StyledProfile = styled('div')`

@@ -1,4 +1,4 @@
-
+import { useTranslation } from "react-i18next";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import MenuBox, { MenuBoxProps } from "../../components/common/layout/menu/MenuBox";
@@ -9,6 +9,7 @@ import { PageWithBox } from "../../styles";
 export default function MorePage() {
     const nav = useNavigate();
     const user = useRecoilValue(me);
+    const { t } = useTranslation(['more']);
 
     /// 프로필 편집
     const profileProps = {
@@ -23,7 +24,7 @@ export default function MorePage() {
     /// 클럽변경
     const changeClubProps: MenuBoxProps = {
         role: 'menu:change-club',
-        title: 'Change Club',
+        title: t('more:menu_change_club'),
         onClick: () => nav("/clubs")
     };
 

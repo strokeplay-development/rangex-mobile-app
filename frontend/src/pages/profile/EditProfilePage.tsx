@@ -1,10 +1,8 @@
 import { Add } from "@mui/icons-material";
 import { Avatar, Button, Fab, styled } from "@mui/material";
 import dayjs from "dayjs";
-import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
-import { fetchMe } from "../../api/user";
 import TopBar from "../../components/common/layout/bar/TopBar";
 import MenuBox, { MenuBoxProps } from "../../components/common/layout/menu/MenuBox";
 import { PATHS } from "../../constants";

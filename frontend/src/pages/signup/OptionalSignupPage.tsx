@@ -1,6 +1,6 @@
 import { Grid, styled } from "@mui/material";
 import dayjs from "dayjs";
-import { FormEvent, PropsWithChildren, useEffect } from "react";
+import { FormEvent, PropsWithChildren } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import SquareRadioButton, { SquareRadioButtonProps } from "../../components/common/button/SquareRadioButton";
 import TopBar from "../../components/common/layout/bar/TopBar";
@@ -56,14 +56,13 @@ export default function OptionalSignupPage({ mode = UserOptinalInfoPageMode.sign
     const user = useRecoilValue(me);
     const {inputValues, onChange, setInputValue} = useInput(...useRecoilState(signupState));
 
+    if (mode === UserOptinalInfoPageMode.modify) {
+        setInputValue(user);
+    }
+    
     const pageInfo = mode === UserOptinalInfoPageMode.modify
         ? modifyPageInfo : signUpPageInfo;
 
-    useEffect(() => {
-        if (mode === UserOptinalInfoPageMode.modify) {
-            setInputValue(user);
-        }
-    }, []);
 
     // Gender
     const genderProps: SquareRadioButtonProps = {
