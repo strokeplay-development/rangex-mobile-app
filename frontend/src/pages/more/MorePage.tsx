@@ -16,7 +16,7 @@ export default function MorePage() {
         role: 'menu:edit-profile',
         probileBox: {
             username: user.nickName,
-            desc: 'Edit Profile'
+            desc: t("more:button_edit_profile")
         },
         onClick: () => nav("/profile")
     }

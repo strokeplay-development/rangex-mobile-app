@@ -46,7 +46,7 @@ export default function OptionalSignupPage({ mode = UserOptinalInfoPageMode.sign
     const signUpPageInfo: IUserOptionalInfoPage = {
         topBarTitle: 'Sign up',
         stepper: '2/2',
-        bottomButtonText: 'CREATE ACCOUNT',
+        bottomButtonText: t("common:button_create"),
         onClickBottomButton(user) {
             window.SignupCompleted?.postMessage(JSON.stringify(user));
         }
@@ -73,8 +73,8 @@ export default function OptionalSignupPage({ mode = UserOptinalInfoPageMode.sign
         name: 'Gender',
         defaultValue: inputValues.gender,
         requisites: [
-            { label: 'MALE', value: 0 },
-            { label: 'FEMALE', value: 1 },
+            { label: t("common:male"), value: 0 },
+            { label: t("common:female"), value: 1 },
         ],
         onChange(e: FormEvent<HTMLInputElement>) {
             setInputValue({

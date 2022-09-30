@@ -1,6 +1,8 @@
 {
     "button_modify": "MODIFY",
     "button_edit": "EDIT",
+    "button_create": "CREATE",
+    "button_next": "NEXT",
     "label_name": "Name",
     "label_nickname": "Nick name",
     "label_phone": "Phone",
@@ -13,5 +15,10 @@
     "label_zipcode": "Zip Code",
     "label_city": "City/Town",
     "label_state": "State/Province",
-    "label_code": "Code"
+    "label_code": "Code",
+    "label_account": "Account",
+    "label_password": "Password",
+    "label_password_confirm": "Password confirm",
+    "male": "MALE",
+    "female": "FEMALE"
 }

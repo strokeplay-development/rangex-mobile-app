@@ -1,6 +1,8 @@
 {
     "button_modify": "수정하기",
     "button_edit": "수정",
+    "button_create": "생성하기",
+    "button_next": "다음으로",
     "label_name": "이름",
     "label_nickname": "닉네임",
     "label_phone": "전화번호",
@@ -13,5 +15,10 @@
     "label_zipcode": "우편번호",
     "label_city": "도시",
     "label_state": "주",
-    "label_code": "인증번호"
+    "label_code": "인증번호",
+    "label_account": "계정",
+    "label_password": "비밀번호",
+    "label_password_confirm": "비밀번호 확인",
+    "male": "남성",
+    "female": "여성"
 }

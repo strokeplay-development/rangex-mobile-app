@@ -1,4 +1,6 @@
 import { styled } from "@mui/material";
+import { t } from "i18next";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import TopBar from "../../components/common/layout/bar/TopBar";
@@ -18,11 +20,12 @@ const StyledForm = styled('form')`
 export default function RequiredSignupPage() {
     const nav = useNavigate();    
     const { onChange, inputValues } = useInput<User>(...useRecoilState(signupState));
+    const { t } = useTranslation(['common']);
 
     // Account
     const accountProps: TextInputProps = {
         required: true,
-        label: 'Account',
+        label: t("common:label_account"),
         name: 'userAccount',
         onChange
     };
@@ -30,7 +33,7 @@ export default function RequiredSignupPage() {
     // Nickname
     const nicknameProps: TextInputProps = {
         required: true,
-        label: 'Nickname',
+        label: t("common:label_nickname"),
         name: 'nickName',
         onChange
     };
@@ -38,7 +41,7 @@ export default function RequiredSignupPage() {
     // Name
     const nameProps: TextInputProps = {
         required: true,
-        label: 'Name',
+        label: t("common:label_name"),
         name: 'name',
         onChange
     };
@@ -47,7 +50,7 @@ export default function RequiredSignupPage() {
     const passwordProps: TextInputProps = {
         required: true,
         type: 'password',
-        label: 'Password',
+        label: t("common:label_password"),
         name: 'userPW',
         onChange,
     };
@@ -55,7 +58,7 @@ export default function RequiredSignupPage() {
     // Password Confirm
     const passwordConfirmProps: TextInputProps = {
         type: 'password',
-        label: 'Password confirm',
+        label: t("common:label_password_confirm"),
         name: 'passwordConfirm',
         onChange,
         validate(event) {
@@ -73,10 +76,11 @@ export default function RequiredSignupPage() {
         },
     }
 
-    const goOptionalPage = () => {
-        console.log(inputValues);
-        
-        nav('/signup/optional');
+    const bottomButtonProps = {
+        text: t("common:button_next"),
+        onClick() {
+            nav('/signup/optional');
+        },
     }
 
     return (
@@ -90,7 +94,9 @@ export default function RequiredSignupPage() {
                 <TextInput {...passwordProps}/>
                 <TextInput {...passwordConfirmProps}/>
 
-                <BottomFullButton onClick={goOptionalPage}>NEXT</BottomFullButton>
+                <BottomFullButton onClick={bottomButtonProps.onClick}>
+                    {bottomButtonProps.text}
+                </BottomFullButton>
             </StyledForm>
         </PageWithHeader>
     )

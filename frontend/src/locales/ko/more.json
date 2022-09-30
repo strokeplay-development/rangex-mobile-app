@@ -12,5 +12,6 @@
     "menu_edit_password": "비밀번호 변경",
     "menu_logout": "로그아웃",
     "title_more": "더보기",
-    "title_club": "클럽 셋팅 변경"
+    "title_club": "클럽 셋팅 변경",
+    "button_edit_profile": "프로필 편집"
 }
