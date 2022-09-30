@@ -1,3 +1,16 @@
 {
-    "menu_change_club": "클럽 셋팅 변경"
+    "menu_change_clubs": "클럽 셋팅 변경",
+    "menu_practice_options": "연습 환경설정",
+    "menu_join_to_shop": "매장등록",
+    "menu_privacy_policy": "개인정보처리방침",
+    "menu_terms_of_service": "서비스이용약관",
+    "menu_licenses": "라이센스",
+    "menu_version": "버전",
+    "menu_edit_profile": "프로필 편집",
+    "menu_language": "언어변경",
+    "menu_edit_nickname": "닉네임 변경",
+    "menu_edit_password": "비밀번호 변경",
+    "menu_logout": "로그아웃",
+    "title_more": "더보기",
+    "title_club": "클럽 셋팅 변경"
 }

@@ -1,6 +1,8 @@
 import { Grid, styled } from "@mui/material";
 import dayjs from "dayjs";
+import { t } from "i18next";
 import { FormEvent, PropsWithChildren } from "react";
+import { useTranslation } from "react-i18next";
 import { useRecoilState, useRecoilValue } from "recoil";
 import SquareRadioButton, { SquareRadioButtonProps } from "../../components/common/button/SquareRadioButton";
 import TopBar from "../../components/common/layout/bar/TopBar";
@@ -35,26 +37,28 @@ interface IUserOptionalInfoPage {
     onClickBottomButton: (userInfo: User) => void;
 }
 
-const signUpPageInfo: IUserOptionalInfoPage = {
-    topBarTitle: 'Sign up',
-    stepper: '2/2',
-    bottomButtonText: 'CREATE ACCOUNT',
-    onClickBottomButton(user) {
-        window.SignupCompleted?.postMessage(JSON.stringify(user));
-    }
-};
-
-const modifyPageInfo: IUserOptionalInfoPage = {
-    topBarTitle: 'Edit profile',
-    bottomButtonText: 'MODIFY',
-    onClickBottomButton(user) {
-        window.ModifyUserRequested?.postMessage(JSON.stringify(user));
-    }
-};
 
 export default function OptionalSignupPage({ mode = UserOptinalInfoPageMode.signup }: PropsWithChildren<OptionalInfoPageProps>) {
     const user = useRecoilValue(me);
     const {inputValues, onChange, setInputValue} = useInput(...useRecoilState(signupState));
+    const { t } = useTranslation(['common']);
+    
+    const signUpPageInfo: IUserOptionalInfoPage = {
+        topBarTitle: 'Sign up',
+        stepper: '2/2',
+        bottomButtonText: 'CREATE ACCOUNT',
+        onClickBottomButton(user) {
+            window.SignupCompleted?.postMessage(JSON.stringify(user));
+        }
+    };
+    
+    const modifyPageInfo: IUserOptionalInfoPage = {
+        topBarTitle: 'Edit profile',
+        bottomButtonText: t("common:button_modify"),
+        onClickBottomButton(user) {
+            window.ModifyUserRequested?.postMessage(JSON.stringify(user));
+        }
+    };
 
     if (mode === UserOptinalInfoPageMode.modify) {
         setInputValue(user);
@@ -84,8 +88,6 @@ export default function OptionalSignupPage({ mode = UserOptinalInfoPageMode.sign
     const birthDayProps: DatePickerProps = {
         defaultValue: dayjs(inputValues.birthday || '2000-01-01'),
         onChange(date: TDateValue) {
-            console.log(date?.format('YYYY-MM-DD'));
-            
             setInputValue({
                 ...inputValues,
                 birthday: date?.format('YYYY-MM-DD')
@@ -95,34 +97,34 @@ export default function OptionalSignupPage({ mode = UserOptinalInfoPageMode.sign
 
     // Zip code
     const zipCodeProps: TextInputProps = {
-        label: 'Zip code',
+        label: t("common:label_zipcode"),
         name: 'zipCode',
         defaultValue: inputValues.zipCode,
         onChange    
     }
     // Address1
     const addr1Props: TextInputProps = {
-        label: 'Address1',
+        label: t("common:label_addr1"),
         name: 'address1',
         defaultValue: inputValues.address1,
         onChange    
     }
     // Address2
     const addr2Props: TextInputProps = {
-        label: 'Address2',
+        label: t("common:label_addr2"),
         name: 'address2',
         defaultValue: inputValues.address2,
         onChange    
     }
     // City/Town
     const cityProps: TextInputProps = {
-        label: 'City/Town',
+        label: t("common:label_city"),
         name: 'city',
         onChange    
     }
     // State/Province
     const stateProps: TextInputProps = {
-        label: 'State/Province',
+        label: t("common:label_state"),
         name: 'state',
         onChange    
     }
@@ -132,11 +134,11 @@ export default function OptionalSignupPage({ mode = UserOptinalInfoPageMode.sign
             <TopBar border fix title={pageInfo.topBarTitle}>{pageInfo.stepper}</TopBar>
 
             <StyledForm>
-                <InputCover label="Gender">
+                <InputCover label={t("common:label_gender")}>
                     <SquareRadioButton {...genderProps}/>
                 </InputCover>
 
-                <InputCover label="Birth Day">
+                <InputCover label={t("common:label_birthday")}>
                     <DatePicker {...birthDayProps}/>
                 </InputCover>
 

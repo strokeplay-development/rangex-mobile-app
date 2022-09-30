@@ -1,3 +1,16 @@
 {
-    "menu_change_club": "Change Club"
+    "menu_change_clubs": "Clubs Visibility",
+    "menu_practice_options": "Practice Options",
+    "menu_join_to_shop": "Join to Shop",
+    "menu_privacy_policy": "Privacy Policy",
+    "menu_terms_of_service": "Terms of Service",
+    "menu_licenses": "Licenses",
+    "menu_version": "Version",
+    "menu_edit_profile": "Edit profile",
+    "menu_language": "Language",
+    "menu_edit_nickname": "Edit Nick name",
+    "menu_edit_password": "Edit Password",
+    "menu_logout": "Log out",
+    "title_more": "More",
+    "title_club": "Clubs Visibility"
 }

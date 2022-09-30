@@ -24,46 +24,46 @@ export default function MorePage() {
     /// 클럽변경
     const changeClubProps: MenuBoxProps = {
         role: 'menu:change-club',
-        title: t('more:menu_change_club'),
+        title: t("more:menu_change_clubs"),
         onClick: () => nav("/clubs")
     };
 
     /// 게임옵션 변경
     const gameOptionProps: MenuBoxProps = {
         role: 'menu:game-options',
-        title: 'Game Options',
+        title: t("more:menu_practice_options"),
         onClick: () => nav("/options")
     };
 
     /// 매장가입
     const joinShopProps: MenuBoxProps = {
         role: 'menu:join-shop',
-        title: 'Join the shop',
+        title: t("more:menu_join_to_shop"),
         onClick: () => nav("/join")
     };
 
     /// 정책
     const policyProps: MenuBoxProps = {
         role: 'menu:policy',
-        title: 'Privacy Policy'
+        title: t("more:menu_privacy_policy")
     };
 
     /// 이용약관
     const termsProps: MenuBoxProps = {
         role: 'menu:terms',
-        title: 'Terms of Service'
+        title: t("more:menu_terms_of_service")
     }
 
     /// 라이센스
     const licenseProps: MenuBoxProps = {
         role: 'menu:licenses',
-        title: 'Licenses'
+        title: t("more:menu_licenses")
     }
 
     /// 버전
     const versionProps: MenuBoxProps = {
         role: 'menu:version',
-        title: 'Version',
+        title: t("more:menu_version"),
         desc: '1.0.0'
     }
 

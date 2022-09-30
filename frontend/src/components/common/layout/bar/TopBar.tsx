@@ -16,7 +16,7 @@ const StyledBar = styled('header')`
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    padding: 0 16px;
+    padding: 0 8px 0 16px;
     height: 56px;
     background-color: ${BG_NAVY};
 

@@ -1,0 +1,17 @@
+{
+    "button_modify": "MODIFY",
+    "button_edit": "EDIT",
+    "label_name": "Name",
+    "label_nickname": "Nick name",
+    "label_phone": "Phone",
+    "label_email": "Email",
+    "label_gender": "Gender",
+    "label_birthday": "Birthday",
+    "label_address": "Address",
+    "label_addr1": "Address1",
+    "label_addr2": "Address2",
+    "label_zipcode": "Zip Code",
+    "label_city": "City/Town",
+    "label_state": "State/Province",
+    "label_code": "Code"
+}

@@ -1,6 +1,7 @@
 import { Add } from "@mui/icons-material";
 import { Avatar, Button, Fab, styled } from "@mui/material";
 import dayjs from "dayjs";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import TopBar from "../../components/common/layout/bar/TopBar";
@@ -13,7 +14,7 @@ import { FONT_MEDIUM } from "../../styles/fonts";
 
 interface ProfileInfoProps {
     role?: string;
-    key?: string;
+    label?: string;
     value?: string | number;
 }
 
@@ -59,6 +60,7 @@ const StyledInfo = styled('dl')`
 export default function EditProfilePage() {
     const nav = useNavigate();
     const user = useRecoilValue(me);
+    const { t } = useTranslation(['common', 'more']);
 
     const requestNewPicture = () => {
         window.NewProfilePictureRequested?.postMessage('New Profile Picture');
@@ -70,37 +72,37 @@ export default function EditProfilePage() {
         profileInfo = [
             {
                 role: 'name',
-                key: 'Name',
+                label: t("common:label_name"),
                 value: user.name
             },
             {
                 role: 'nickname',
-                key: 'Nick name',
+                label: t("common:label_nickname"),
                 value: user.nickName
             },
             {
                 role: 'phone',
-                key: 'Phone',
+                label: t("common:label_phone"),
                 value: user.phoneNumber
             },
             {
                 role: 'email',
-                key: 'Email',
+                label: t("common:label_email"),
                 value: user.email
             },
             {
                 role: 'gender',
-                key: 'Gender',
+                label: t("common:label_gender"),
                 value: user.gender === 0 ? 'MALE' : 'FEMALE'
             },
             {
                 role: 'birthday',
-                key: 'Birthday',
+                label: t("common:label_birthday"),
                 value: dayjs(user.birthday).format('YYYY-MM-DD')
             },
             {
                 role: 'address',
-                key: 'Address',
+                label: t("common:label_address"),
                 value: user.address1 + ', ' + user.address2
             },
         ];
@@ -109,21 +111,21 @@ export default function EditProfilePage() {
     /// 닉네임 변경
     const nickNameProps: MenuBoxProps = {
         role: 'menu:edit-nickname',
-        title: 'Edit Nick name',
+        title: t("more:menu_edit_nickname"),
         onClick: () => nav('/profile/nickname')
     };
 
     /// 패스워드 변경
     const passwordProps: MenuBoxProps = {
         role: 'menu:edit-password',
-        title: 'Edit Password',
+        title: t("more:menu_edit_password"),
         onClick: () => nav(PATHS.PROFILE.PASSWORD)
     };
 
     /// 로그아웃
     const logoutProps: MenuBoxProps = {
         role: 'menu:logout',
-        title: 'Log out',
+        title: t("more:menu_logout"),
         onClick() {
             window.LogoutRequested?.postMessage('logout');
         }
@@ -140,7 +142,7 @@ export default function EditProfilePage() {
                     color="inherit"
                     onClick={goEditProfile}
                 >
-                    Edit
+                    {t("common:button_edit")}
                 </Button>
             </TopBar>
 
@@ -167,7 +169,7 @@ export default function EditProfilePage() {
                             role={`info:${info.role}`}
                             aria-describedby={`desc:${info.role}`}
                         >
-                            <dt>{info.key}</dt>
+                            <dt>{info.label}</dt>
                             <dd id={`desc:${info.role}`}>{info.value}</dd>
                         </StyledInfo>
                     ))

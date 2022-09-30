@@ -1,0 +1,17 @@
+{
+    "button_modify": "수정하기",
+    "button_edit": "수정",
+    "label_name": "이름",
+    "label_nickname": "닉네임",
+    "label_phone": "전화번호",
+    "label_email": "이메일",
+    "label_gender": "성별",
+    "label_birthday": "생년월일",
+    "label_address": "주소",
+    "label_addr1": "주소",
+    "label_addr2": "상세주소",
+    "label_zipcode": "우편번호",
+    "label_city": "도시",
+    "label_state": "주",
+    "label_code": "인증번호"
+}
