@@ -3,6 +3,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import MenuBox, { MenuBoxProps } from "../../components/common/layout/menu/MenuBox";
 import ProfileBox from "../../components/profile/ProfileBox";
+import { PATHS } from "../../constants";
 import { me } from "../../store";
 import { PageWithBox } from "../../styles";
 
@@ -41,6 +42,13 @@ export default function MorePage() {
         title: t("more:menu_join_to_shop"),
         onClick: () => nav("/join")
     };
+
+    /// 언어변경
+    const langProps: MenuBoxProps = {
+        role: 'menu:language',
+        title: t("more:menu_language"),
+        onClick: () => nav(PATHS.LANG)
+    }
 
     /// 정책
     const policyProps: MenuBoxProps = {
@@ -86,6 +94,7 @@ export default function MorePage() {
                 <MenuBox {...changeClubProps}/>
                 <MenuBox {...gameOptionProps}/>
                 <MenuBox {...joinShopProps}/>
+                <MenuBox {...langProps}/>
             </ul>
 
             <ul>

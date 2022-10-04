@@ -27,6 +27,7 @@ const EditNickname = React.lazy(() => import('../pages/profile/EditNicknamePage'
 const Clubs = React.lazy(() => import('../pages/club/ClubPage'));
 const GameOptions = React.lazy(() => import('../pages/option/GameOptionsPage'));
 const JoinShop = React.lazy(() => import('../pages/link/LinkShop'));
+const Language = React.lazy(() => import('../pages/option/LanguagePage'));
 
 export const routeInfoList: RouteInfoList = [
     {
@@ -97,6 +98,11 @@ export const routeInfoList: RouteInfoList = [
         path: PATHS.JOIN,
         element: <JoinShop/>,
         isPrivate: true
+    },
+    {
+        path: PATHS.LANG,
+        element: <Language/>,
+        isPrivate: true,
     },
     {
         path: PATHS.REDIRECT.KAKAO,

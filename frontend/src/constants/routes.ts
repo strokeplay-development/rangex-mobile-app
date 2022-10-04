@@ -24,6 +24,7 @@ export const PATHS = {
     CLUBS: '/clubs',
     OPTIONS: '/options',
     JOIN: '/join',
+    LANG: '/language',
     REDIRECT: {
         KAKAO: '/kakao/redirect',
         LOGOUT: '/logout/redirect'
