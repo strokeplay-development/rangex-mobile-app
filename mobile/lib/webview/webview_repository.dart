@@ -27,6 +27,7 @@ class WebviewRepository {
 
   final List<String> rootPaths = ['/home', '/swings', '/more'];
 
+  /// 웹뷰 위젯 생성하기
   WebView getWebviewWidget({
     required BuildContext context,
     Function? onCreated,
@@ -40,6 +41,12 @@ class WebviewRepository {
       javascriptMode: JavascriptMode.unrestricted,
       initialUrl: rootUrls[0],
       initialCookies: cookies,
+      navigationDelegate: (req) {
+        return NavigationDecision.navigate;
+      },
+      gestureNavigationEnabled: true,
+
+      /// 웹뷰 생성 후
       onWebViewCreated: (control) {
         _controller = control;
 
@@ -47,6 +54,8 @@ class WebviewRepository {
           onCreated();
         }
       },
+
+      /// 웹뷰 페이지 로드 후
       onPageFinished: (url) async {
         final webCookies =
             await _controller.runJavascriptReturningResult('document.cookie');
@@ -60,6 +69,7 @@ class WebviewRepository {
         String? newAccessToken = await authRepo.accessToken;
         String? newRefreshToken = await authRepo.refreshToken;
 
+        /// 새 액세스 토큰 셋팅
         if (accessToken == null ||
             accessToken == '' ||
             accessToken != newAccessToken) {
@@ -70,6 +80,7 @@ class WebviewRepository {
           _controller.runJavascript(setAccess);
         }
 
+        /// 새 리프레쉬 토큰 셋팅
         if (refreshToken == null ||
             refreshToken == '' ||
             refreshToken != newRefreshToken) {
@@ -80,10 +91,8 @@ class WebviewRepository {
           _controller.runJavascript(setRefresh);
         }
       },
-      navigationDelegate: (req) {
-        return NavigationDecision.navigate;
-      },
-      gestureNavigationEnabled: true,
+
+      /// 웹뷰 메시지 처리
       javascriptChannels: {
         JavascriptChannel(
           name: 'ResponseReceived',

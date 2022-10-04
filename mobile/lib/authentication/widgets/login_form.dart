@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rangex/authentication/bloc/login_bloc.dart';
 import 'package:rangex/authentication/bloc/login_event.dart';
 import 'package:rangex/authentication/bloc/login_state.dart';
-import 'package:rangex/authentication/views/social_login.dart';
 import 'package:rangex/routes/app_router.gr.dart';
 import 'package:rangex/utils/lifecycle.dart';
 
@@ -58,6 +57,7 @@ class _LoginFormState extends State<LoginForm> {
           key: _formKey,
           child: Column(
             children: [
+              /// 아이디 입력
               TextFormField(
                 controller: _userAccountCtrler,
                 decoration: const InputDecoration(
@@ -65,6 +65,8 @@ class _LoginFormState extends State<LoginForm> {
                 ),
               ),
               const SizedBox(height: 8),
+
+              /// 비밀번호 입력
               TextFormField(
                 obscureText: true,
                 controller: _userPWCtrler,
@@ -73,6 +75,8 @@ class _LoginFormState extends State<LoginForm> {
                 ),
               ),
               const SizedBox(height: 16),
+
+              /// 회원가입 버튼
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size.fromHeight(48),
@@ -81,12 +85,16 @@ class _LoginFormState extends State<LoginForm> {
                 child: const Text('SIGN IN'),
               ),
               const SizedBox(height: 16),
+
+              /// 카카오 로그인
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size.fromHeight(48),
+                  backgroundColor: const Color(0xffFEE500),
                 ),
                 onPressed: () => _socialLoginRequest(LoginType.kakao),
-                child: const Text('KAKAO LOGIN'),
+                child: const Text('Login with Kakao',
+                    style: TextStyle(color: Color(0xff392020))),
               ),
             ],
           ),

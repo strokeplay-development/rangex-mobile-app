@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rangex/app/app_theme.dart';
 import 'package:rangex/authentication/bloc/auth_bloc.dart';
@@ -61,6 +62,9 @@ class _AppViewState extends State<AppView> {
 
   @override
   Widget build(BuildContext context) {
+    /// 스테이터스 바를 하얀색으로 바꿈
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
+
     return MaterialApp.router(
       routerDelegate: _appRouter.delegate(),
       routeInformationParser: _appRouter.defaultRouteParser(),

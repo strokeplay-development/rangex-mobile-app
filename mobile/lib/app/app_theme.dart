@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 final darkTheme = ThemeData(
   brightness: Brightness.dark,
@@ -8,6 +9,7 @@ final darkTheme = ThemeData(
   dividerColor: const Color(0xff2A3947),
   scaffoldBackgroundColor: const Color(0xff04182B),
   appBarTheme: const AppBarTheme(
+    systemOverlayStyle: SystemUiOverlayStyle.dark,
     backgroundColor: Color(0xff04182B),
   ),
   bottomNavigationBarTheme: const BottomNavigationBarThemeData(
