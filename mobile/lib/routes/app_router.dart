@@ -2,7 +2,6 @@ import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:rangex/authentication/views/login_page.dart';
 import 'package:rangex/authentication/views/signup_page.dart';
-import 'package:rangex/authentication/views/social_login.dart';
 import 'package:rangex/authentication/views/welcome_page.dart';
 import 'package:rangex/routes/entry_page.dart';
 import 'package:rangex/routes/router_guards.dart';
@@ -36,11 +35,6 @@ import 'package:rangex/screens/root_wrap.dart';
       name: 'LoginRouter',
       page: LoginPage,
       guards: [CheckIfAuthenticated],
-    ),
-    AutoRoute<dynamic>(
-      path: '/login/social',
-      name: 'SocialLoginRouter',
-      page: SocialLoginPage,
     ),
 
     /// Main Routes

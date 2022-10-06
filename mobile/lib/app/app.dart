@@ -7,6 +7,7 @@ import 'package:rangex/authentication/repositories/auth_repository.dart';
 import 'package:rangex/authentication/repositories/user_repository.dart';
 import 'package:rangex/routes/app_router.gr.dart';
 import 'package:rangex/routes/router_guards.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 /// App
 /// 글로벌 레포지토리 등록
@@ -69,6 +70,9 @@ class _AppViewState extends State<AppView> {
       routerDelegate: _appRouter.delegate(),
       routeInformationParser: _appRouter.defaultRouteParser(),
       theme: darkTheme,
+      locale: context.locale,
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
     );
   }
 }

@@ -102,7 +102,6 @@ export const routeInfoList: RouteInfoList = [
     {
         path: PATHS.LANG,
         element: <Language/>,
-        isPrivate: true,
     },
     {
         path: PATHS.REDIRECT.KAKAO,

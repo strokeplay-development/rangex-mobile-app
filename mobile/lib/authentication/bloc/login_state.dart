@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:rangex/authentication/bloc/login_event.dart';
 
 class LoginState extends Equatable {
   @override
@@ -7,14 +6,6 @@ class LoginState extends Equatable {
 }
 
 class LoginStateNone extends LoginState {}
-
-class LoginStateSocial extends LoginState {
-  LoginStateSocial({required this.loginType});
-  final LoginType loginType;
-
-  @override
-  List<Object?> get props => [loginType];
-}
 
 class LoginStateSuccess extends LoginState {}
 

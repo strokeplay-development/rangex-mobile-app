@@ -1,0 +1,13 @@
+{
+    "account": "Account",
+    "password": "password",
+    "sign_in": "Sign In",
+    "login_kakao": "Login with Kakao",
+    "sign_up": "Sign up",
+    "find_password": "Forgot password?",
+    "terms_of_service": "Terms of Service",
+    "privacy_policy": "Privacy Policy",
+    "navi_home": "Home",
+    "navi_swings": "Swings",
+    "navi_more": "More"
+}

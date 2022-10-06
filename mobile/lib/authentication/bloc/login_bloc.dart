@@ -1,4 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk_talk.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk_template.dart';
 import 'package:rangex/authentication/bloc/login_event.dart';
 import 'package:rangex/authentication/bloc/login_state.dart';
 import 'package:rangex/authentication/repositories/auth_repository.dart';
@@ -21,6 +23,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     Emitter<LoginState> emit,
   ) async {
     try {
+      // 직접로그인
       if (event.type == LoginType.direct) {
         await _authRepository.directAuthenticate(
           userAccount: event.userAccount,
@@ -30,6 +33,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         emit(LoginStateSuccess());
       }
 
+      // 카카오톡 로그인
       if (event.type == LoginType.kakao) {
         await _authRepository.kakaoAuthenticate(event.authCode);
 
@@ -46,6 +50,29 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     SocialLoginRequested event,
     Emitter<LoginState> emit,
   ) async {
-    emit(LoginStateSocial(loginType: event.type));
+    // 로그인방식
+    String loginWith;
+    Function loginMethod;
+
+    // 토큰들
+    OAuthToken token;
+
+    if (await isKakaoTalkInstalled()) {
+      loginWith = '카카오톡으로 로그인';
+      loginMethod = UserApi.instance.loginWithKakaoTalk;
+    } else {
+      loginWith = '카카오계정으로 로그인';
+      loginMethod = UserApi.instance.loginWithKakaoAccount;
+    }
+
+    try {
+      token = await loginMethod();
+      print('$loginWith 토큰받기 성공 $token');
+
+      // 전달받은 토큰으로 로그인 시도
+      add(LoginRequested(LoginType.kakao, null, null, token.toJson()));
+    } catch (error) {
+      print('$loginWith 토큰받기 실패 $error');
+    }
   }
 }

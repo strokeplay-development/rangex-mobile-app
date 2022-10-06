@@ -109,25 +109,21 @@ class AuthRepository {
         throw Error();
       }
 
-      final kakaoAuth = KakaoAuthHttp();
-      final res = await kakaoAuth.requestToken(code);
+      // final kakaoAuth = KakaoAuthHttp();
+      // final res = await kakaoAuth.requestToken(code);
+      print("전달할 토큰코드: $code");
+      final result = await AuthHttp().kakaoLogin(code);
 
-      if (res.statusCode == 200) {
-        print('카카오 인증완료');
-        // ID토큰검증 문자열 전달
-        res.data['nonce'] = kakaoAuth.NONCE;
-        final result = await AuthHttp().kakaoLogin(res.data);
+      print('카카오 서버인증 완료 $result');
 
-        print('카카오 서버인증 완료 $result');
+      String accessToken = result.data['accessToken'] as String;
+      String refreshToken = result.data['refreshToken'] as String;
 
-        String accessToken = result.data['accessToken'] as String;
-        String refreshToken = result.data['refreshToken'] as String;
-
-        await logIn(accessToken, refreshToken);
-      }
+      await logIn(accessToken, refreshToken);
     } catch (e) {
+      print("카카오 로그인 실패: $e");
       _controller.add(AuthStatus.unauthenticated);
-      Exception(e);
+      throw Exception(e);
     }
   }
 

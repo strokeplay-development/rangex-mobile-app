@@ -1,11 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:rangex/authentication/bloc/login_bloc.dart';
 import 'package:rangex/authentication/bloc/login_event.dart';
 import 'package:rangex/authentication/bloc/login_state.dart';
 import 'package:rangex/routes/app_router.gr.dart';
 import 'package:rangex/utils/lifecycle.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({
@@ -46,11 +48,6 @@ class _LoginFormState extends State<LoginForm> {
               ),
             );
           }
-
-          if (state is LoginStateSocial) {
-            context.pushRoute(SocialLoginRouter(
-                loginType: loginTypeToString(state.loginType)));
-          }
         });
 
         return Form(
@@ -60,8 +57,8 @@ class _LoginFormState extends State<LoginForm> {
               /// 아이디 입력
               TextFormField(
                 controller: _userAccountCtrler,
-                decoration: const InputDecoration(
-                  label: Text('Account'),
+                decoration: InputDecoration(
+                  label: Text(tr('account')),
                 ),
               ),
               const SizedBox(height: 8),
@@ -70,8 +67,8 @@ class _LoginFormState extends State<LoginForm> {
               TextFormField(
                 obscureText: true,
                 controller: _userPWCtrler,
-                decoration: const InputDecoration(
-                  label: Text('Password'),
+                decoration: InputDecoration(
+                  label: Text(tr('password')),
                 ),
               ),
               const SizedBox(height: 16),
@@ -82,7 +79,7 @@ class _LoginFormState extends State<LoginForm> {
                   minimumSize: const Size.fromHeight(48),
                 ),
                 onPressed: () => _loginSubmiited(LoginType.direct),
-                child: const Text('SIGN IN'),
+                child: Text(tr('sign_in')),
               ),
               const SizedBox(height: 16),
 
@@ -93,8 +90,8 @@ class _LoginFormState extends State<LoginForm> {
                   backgroundColor: const Color(0xffFEE500),
                 ),
                 onPressed: () => _socialLoginRequest(LoginType.kakao),
-                child: const Text('Login with Kakao',
-                    style: TextStyle(color: Color(0xff392020))),
+                child: Text(tr('login_kakao'),
+                    style: const TextStyle(color: Color(0xff392020))),
               ),
             ],
           ),
@@ -112,7 +109,7 @@ class _LoginFormState extends State<LoginForm> {
     ));
   }
 
-  void _socialLoginRequest(LoginType type) {
+  void _socialLoginRequest(LoginType type) async {
     _loginBloc.add(SocialLoginRequested(type));
   }
 }

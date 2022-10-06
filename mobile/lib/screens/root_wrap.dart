@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -113,18 +114,18 @@ class _RootWrapState extends State<RootWrap> {
                           });
                         }
                       },
-                      items: const <BottomNavigationBarItem>[
+                      items: <BottomNavigationBarItem>[
                         BottomNavigationBarItem(
-                          icon: Icon(Icons.home),
-                          label: 'Home',
+                          icon: const Icon(Icons.home),
+                          label: tr('navi_home'),
                         ),
                         BottomNavigationBarItem(
-                          icon: Icon(Icons.sports_golf),
-                          label: 'Swing',
+                          icon: const Icon(Icons.sports_golf),
+                          label: tr('navi_swings'),
                         ),
                         BottomNavigationBarItem(
-                          icon: Icon(Icons.more_horiz),
-                          label: 'More',
+                          icon: const Icon(Icons.more_horiz),
+                          label: tr('navi_more'),
                         ),
                       ],
                     ),

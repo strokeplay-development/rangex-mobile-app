@@ -1,0 +1,13 @@
+{
+    "account": "아이디",
+    "password": "비밀번호",
+    "sign_in": "로그인",
+    "login_kakao": "카카오 로그인",
+    "sign_up": "회원가입",
+    "find_password": "비밀번호 찾기",
+    "terms_of_service": "이용방침",
+    "privacy_policy": "개인정보처리방침",
+    "navi_home": "홈",
+    "navi_swings": "스윙",
+    "navi_more": "더보기"
+}

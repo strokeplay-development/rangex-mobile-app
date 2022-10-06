@@ -12,4 +12,5 @@ interface Window {
     JoinRequested: WebViewMessage;
     SocialLogin: WebViewMessage;
     NewProfilePictureRequested: WebViewMessage;
+    LanguageChangeRequested: WebViewMessage;
 }

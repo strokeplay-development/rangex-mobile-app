@@ -14,9 +14,22 @@ class EntryPage extends StatefulWidget {
 
 class _EntryPageState extends State<EntryPage> {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    final auth = BlocProvider.of<AuthBloc>(context).state.status;
+    print("실행 후 $auth");
+
+    if (auth == AuthStatus.unauthenticated) {
+      context.router.replaceNamed('/welcome');
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
+        print("dd?");
         final String entryPath =
             state.status == AuthStatus.authenticated ? '/main' : '/welcome';
         context.router.replaceNamed(entryPath);
