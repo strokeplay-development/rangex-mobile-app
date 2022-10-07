@@ -7,6 +7,8 @@ import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuthorize } from './hooks';
 import { PATHS } from './constants';
+import { useTranslation } from 'react-i18next';
+import { useCookies } from 'react-cookie';
 
 export const theme = (mode: ThemeMode) => createTheme({
   ...reset,
@@ -23,6 +25,15 @@ function App() {
   const [themeMode] = useRecoilState(themeModeState);
   const { isAuthorized, isAuthorizing } = useAuthorize();
   const nav = useNavigate();
+  const { i18n } = useTranslation();
+  const [{ lang }] = useCookies(['lang']);
+
+  // 앱 언어 변경감지
+  useEffect(() => {
+    if (lang !== i18n.language) {
+      i18n.changeLanguage(lang); 
+    }
+  }, [lang]);
 
   useEffect(() => {
     window.LocationChanged?.postMessage(location.pathname);

@@ -31,7 +31,12 @@ class _RootWrapState extends State<RootWrap> {
   int selectedTap = 0;
   List<int> tapIndexStack = [];
   double statusBarHeight = 0;
-  List<AppBar> appBars = [feedAppBar, swingsAppBar, moreAppBar];
+
+  List<Function> appbarBuilder = [
+    buildFeedAppbar,
+    buildSwingAppbar,
+    buildMoreAppbar,
+  ];
 
   @override
   void initState() {
@@ -58,7 +63,9 @@ class _RootWrapState extends State<RootWrap> {
 
         return WillPopScope(
           child: Scaffold(
-            appBar: state is WebviewStateRoot ? appBars[selectedTap] : null,
+            appBar: state is WebviewStateRoot
+                ? appbarBuilder[selectedTap](context)
+                : null,
             body: Padding(
               padding: EdgeInsets.only(top: statusBarHeight),
               child: Stack(children: [
@@ -177,8 +184,10 @@ class _RootWrapState extends State<RootWrap> {
 
   /// 웹뷰 생성 준비하기
   Future<void> readyWebviewCreate() async {
-    _cookies =
-        bakeTokens(await _authRepo.accessToken, await _authRepo.refreshToken);
+    _cookies = bakeTokens(
+      await _authRepo.accessToken,
+      await _authRepo.refreshToken,
+    );
 
     _webviewBloc?.add(WebviewCreateReady());
   }

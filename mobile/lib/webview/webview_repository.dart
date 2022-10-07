@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rangex/authentication/repositories/auth_repository.dart';
 import 'package:rangex/authentication/repositories/user_repository.dart';
 import 'package:rangex/utils/auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 typedef UrlChangeHandler = void Function(String url);
@@ -91,6 +92,20 @@ class WebviewRepository {
           );
           _controller.runJavascript(setRefresh);
         }
+
+        /// 웹뷰 언어 셋팅
+        final sp = await SharedPreferences.getInstance();
+        final appLang = sp.getString('locale');
+        print('쉐어드프리퍼런스: ${appLang}');
+
+        String? lang = mappedCookie?['lang'];
+
+        if (appLang != lang) {
+          final setLang = AuthUtils.jsStringSetCookie('lang', appLang);
+          await _controller.runJavascript(setLang);
+        }
+
+        print('쿠키 언어: $lang');
       },
 
       /// 웹뷰 메시지 처리
@@ -154,13 +169,15 @@ class WebviewRepository {
             if (langForChange == context.locale.languageCode) return;
 
             context.setLocale(Locale(langForChange));
+            final setLang = AuthUtils.jsStringSetCookie('lang', langForChange);
+            _controller.runJavascript(setLang);
           },
         ),
       },
     );
   }
 
-  // Controller
+  /// Controller
 
   Future<bool> get canGoBack {
     return _controller.canGoBack();
