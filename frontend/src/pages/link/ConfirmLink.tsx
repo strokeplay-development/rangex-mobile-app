@@ -1,6 +1,8 @@
 import { Dialog, styled } from "@mui/material";
-import { PropsWithChildren, useState } from "react";
+import { PropsWithChildren } from "react";
 import FullButton from "../../components/common/button/FullButton";
+import { useModal } from "../../hooks";
+import { DialogBox } from "../../styles";
 import { BOX_NAVY } from "../../styles/colors";
 import { BasicButton } from "../../styles/common";
 
@@ -8,37 +10,8 @@ interface ConfirmLinkProps {
     joinCode?: number;
 }
 
-const DialogBox = styled('div')`
-    padding: 0 24px 12px 24px;
-    background-color: ${BOX_NAVY};
-
-    & h2 {
-        text-align: center;
-    }
-
-    & .content {
-        margin: 24px 0;
-        
-        & p {
-            text-align: center;
-        }
-    }
-
-    & .actions {
-        padding: 4px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 12px;
-    }
-
-`;
-
 export default function ConfirmLink(props: PropsWithChildren<ConfirmLinkProps>) {
-    const [open, setOpen] = useState(false);
-
-    const openModal = () => setOpen(true);
-    const closeModal = () => setOpen(false);
+    const [open, openModal, closeModal] = useModal();
 
     const requestJoinShop = () => {
         console.log(props.joinCode);

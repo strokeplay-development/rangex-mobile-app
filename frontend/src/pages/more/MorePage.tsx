@@ -51,15 +51,17 @@ export default function MorePage() {
     }
 
     /// 정책
-    const policyProps: MenuBoxProps = {
+    const privacyProps: MenuBoxProps = {
         role: 'menu:policy',
-        title: t("more:menu_privacy_policy")
+        title: t("more:menu_privacy_policy"),
+        onClick: () => window.ThirdPartyPageRequested?.postMessage('THIRD_PRIVACY_POLICY')
     };
 
     /// 이용약관
     const termsProps: MenuBoxProps = {
         role: 'menu:terms',
-        title: t("more:menu_terms_of_service")
+        title: t("more:menu_terms_of_service"),
+        onClick: () => window.ThirdPartyPageRequested?.postMessage('THIRD_TERMS_OF_SETVICE')
     }
 
     /// 라이센스
@@ -98,7 +100,7 @@ export default function MorePage() {
             </ul>
 
             <ul>
-                <MenuBox {...policyProps}/>
+                <MenuBox {...privacyProps}/>
                 <MenuBox {...termsProps}/>
             </ul>
 

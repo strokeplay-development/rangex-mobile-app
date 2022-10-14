@@ -24,6 +24,7 @@ const ShotData = React.lazy(() => import('../pages/shot/ShotDataPage'));
 const More = React.lazy(() => import('../pages/more/MorePage'));
 const EditProfile = React.lazy(() => import('../pages/profile/EditProfilePage'));
 const EditNickname = React.lazy(() => import('../pages/profile/EditNicknamePage'));
+const EditPassword = React.lazy(() => import('../pages/profile/EditPasswordPage'));
 const Clubs = React.lazy(() => import('../pages/club/ClubPage'));
 const GameOptions = React.lazy(() => import('../pages/option/GameOptionsPage'));
 const JoinShop = React.lazy(() => import('../pages/link/LinkShop'));
@@ -77,6 +78,11 @@ export const routeInfoList: RouteInfoList = [
     {
         path: PATHS.PROFILE.NICKNAME,
         element: <EditNickname/>,
+        isPrivate: true
+    },
+    {
+        path: PATHS.PROFILE.PASSWORD,
+        element: <EditPassword/>,
         isPrivate: true
     },
     {

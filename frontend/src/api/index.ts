@@ -26,18 +26,18 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
     res => {
-        window.WebviewMounted?.postMessage(res);
         return res;
     }, 
     (err: AxiosError | undefined) => {
         if (err?.response?.status === HTTP_STATUS.UNAUTHORIZED) {            
             window.ResponseReceived.postMessage('<Unauthorized>' + JSON.stringify(err));
+            
             // 인가실패시 보유중인 토큰을 지우고 로그아웃 처리한다.
             const cookies = new Cookies();
             cookies.remove('accessToken');
             cookies.remove('refreshToken');
 
-            window.LogoutRequested.postMessage();
+            window.LogoutRequested.postMessage('logout');
         }
     }
 );

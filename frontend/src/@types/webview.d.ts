@@ -13,4 +13,9 @@ interface Window {
     SocialLogin: WebViewMessage;
     NewProfilePictureRequested: WebViewMessage;
     LanguageChangeRequested: WebViewMessage;
+    ThirdPartyPageRequested: WebViewMessage;
+    ModalStateChanged: WebViewMessage;
+
+    // Errors
+    ErrorCatched: WebViewMessage;
 }

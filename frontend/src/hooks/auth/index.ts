@@ -1,7 +1,8 @@
+import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { useQuery } from 'react-query';
 import { routeInfoList } from './../../routes/index';
-import { isEmptyObject } from './../../utils/common';
+import { isEmptyObject, webViewLog } from './../../utils';
 import { me } from '../../store';
 import { useCookies } from 'react-cookie';
 import { fetchMe } from '../../api/user';
@@ -40,18 +41,25 @@ export const useAuthorize = (): AuthorizeResult => {
         result.isAuthorized = false;
         return result;
     }
-
-    if (isLoading) {
-        result.isAuthorizing = true;
-        return result;
-    }
     
-    // 갱신된 유저정보가 있으면
-    // 인가처리
-    if (data) {
-        setUser(data);
-        result.isAuthorized = true;
+    // 인가할 회원정보가 없는 경우 회원정보를 가져옴
+    if (isNoUser) {
+        // 유저 정보를 가져오는 중
+        if (isLoading) {
+            result.isAuthorizing = true;
+            return result;
+        }
+        
+        // 유저정보를 가져오는데 성공하면 인가
+        if (data) {
+            window.ResponseReceived?.postMessage(webViewLog('유저갱신', data.nickName));
+            setUser(data);
+            result.isAuthorized = true;
+            return result;
+        }
     }
+
+    result.isAuthorized = true;
 
     return result;
 

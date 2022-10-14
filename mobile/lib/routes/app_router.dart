@@ -6,6 +6,7 @@ import 'package:rangex/authentication/views/welcome_page.dart';
 import 'package:rangex/routes/entry_page.dart';
 import 'package:rangex/routes/router_guards.dart';
 import 'package:rangex/screens/root_wrap.dart';
+import 'package:rangex/screens/thirdparty_wrap.dart';
 
 @MaterialAutoRouter(
   replaceInRouteName: 'Page,Route',
@@ -44,6 +45,8 @@ import 'package:rangex/screens/root_wrap.dart';
       name: 'RootWrapRouter',
       page: RootWrap,
     ),
+    AutoRoute<dynamic>(
+        path: '/third', name: 'ThirdPartyRouter', page: ThirdpartyWrap)
   ],
 )
 class $AppRouter {}

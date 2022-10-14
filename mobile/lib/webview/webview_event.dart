@@ -2,7 +2,6 @@ import 'package:equatable/equatable.dart';
 
 class WebviewEvent extends Equatable {
   @override
-  // TODO: implement props
   List<Object?> get props => [];
 }
 
@@ -16,7 +15,6 @@ class WebviewUrlChanged extends WebviewEvent {
   final String? currentUrl;
 
   @override
-  // TODO: implement props
   List<Object?> get props => [currentUrl];
 }
 

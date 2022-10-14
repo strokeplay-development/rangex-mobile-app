@@ -1,9 +1,10 @@
 import { Grid, styled } from "@mui/material";
 import dayjs from "dayjs";
-import { t } from "i18next";
-import { FormEvent, PropsWithChildren } from "react";
+import { FormEvent, MouseEventHandler, PropsWithChildren, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { modifyMe } from "../../api/user";
 import SquareRadioButton, { SquareRadioButtonProps } from "../../components/common/button/SquareRadioButton";
 import TopBar from "../../components/common/layout/bar/TopBar";
 import InputCover from "../../components/common/layout/input/InputCover";
@@ -14,6 +15,7 @@ import { me } from "../../store";
 import { signupState } from "../../store/signup";
 import { BottomFullButton, PageWithHeader } from "../../styles/common";
 import { User } from "../../types";
+import { webviewError, webViewLog } from "../../utils";
 
 const StyledForm = styled('form')`
     display: flex;
@@ -34,39 +36,43 @@ interface IUserOptionalInfoPage {
     topBarTitle: string;
     stepper?: string;
     bottomButtonText: string;
-    onClickBottomButton: (userInfo: User) => void;
+    onClickBottomButton: MouseEventHandler<HTMLButtonElement>
 }
 
 
 export default function OptionalSignupPage({ mode = UserOptinalInfoPageMode.signup }: PropsWithChildren<OptionalInfoPageProps>) {
-    const user = useRecoilValue(me);
-    const {inputValues, onChange, setInputValue} = useInput(...useRecoilState(signupState));
+    const [user, setUser] = useRecoilState(me);
+    const {inputValues, onChange, setInputValues} = useInput(...useRecoilState(signupState));
     const { t } = useTranslation(['common']);
+    const nav = useNavigate();
     
+    // 회원가입인 경우
     const signUpPageInfo: IUserOptionalInfoPage = {
         topBarTitle: 'Sign up',
         stepper: '2/2',
         bottomButtonText: t("common:button_create"),
-        onClickBottomButton(user) {
-            window.SignupCompleted?.postMessage(JSON.stringify(user));
+        onClickBottomButton() {
+            window.SignupCompleted?.postMessage(JSON.stringify(inputValues));
         }
     };
     
+    // 회원정보 수정인 경우
     const modifyPageInfo: IUserOptionalInfoPage = {
         topBarTitle: 'Edit profile',
         bottomButtonText: t("common:button_modify"),
-        onClickBottomButton(user) {
-            window.ModifyUserRequested?.postMessage(JSON.stringify(user));
+        async onClickBottomButton() {
+            try {
+                window.ResponseReceived?.postMessage(webViewLog('수정요청', inputValues));
+                setUser(await modifyMe(inputValues));
+                nav(-1);
+            } catch (error) {
+                webviewError(error);
+            }
         }
     };
-
-    if (mode === UserOptinalInfoPageMode.modify) {
-        setInputValue(user);
-    }
     
     const pageInfo = mode === UserOptinalInfoPageMode.modify
         ? modifyPageInfo : signUpPageInfo;
-
 
     // Gender
     const genderProps: SquareRadioButtonProps = {
@@ -77,43 +83,41 @@ export default function OptionalSignupPage({ mode = UserOptinalInfoPageMode.sign
             { label: t("common:female"), value: 1 },
         ],
         onChange(e: FormEvent<HTMLInputElement>) {
-            setInputValue({
+            setInputValues({
                 ...inputValues,
                 gender: Number(e.currentTarget.value)
             });
         }
     }
-
     // Birth day
     const birthDayProps: DatePickerProps = {
         defaultValue: dayjs(inputValues.birthday || '2000-01-01'),
         onChange(date: TDateValue) {
-            setInputValue({
+            setInputValues({
                 ...inputValues,
                 birthday: date?.format('YYYY-MM-DD')
             });
         }
     }
-
     // Zip code
     const zipCodeProps: TextInputProps = {
         label: t("common:label_zipcode"),
         name: 'zipCode',
-        defaultValue: inputValues.zipCode,
+        defaultValue: user.zipCode,
         onChange    
     }
     // Address1
     const addr1Props: TextInputProps = {
         label: t("common:label_addr1"),
         name: 'address1',
-        defaultValue: inputValues.address1,
+        defaultValue: user.address1,
         onChange    
     }
     // Address2
     const addr2Props: TextInputProps = {
         label: t("common:label_addr2"),
         name: 'address2',
-        defaultValue: inputValues.address2,
+        defaultValue: user.address2,
         onChange    
     }
     // City/Town
@@ -128,6 +132,12 @@ export default function OptionalSignupPage({ mode = UserOptinalInfoPageMode.sign
         name: 'state',
         onChange    
     }
+
+    useEffect(() => {
+        if (mode === UserOptinalInfoPageMode.modify) {
+            setInputValues(user);
+        }
+    }, [user]);
 
     return (
         <PageWithHeader>
@@ -145,7 +155,7 @@ export default function OptionalSignupPage({ mode = UserOptinalInfoPageMode.sign
                 {/* ADDRESS */}
                 <Grid container rowSpacing={2}>
                     <Grid container item sx={{":first-of-type": { paddingTop: 0 }, gap: '8px'}}>
-                        <TextInput {...zipCodeProps}/>
+                        <TextInput {...zipCodeProps} key="fek3"/>
                         <TextInput {...addr1Props}/>
                     </Grid>
 
@@ -159,7 +169,7 @@ export default function OptionalSignupPage({ mode = UserOptinalInfoPageMode.sign
                     </Grid>
                 </Grid>
 
-                <BottomFullButton onClick={() => pageInfo.onClickBottomButton(inputValues)}>{pageInfo.bottomButtonText}</BottomFullButton>
+                <BottomFullButton onClick={pageInfo.onClickBottomButton}>{pageInfo.bottomButtonText}</BottomFullButton>
             </StyledForm>
         </PageWithHeader>
     );

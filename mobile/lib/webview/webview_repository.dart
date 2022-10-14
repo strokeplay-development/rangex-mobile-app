@@ -4,13 +4,16 @@ import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:rangex/authentication/repositories/auth_repository.dart';
 import 'package:rangex/authentication/repositories/user_repository.dart';
-import 'package:rangex/utils/auth.dart';
+import 'package:rangex/routes/app_router.gr.dart';
+import 'package:rangex/utils/javascript.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 typedef UrlChangeHandler = void Function(String url);
+typedef ModalStateChangeHandler = void Function(bool isOpen, [String? url]);
 
 class WebviewRepository {
   WebviewRepository({required String baseUrl}) : _baseUrl = baseUrl {
@@ -34,6 +37,7 @@ class WebviewRepository {
     required BuildContext context,
     Function? onCreated,
     UrlChangeHandler? onUrlChanged,
+    ModalStateChangeHandler? onModalStateChanged,
     List<WebViewCookie> cookies = const [],
   }) {
     if (Platform.isAndroid) WebView.platform = AndroidWebView();
@@ -61,7 +65,7 @@ class WebviewRepository {
       onPageFinished: (url) async {
         final webCookies =
             await _controller.runJavascriptReturningResult('document.cookie');
-        final mappedCookie = AuthUtils.getCookies(webCookies);
+        final mappedCookie = JavascriptHelper.cookieStringToMap(webCookies);
 
         String? accessToken = mappedCookie?['accessToken'];
         String? refreshToken = mappedCookie?['refreshToken'];
@@ -75,7 +79,7 @@ class WebviewRepository {
         if (accessToken == null ||
             accessToken == '' ||
             accessToken != newAccessToken) {
-          final setAccess = AuthUtils.jsStringSetCookie(
+          final setAccess = JavascriptHelper.setCookieString(
             'accessToken',
             newAccessToken,
           );
@@ -86,7 +90,7 @@ class WebviewRepository {
         if (refreshToken == null ||
             refreshToken == '' ||
             refreshToken != newRefreshToken) {
-          final setRefresh = AuthUtils.jsStringSetCookie(
+          final setRefresh = JavascriptHelper.setCookieString(
             'refreshToken',
             newRefreshToken,
           );
@@ -96,16 +100,13 @@ class WebviewRepository {
         /// 웹뷰 언어 셋팅
         final sp = await SharedPreferences.getInstance();
         final appLang = sp.getString('locale');
-        print('쉐어드프리퍼런스: ${appLang}');
 
         String? lang = mappedCookie?['lang'];
 
         if (appLang != lang) {
-          final setLang = AuthUtils.jsStringSetCookie('lang', appLang);
+          final setLang = JavascriptHelper.setCookieString('lang', appLang);
           await _controller.runJavascript(setLang);
         }
-
-        print('쿠키 언어: $lang');
       },
 
       /// 웹뷰 메시지 처리
@@ -122,6 +123,8 @@ class WebviewRepository {
             print(message.message);
           },
         ),
+
+        /// 페이지 주소 변경 시
         JavascriptChannel(
           name: 'LocationChanged',
           onMessageReceived: (message) {
@@ -131,6 +134,8 @@ class WebviewRepository {
             }
           },
         ),
+
+        /// 로그아웃 요청이 오면
         JavascriptChannel(
           name: 'LogoutRequested',
           onMessageReceived: (message) async {
@@ -140,6 +145,8 @@ class WebviewRepository {
             context.router.pushNamed('/welcome');
           },
         ),
+
+        /// 가입요청이 오면
         JavascriptChannel(
           name: 'JoinRequested',
           onMessageReceived: (message) async {
@@ -154,13 +161,19 @@ class WebviewRepository {
             }
           },
         ),
+
+        /// 회원정보 수정 요청이 오면
         JavascriptChannel(
           name: 'ModifyUserRequested',
           onMessageReceived: (message) async {
             await RepositoryProvider.of<UserRepository>(context)
                 .modifyOptionals(jsonDecode(message.message));
+
+            goBack();
           },
         ),
+
+        /// 언어변경 요청이 오면
         JavascriptChannel(
           name: 'LanguageChangeRequested',
           onMessageReceived: (message) {
@@ -169,10 +182,33 @@ class WebviewRepository {
             if (langForChange == context.locale.languageCode) return;
 
             context.setLocale(Locale(langForChange));
-            final setLang = AuthUtils.jsStringSetCookie('lang', langForChange);
+            final setLang =
+                JavascriptHelper.setCookieString('lang', langForChange);
             _controller.runJavascript(setLang);
           },
         ),
+
+        /// 외부페이지 요청이 오면
+        JavascriptChannel(
+          name: 'ThirdPartyPageRequested',
+          onMessageReceived: (message) {
+            context.router.push(
+              ThirdPartyRouter(url: dotenv.env[message.message]!),
+            );
+          },
+        ),
+
+        /// 웹뷰에서 모달 상태가 변경되면
+        JavascriptChannel(
+          name: 'ModalStateChanged',
+          onMessageReceived: (message) async {
+            final bool modalState = jsonDecode(message.message) as bool;
+            final curUrl =
+                modalState == false ? await _controller.currentUrl() : null;
+
+            onModalStateChanged!(modalState, curUrl);
+          },
+        )
       },
     );
   }

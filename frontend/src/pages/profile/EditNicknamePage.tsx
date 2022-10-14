@@ -1,22 +1,40 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { modifyMe } from "../../api/user";
 import TopBar from "../../components/common/layout/bar/TopBar";
 import TextInput from "../../components/common/layout/input/TextInput";
+import { me } from "../../store";
 import { BottomFullButton, FlexForm, PageWithHeader } from "../../styles/common";
 import { User } from "../../types";
+import { webviewError, webViewLog } from "../../utils";
 
 export default function EditNicknamePage() {
+    const [user] = useRecoilState(me);
+    const setUser = useSetRecoilState(me);
     const [nickname, setNickname] = useState<string>();
+    const nav = useNavigate();
 
     const onChangeNickname = (e: FormEvent<HTMLInputElement>) => {
         setNickname(e.currentTarget.value);
     }
 
-    const editNickname = () => {
+    const editNickname = async () => {
         const userInfo: User = {
             nickName: nickname
         }
-        window.ModifyUserRequested?.postMessage(JSON.stringify(userInfo));
+        
+        try {
+            setUser(await modifyMe(userInfo));
+            nav(-1);
+        } catch (error) {
+            webviewError(error);
+        }
     };
+
+    useEffect(() => {
+        window.ResponseReceived?.postMessage(webViewLog('닉네임 리렌더', user.nickName));
+    }, [user]);
     
     return (
         <PageWithHeader>
@@ -25,10 +43,10 @@ export default function EditNicknamePage() {
             <FlexForm>
                 <TextInput
                     label="Nick name"
+                    defaultValue={user.nickName}
                     onChange={onChangeNickname}
                 />
-
-                <BottomFullButton onClick={() => editNickname()}>
+                <BottomFullButton onClick={editNickname}>
                     EDIT
                 </BottomFullButton>
             </FlexForm>

@@ -11,6 +11,7 @@ export interface ValidateResult {
 }
 
 export interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
+    key?: string | number;
     label?: string;
     required?: boolean;
     validate?: (event: FormEvent<HTMLInputElement>) => ValidateResult;
@@ -56,7 +57,6 @@ const StyledTextField = styled('div')`
 `;
 
 export default function TextInput(props: TextInputProps) {
-    const inputElem = useRef<HTMLInputElement>(null);
     const [isValid, setIsValid] = useState(true);
     const [error, setError] = useState<string | undefined>();
 
@@ -95,8 +95,6 @@ export default function TextInput(props: TextInputProps) {
 
     const checkRequired = () => {
         if (!props.required) return;
-
-        if (inputElem.current?.value) return;
         
         setIsValid(false);
         setError('Required.');
@@ -110,11 +108,10 @@ export default function TextInput(props: TextInputProps) {
         <InputCover label={props.label}>
             <StyledTextField>
                 <div className="input-root">
-                    <input 
-                        ref={inputElem}
+                    <input
                         type={props.type || 'text'}
                         name={props.name}
-                        value={props.defaultValue}
+                        defaultValue={props.defaultValue}
                         placeholder={props.label}
                         onInput={isOverMaxLength}
                         onChange={onChange}

@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:rangex/authentication/bloc/login_bloc.dart';
 import 'package:rangex/authentication/repositories/auth_repository.dart';
+import 'package:rangex/authentication/views/welcome_agreement.dart';
 import 'package:rangex/authentication/widgets/login_form.dart';
 
 class WelcomePage extends StatefulWidget {
@@ -103,71 +104,5 @@ class _WelcomePageState extends State<WelcomePage> {
         ),
       ),
     );
-  }
-}
-
-/// 이용약관 안내문
-class WelcomeAgreement extends StatefulWidget {
-  const WelcomeAgreement({Key? key}) : super(key: key);
-
-  @override
-  State<WelcomeAgreement> createState() => _WelcomeAgreementState();
-}
-
-class _WelcomeAgreementState extends State<WelcomeAgreement> {
-  @override
-  Widget build(BuildContext context) {
-    final bool isLangKo = context.locale.languageCode == "ko";
-
-    return RichText(
-        textAlign: TextAlign.center,
-        text: isLangKo
-
-            /// 한국어 버전
-            ? TextSpan(
-                text: '계속하면 rangex의 ',
-                style: TextStyle(color: Theme.of(context).disabledColor),
-                children: <TextSpan>[
-                  TextSpan(
-                    text: tr('terms_of_service'),
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).highlightColor,
-                    ),
-                  ),
-                  const TextSpan(text: '과 '),
-                  TextSpan(
-                    text: tr('privacy_policy'),
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).highlightColor,
-                    ),
-                  ),
-                  const TextSpan(text: '을 읽고 동의한 것으로 간주합니다.'),
-                ],
-              )
-
-            /// 그 외 언어
-            : TextSpan(
-                text: 'If continue, you’re considered to argree with rangex ',
-                style: TextStyle(color: Theme.of(context).disabledColor),
-                children: <TextSpan>[
-                  TextSpan(
-                    text: tr('terms_of_service'),
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).highlightColor,
-                    ),
-                  ),
-                  const TextSpan(text: ' and to read '),
-                  TextSpan(
-                    text: 'Privacy Policy.',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).highlightColor,
-                    ),
-                  )
-                ],
-              ));
   }
 }

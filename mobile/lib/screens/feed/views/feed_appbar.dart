@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 
 PreferredSizeWidget buildFeedAppbar(BuildContext context) {
@@ -6,5 +7,6 @@ PreferredSizeWidget buildFeedAppbar(BuildContext context) {
     title: SvgPicture.asset('assets/images/logo_white.svg'),
     centerTitle: false,
     elevation: 0,
+    systemOverlayStyle: SystemUiOverlayStyle.light,
   );
 }

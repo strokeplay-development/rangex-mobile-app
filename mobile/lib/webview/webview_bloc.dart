@@ -35,6 +35,10 @@ class WebviewBloc extends Bloc<WebviewEvent, WebviewState> {
       return isRoot ? emit(WebviewStateRoot()) : emit(WebviewStateDeep());
     }
 
+    if (event is WebviewModalOpened) {
+      return emit(WebviewStateModal());
+    }
+
     return emit(WebviewStateNotLoaded());
   }
 

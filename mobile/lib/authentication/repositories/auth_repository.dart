@@ -1,9 +1,6 @@
 import 'dart:async';
-
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:rangex/api/api.dart';
-import 'package:rangex/api/kakao_auth.dart';
-import 'package:rangex/authentication/bloc/login_event.dart';
 
 /// 인증상태
 enum AuthStatus { unknown, authenticated, unauthenticated }
@@ -85,20 +82,18 @@ class AuthRepository {
     required String? userPW,
   }) async {
     try {
-      print('로그인시도 $userAccount // $userPW');
       final res = await AuthHttp().login({
         'userAccount': userAccount,
         'userPW': userPW,
       });
 
-      if (res.statusCode == 200) {
-        String accessToken = res.data['accessToken'] as String;
-        String refreshToken = res.data['refreshToken'] as String;
+      String accessToken = res.data['accessToken'] as String;
+      String refreshToken = res.data['refreshToken'] as String;
 
-        await logIn(accessToken, refreshToken);
-      }
+      await logIn(accessToken, refreshToken);
     } catch (e) {
       _controller.add(AuthStatus.unauthenticated);
+      print("직접로그인 실패 $e");
       throw Exception(e);
     }
   }
@@ -109,8 +104,6 @@ class AuthRepository {
         throw Error();
       }
 
-      // final kakaoAuth = KakaoAuthHttp();
-      // final res = await kakaoAuth.requestToken(code);
       print("전달할 토큰코드: $code");
       final result = await AuthHttp().kakaoLogin(code);
 

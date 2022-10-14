@@ -11,6 +11,7 @@ import { me } from "../../store";
 import { BG_NAVY } from "../../styles/colors";
 import { PageWithBlockSection } from "../../styles/common";
 import { FONT_MEDIUM } from "../../styles/fonts";
+import PasswordChangeMenu from "./PasswordChangeMenu";
 
 interface ProfileInfoProps {
     role?: string;
@@ -115,13 +116,6 @@ export default function EditProfilePage() {
         onClick: () => nav('/profile/nickname')
     };
 
-    /// 패스워드 변경
-    const passwordProps: MenuBoxProps = {
-        role: 'menu:edit-password',
-        title: t("more:menu_edit_password"),
-        onClick: () => nav(PATHS.PROFILE.PASSWORD)
-    };
-
     /// 로그아웃
     const logoutProps: MenuBoxProps = {
         role: 'menu:logout',
@@ -179,10 +173,13 @@ export default function EditProfilePage() {
             <ul>
                 <MenuBox {...nickNameProps}/>
             </ul>
-
-            <ul>
-                <MenuBox {...passwordProps}/>
-            </ul>
+            
+            { 
+                /* 직접가입 회원만 비밀번호 변경 가능 */
+                user.inChannel == null
+                ? <ul><PasswordChangeMenu/></ul>
+                : null
+            }
 
             <ul>
                 <MenuBox {...logoutProps}/>

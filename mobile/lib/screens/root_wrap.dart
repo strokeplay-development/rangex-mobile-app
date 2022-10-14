@@ -42,6 +42,7 @@ class _RootWrapState extends State<RootWrap> {
   void initState() {
     _webviewBloc = WebviewBloc(webviewRepository: _webviewRepository);
     _authRepo = RepositoryProvider.of<AuthRepository>(context);
+    print("웹뷰 위젯 스테이트 시작");
 
     super.initState();
   }
@@ -74,20 +75,38 @@ class _RootWrapState extends State<RootWrap> {
                   onUrlChanged: (changedUrl) {
                     _webviewBloc?.add(WebviewUrlChanged(changedUrl));
                   },
+                  onModalStateChanged: (isOpen, [url]) {
+                    print('모달바꺼죠! $isOpen');
+                    if (isOpen) {
+                      return _webviewBloc?.add(WebviewModalOpened());
+                    }
+
+                    _webviewBloc?.add(WebviewUrlChanged(url));
+                  },
                   cookies: _cookies,
                 ),
+
+                /// FAB 뒤로가기
                 Visibility(
                   visible: state is! WebviewStateRoot,
                   child: Positioned(
                     top: 4,
                     left: 6,
                     child: IconButton(
-                      icon: const Icon(
-                        Icons.arrow_back,
-                        color: Colors.white,
+                      icon: Opacity(
+                        opacity: state is WebviewStateModal ? 0.5 : 1,
+                        child: const Icon(
+                          Icons.arrow_back,
+                          color: Colors.white,
+                        ),
                       ),
                       onPressed: () async {
                         if (await _webviewRepository.canGoBack) {
+                          if (state is WebviewStateModal) {
+                            print('모달이 켜져 있습니다.');
+                            return;
+                          }
+
                           if (state is WebviewStateRoot) {
                             setState(() {
                               selectedTap = tapIndexStack.removeLast();

@@ -1,11 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:rangex/authentication/bloc/login_bloc.dart';
 import 'package:rangex/authentication/bloc/login_event.dart';
 import 'package:rangex/authentication/bloc/login_state.dart';
-import 'package:rangex/routes/app_router.gr.dart';
 import 'package:rangex/utils/lifecycle.dart';
 import 'package:easy_localization/easy_localization.dart';
 
