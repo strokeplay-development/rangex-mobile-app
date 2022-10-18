@@ -10,6 +10,7 @@ import 'package:rangex/authentication/repositories/user_repository.dart';
 import 'package:rangex/routes/app_router.gr.dart';
 import 'package:rangex/utils/javascript.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:webview_cookie_manager/webview_cookie_manager.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 typedef UrlChangeHandler = void Function(String url);
@@ -139,8 +140,21 @@ class WebviewRepository {
         JavascriptChannel(
           name: 'LogoutRequested',
           onMessageReceived: (message) async {
-            print('[Logout Requested]');
+            print(message.message);
+
+            // 웹뷰 토큰 삭제
+            await _controller.clearCache();
+            final delAccess = JavascriptHelper.delCookieString('accessToken');
+            final delRefresh = JavascriptHelper.delCookieString('refreshToken');
+            await _controller.runJavascript(delAccess);
+            await _controller.runJavascript(delRefresh);
+
+            print(await _controller
+                .runJavascriptReturningResult('document.cookie'));
+
+            // 앱 토큰 삭제
             await RepositoryProvider.of<AuthRepository>(context).logOut();
+
             context.router.popUntil((route) => false);
             context.router.pushNamed('/welcome');
           },
@@ -208,7 +222,14 @@ class WebviewRepository {
 
             onModalStateChanged!(modalState, curUrl);
           },
-        )
+        ),
+
+        JavascriptChannel(
+          name: 'ErrorCatched',
+          onMessageReceived: (message) {
+            print(message.message);
+          },
+        ),
       },
     );
   }

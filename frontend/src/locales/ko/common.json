@@ -1,4 +1,8 @@
 {
+    "button_text_confirm": "확인",
+    "button_confirm": "확인하기",
+    "button_text_cancel": "취소",
+    "button_cancel": "취소하기",
     "button_modify": "수정하기",
     "button_edit": "수정",
     "button_create": "생성하기",

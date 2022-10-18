@@ -4,6 +4,11 @@ class JavascriptHelper {
     return 'document.cookie = "$cookieName=${value ?? ''};"';
   }
 
+  /// 쿠키삭제 자바스크립트 코드
+  static String delCookieString(String cookieName) {
+    return 'document.cookie = "$cookieName=; Expires=Thu, 01 Jan 1970 00:00:01 GMT;"';
+  }
+
   /// 쿠키문자열을 맵 형식으로 변환
   static Map<String, String>? cookieStringToMap(String? cookieString) {
     final mapped = <String, String>{};

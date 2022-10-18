@@ -1,19 +1,24 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { styled } from "@mui/material";
-import { MouseEventHandler, useState } from "react";
+import { MouseEventHandler, useEffect, useState } from "react";
+import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
+import { fetchConfigs } from "../../api/user";
 import InfoModal from "../../components/common/help/InfoModal";
 import TopBar from "../../components/common/layout/bar/TopBar";
 import GridLayout from "../../components/common/layout/grid/GridLayout";
 import SectionHeader from "../../components/common/layout/section/SectionHeader";
 import { BottomFullButton, PageWithHeader, Section } from "../../styles/common";
+import { BOOL } from "../../types";
+import { webviewPrint } from "../../utils";
 
 /**
  * types
  */
 interface ClubVisibility {
+    id: number | string,
     club: string,
-    visible: boolean
+    visible: BOOL
 }
 
 /**
@@ -35,9 +40,9 @@ const VisibleSwitch = styled('div')`
 const ClubVisibleSwitch = (clubInfo: Partial<ClubVisibility> & {onClick: MouseEventHandler}) => {
     return (
         <VisibleSwitch onClick={clubInfo.onClick}>
-            <h3 style={{ opacity: clubInfo.visible ? '100%' : '35%' }}>{clubInfo.club}</h3>
+            <h3 style={{ opacity: clubInfo.visible === 1 ? '100%' : '35%' }}>{clubInfo.club}</h3>
             {
-                clubInfo.visible
+                clubInfo.visible === 1
                 ? <Visibility fontSize="small"/> 
                 : <VisibilityOff fontSize="small" sx={{ opacity: '30%' }}/>
             }
@@ -47,77 +52,78 @@ const ClubVisibleSwitch = (clubInfo: Partial<ClubVisibility> & {onClick: MouseEv
 
 export default function ClubPage() {
     const nav = useNavigate();
+    const { isLoading, data } = useQuery('fetchClubs', () => fetchConfigs('clubs'))
 
     // Woods
-    const [woods, setWoods] = useState([
-        { club: 'Driver', visible: true },
-        { club: 'Wood2', visible: false },
-        { club: 'Wood3', visible: false },
-        { club: 'Wood4', visible: false },
-        { club: 'Wood5', visible: false },
-        { club: 'Wood6', visible: false },
-        { club: 'Wood7', visible: false },
-        { club: 'Wood8', visible: false },
-        { club: 'Wood9', visible: false },
+    const [woods, setWoods] = useState<ClubVisibility[]>([
+        { id: 0, club: 'Driver', visible: 0 },
+        { id: 1, club: 'Wood2', visible: 0 },
+        { id: 2, club: 'Wood3', visible: 0 },
+        { id: 3, club: 'Wood4', visible: 0 },
+        { id: 4, club: 'Wood5', visible: 0 },
+        { id: 24, club: 'Wood6', visible: 0 },
+        { id: 5, club: 'Wood7', visible: 0 },
+        { id: 25, club: 'Wood8', visible: 0 },
+        { id: 26, club: 'Wood9', visible: 0 },
     ]);
 
     const toggleWood = (index: number) => {
-        woods[index].visible = !woods[index].visible;
+        woods[index].visible = woods[index].visible === 0 ? 1 : 0;
         setWoods([...woods]);
     }
 
     // Hybrids
-    const [hybrids, setHybrids] = useState([
-        { club: 'Hybrid1', visible: false },
-        { club: 'Hybrid2', visible: false },
-        { club: 'Hybrid3', visible: false },
-        { club: 'Hybrid4', visible: false },
-        { club: 'Hybrid5', visible: false },
-        { club: 'Hybrid6', visible: false },
-        { club: 'Hybrid7', visible: false },
-        { club: 'Hybrid8', visible: false },
-        { club: 'Hybrid9', visible: false },
+    const [hybrids, setHybrids] = useState<ClubVisibility[]>([
+        { id: 27, club: 'Hybrid1', visible: 0 },
+        { id: 28, club: 'Hybrid2', visible: 0 },
+        { id: 6, club: 'Hybrid3', visible: 0 },
+        { id: 7, club: 'Hybrid4', visible: 0 },
+        { id: 8, club: 'Hybrid5', visible: 0 },
+        { id: 29, club: 'Hybrid6', visible: 0 },
+        { id: 9, club: 'Hybrid7', visible: 0 },
+        { id: 30, club: 'Hybrid8', visible: 0 },
+        { id: 31, club: 'Hybrid9', visible: 0 },
     ]);
 
     const toggleHybrid = (index: number) => {
-        hybrids[index].visible = !hybrids[index].visible;
+        hybrids[index].visible = hybrids[index].visible === 0 ? 1 : 0;
         setHybrids([...hybrids]);
     }
 
     // Irons
-    const [irons, setIrons] = useState([
-        { club: 'Iron1', visible: false },
-        { club: 'Iron2', visible: false },
-        { club: 'Iron3', visible: false },
-        { club: 'Iron4', visible: false },
-        { club: 'Iron5', visible: false },
-        { club: 'Iron6', visible: false },
-        { club: 'Iron7', visible: false },
-        { club: 'Iron8', visible: false },
-        { club: 'Iron9', visible: false },
+    const [irons, setIrons] = useState<ClubVisibility[]>([
+        { id: 32, club: 'Iron1', visible: 0 },
+        { id: 10, club: 'Iron2', visible: 0 },
+        { id: 11, club: 'Iron3', visible: 0 },
+        { id: 12, club: 'Iron4', visible: 0 },
+        { id: 13, club: 'Iron5', visible: 0 },
+        { id: 14, club: 'Iron6', visible: 0 },
+        { id: 15, club: 'Iron7', visible: 0 },
+        { id: 16, club: 'Iron8', visible: 0 },
+        { id: 17, club: 'Iron9', visible: 0 },
     ]);
 
     const toggleIron = (index: number) => {
-        irons[index].visible = !irons[index].visible;
+        irons[index].visible = irons[index].visible === 0 ? 1 : 0;
         setIrons([...irons]);
     }
 
     // Wedges
-    const [wedges, setWedges] = useState([
-        { club: 'Wedge46(P)', visible: false },
-        { club: 'Wedge48', visible: false },
-        { club: 'Wedge50', visible: false },
-        { club: 'Wedge52', visible: false },
-        { club: 'Wedge54', visible: false },
-        { club: 'Wedge56(S)', visible: false },
-        { club: 'Wedge58', visible: false },
-        { club: 'Wedge60', visible: false },
-        { club: 'Wedge62', visible: false },
-        { club: 'Wedge64', visible: false },
+    const [wedges, setWedges] = useState<ClubVisibility[]>([
+        { id: 18, club: 'Wedge46(P)', visible: 0 },
+        { id: 33, club: 'Wedge48', visible: 0 },
+        { id: 34, club: 'Wedge50', visible: 0 },
+        { id: 19, club: 'Wedge52', visible: 0 },
+        { id: 20, club: 'Wedge54', visible: 0 },
+        { id: 21, club: 'Wedge56(S)', visible: 0 },
+        { id: 35, club: 'Wedge58', visible: 0 },
+        { id: 22, club: 'Wedge60', visible: 0 },
+        { id: 36, club: 'Wedge62', visible: 0 },
+        { id: 37, club: 'Wedge64', visible: 0 },
     ]);
 
     const toggleWedge = (index: number) => {
-        wedges[index].visible = !wedges[index].visible;
+        wedges[index].visible = wedges[index].visible === 0 ? 1 : 0;
         setWedges([...wedges]);
     }
 
@@ -125,6 +131,34 @@ export default function ClubPage() {
     const saveClubOptions = () => {
         nav(-1);
     }
+
+    if (isLoading) {
+        webviewPrint('클럽옵션 로딩중');
+    }
+
+    useEffect(() => {
+        if (data) {
+            setWoods(woods.map(wood => {
+                wood.visible = data?.[wood.id];
+                return wood;
+            }));
+    
+            setHybrids(hybrids.map(hybrid => {
+                hybrid.visible = data[hybrid.id];
+                return hybrid;
+            }));
+    
+            setIrons(irons.map(iron => {
+                iron.visible = data[iron.id];
+                return iron;
+            }));
+    
+            setWedges(wedges.map(wedge => {
+                wedge.visible = data[wedge.id];
+                return wedge;
+            }));
+        }
+    }, [data]);
 
     return (
         <PageWithHeader className="no_horizon_padding">

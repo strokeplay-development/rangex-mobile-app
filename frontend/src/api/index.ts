@@ -1,3 +1,4 @@
+import { webviewError, webviewLogout } from './../utils/webview';
 import { Cookies } from 'react-cookie';
 import axios, { AxiosResponse } from "axios";
 import { HTTP_STATUS } from '../constants';
@@ -30,14 +31,8 @@ instance.interceptors.response.use(
     }, 
     (err: AxiosError | undefined) => {
         if (err?.response?.status === HTTP_STATUS.UNAUTHORIZED) {            
-            window.ResponseReceived.postMessage('<Unauthorized>' + JSON.stringify(err));
-            
-            // 인가실패시 보유중인 토큰을 지우고 로그아웃 처리한다.
-            const cookies = new Cookies();
-            cookies.remove('accessToken');
-            cookies.remove('refreshToken');
-
-            window.LogoutRequested.postMessage('logout');
+            webviewError('<Unauthorized>' + JSON.stringify(err));
+            webviewLogout('Unauthorized');
         }
     }
 );

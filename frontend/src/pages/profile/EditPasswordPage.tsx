@@ -1,20 +1,48 @@
-import { FormEvent, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
+import { changePassword } from "../../api/auth";
 import TopBar from "../../components/common/layout/bar/TopBar";
 import TextInput from "../../components/common/layout/input/TextInput";
+import { InputValidator, useTextInput } from "../../hooks";
 import { me } from "../../store";
-import { BottomFullButton, FlexForm, PageWithHeader } from "../../styles/common";
+import { FlexForm, PageWithHeader } from "../../styles/common";
+import { webviewError } from "../../utils";
+import PasswordChangeButton from "./PasswordChangeButton";
 
 export default function EditPasswordPage() {
     const user = useRecoilValue(me);
-    const [password, setPassword] = useState<string>();
+    const nav = useNavigate();
 
-    const onChangePw = (e: FormEvent<HTMLInputElement>) => {
-        setPassword(e.currentTarget.value);
+    const pwValidate: InputValidator = (value?: string) => {
+        if (newPw === value) {
+            return {
+                isValid: true
+            }
+        }
+
+        return {
+            isValid: false,
+            message: 'Password not matched.'
+        };
     }
 
-    const editPw = () => {
-        
+    const { value: newPw, onChange: onChangeNewPw } = useTextInput();
+    const newPwConfirm = useTextInput(undefined, pwValidate);
+
+    const editPw = async (password?: string) => {
+        try {
+            if (!newPwConfirm.isValid) return;
+
+            await changePassword({
+                userID: user.id,
+                password,
+                userPW: newPw
+            });
+            
+            nav(-1);
+        } catch (error) {
+            webviewError(error);
+        }
     };
     
     return (
@@ -24,16 +52,18 @@ export default function EditPasswordPage() {
             <FlexForm>
                 <TextInput
                     label="Password"
-                    onChange={onChangePw}
+                    name="newPw"
+                    onChange={onChangeNewPw}
                 />
                 <TextInput
                     label="Password confirm"
-                    onChange={onChangePw}
+                    name="newPwConfirm"
+                    onChange={newPwConfirm.onChange}
+                    isValid={newPwConfirm.isValid}
+                    errorMessage={newPwConfirm.message}
                 />
 
-                <BottomFullButton onClick={editPw}>
-                    EDIT
-                </BottomFullButton>
+                <PasswordChangeButton onClick={editPw}/>
             </FlexForm>
         </PageWithHeader>
     );

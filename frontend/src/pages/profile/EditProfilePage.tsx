@@ -11,7 +11,8 @@ import { me } from "../../store";
 import { BG_NAVY } from "../../styles/colors";
 import { PageWithBlockSection } from "../../styles/common";
 import { FONT_MEDIUM } from "../../styles/fonts";
-import PasswordChangeMenu from "./PasswordChangeMenu";
+import { webviewLogout } from "../../utils";
+import PasswordChangeMenu from "./PasswordChangeButton";
 
 interface ProfileInfoProps {
     role?: string;
@@ -113,19 +114,24 @@ export default function EditProfilePage() {
     const nickNameProps: MenuBoxProps = {
         role: 'menu:edit-nickname',
         title: t("more:menu_edit_nickname"),
-        onClick: () => nav('/profile/nickname')
+        onClick: () => nav(PATHS.PROFILE.NICKNAME)
+    };
+
+    // 패스워드 메뉴 프롭스
+    const passwordProps: MenuBoxProps = {
+        role: 'menu:edit-password',
+        title: t("more:menu_edit_password"),
+        onClick: async () => nav(PATHS.PROFILE.PASSWORD)
     };
 
     /// 로그아웃
     const logoutProps: MenuBoxProps = {
         role: 'menu:logout',
         title: t("more:menu_logout"),
-        onClick() {
-            window.LogoutRequested?.postMessage('logout');
-        }
+        onClick: () => webviewLogout('User requested to log out')
     }
 
-    const goEditProfile = () => nav('/profile/optional');
+    const goEditProfile = () => nav(PATHS.PROFILE.OPTIONAL);
 
     return (
         <PageWithBlockSection>
@@ -177,7 +183,7 @@ export default function EditProfilePage() {
             { 
                 /* 직접가입 회원만 비밀번호 변경 가능 */
                 user.inChannel == null
-                ? <ul><PasswordChangeMenu/></ul>
+                ? <ul><MenuBox {...passwordProps}/></ul>
                 : null
             }
 

@@ -1,4 +1,8 @@
 {
+    "button_text_confirm": "Confirm",
+    "button_confirm": "CONFIRM",
+    "button_text_cancel": "Cancel",
+    "button_cancel": "CANCEL",
     "button_modify": "MODIFY",
     "button_edit": "EDIT",
     "button_create": "CREATE",

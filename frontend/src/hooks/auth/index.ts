@@ -1,10 +1,10 @@
-import { useEffect } from 'react';
+import { webviewError } from './../../utils/webview';
 import { useRecoilState } from 'recoil';
 import { useQuery } from 'react-query';
 import { routeInfoList } from './../../routes/index';
 import { isEmptyObject, webViewLog } from './../../utils';
 import { me } from '../../store';
-import { useCookies } from 'react-cookie';
+import { Cookies, useCookies } from 'react-cookie';
 import { fetchMe } from '../../api/user';
 import { useLocation } from 'react-router-dom';
 
@@ -20,6 +20,8 @@ export const useAuthorize = (): AuthorizeResult => {
     const { pathname: currentPath } = useLocation();
     const [user, setUser] = useRecoilState(me);
     const [tokens] = useCookies(['accessToken', 'refreshToken']);
+
+    webviewError('토큰?' + JSON.stringify(tokens));
     
     const  isNoUser = isEmptyObject(user);
     const { isLoading, data } = useQuery('fetchMe', fetchMe, { enabled: isNoUser });
@@ -38,6 +40,9 @@ export const useAuthorize = (): AuthorizeResult => {
 
     // 토큰이 하나라도 없으면 미인가
     if (!(tokens.accessToken && tokens.refreshToken)) {
+        // 유저정보 삭제
+        setUser({});
+        
         result.isAuthorized = false;
         return result;
     }

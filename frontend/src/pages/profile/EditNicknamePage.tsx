@@ -10,8 +10,7 @@ import { User } from "../../types";
 import { webviewError, webViewLog } from "../../utils";
 
 export default function EditNicknamePage() {
-    const [user] = useRecoilState(me);
-    const setUser = useSetRecoilState(me);
+    const [user, setUser] = useRecoilState(me);
     const [nickname, setNickname] = useState<string>();
     const nav = useNavigate();
 

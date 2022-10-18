@@ -3,7 +3,7 @@ import { RouteObject, useRoutes } from 'react-router-dom';
 import { PATHS } from '../constants';
 import UnknownPage from '../pages/404';
 import { UserOptinalInfoPageMode } from '../pages/signup/OptionalSignupPage';
-import { LogoutRedirected, SocialAuthPage } from './auth';
+import { SocialAuthPage } from './auth';
 
 interface RouteInfo extends RouteObject {
     isPrivate?: boolean
@@ -112,11 +112,7 @@ export const routeInfoList: RouteInfoList = [
     {
         path: PATHS.REDIRECT.KAKAO,
         element: <SocialAuthPage/>,
-    },
-    {
-        path: PATHS.REDIRECT.LOGOUT,
-        element: <LogoutRedirected/>
-    },
+    }
 ]
 
 export default function PageRoutes() {

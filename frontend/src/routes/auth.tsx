@@ -18,15 +18,3 @@ export const SocialAuthPage: React.FC = () => {
         <div>{'Kakao Talk Authenticating...'}</div>
     )
 }
-
-export const LogoutRedirected: React.FC = () => {
-    const logout = () => {
-        window.LogoutRequested?.postMessage('logout');
-    }
-
-    return (
-        <div>
-            <button onClick={logout}>Go to Login Page</button>
-        </div>
-    )
-}

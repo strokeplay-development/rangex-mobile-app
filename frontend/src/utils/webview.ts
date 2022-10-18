@@ -7,4 +7,18 @@
 };
 
 /* 웹뷰 메시지들 ****************************************************************/
-export const webviewError = window.ErrorCatched?.postMessage;
+
+// 응답로그 전달
+export const webviewPrint = (message: unknown) => window.ResponseReceived?.postMessage(
+    webViewLog('Webview Print', message)
+);
+
+// 에러로그 전달
+export const webviewError = (message: unknown) => window.ErrorCatched?.postMessage(
+    webViewLog('Webview Error', message)
+);
+
+// 로그아웃 요청
+export const webviewLogout = (message: string) => window.LogoutRequested?.postMessage(
+    webViewLog('Logout',message)
+);

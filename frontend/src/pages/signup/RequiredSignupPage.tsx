@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import TopBar from "../../components/common/layout/bar/TopBar";
-import TextInput, { TextInputProps, ValidateResult } from "../../components/common/layout/input/TextInput";
+import TextInput, { TextInputProps } from "../../components/common/layout/input/TextInput";
 import { useInput } from "../../hooks/common";
 import { signupState } from "../../store/signup";
 import { BottomFullButton, PageWithHeader } from "../../styles/common";
@@ -61,19 +61,19 @@ export default function RequiredSignupPage() {
         label: t("common:label_password_confirm"),
         name: 'passwordConfirm',
         onChange,
-        validate(event) {
-            console.log(inputValues.userPW, event.currentTarget.value);
+        // validate(event) {
+        //     console.log(inputValues.userPW, event.currentTarget.value);
             
-            const result: ValidateResult = {
-                isValid: inputValues.userPW === event.currentTarget.value
-            };
+        //     const result: ValidateResult = {
+        //         isValid: inputValues.userPW === event.currentTarget.value
+        //     };
             
-            if (result.isValid === false) {
-                result.message = 'Password not matched.';
-            }
+        //     if (result.isValid === false) {
+        //         result.message = 'Password not matched.';
+        //     }
 
-            return result;
-        },
+        //     return result;
+        // },
     }
 
     const bottomButtonProps = {
