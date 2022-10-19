@@ -25,7 +25,7 @@ const More = React.lazy(() => import('../pages/more/MorePage'));
 const EditProfile = React.lazy(() => import('../pages/profile/EditProfilePage'));
 const EditNickname = React.lazy(() => import('../pages/profile/EditNicknamePage'));
 const EditPassword = React.lazy(() => import('../pages/profile/EditPasswordPage'));
-const Clubs = React.lazy(() => import('../pages/club/ClubPage'));
+const Clubs = React.lazy(() => import('../pages/option/ClubPage'));
 const GameOptions = React.lazy(() => import('../pages/option/GameOptionsPage'));
 const JoinShop = React.lazy(() => import('../pages/link/LinkShop'));
 const Language = React.lazy(() => import('../pages/option/LanguagePage'));

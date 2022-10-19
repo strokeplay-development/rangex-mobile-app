@@ -19,28 +19,3 @@ export interface User {
     lastLoginDate?: string;
     inChannel?: string;
 }
-
-export interface PracticeOptions {        
-    Temperature: number;
-    TemperatureType: number;
-    Altitude: number;
-    AltitudeType: number;
-    Humidity: number;
-    Hardness: number;
-    PinType: number;
-    BallCountType: number;
-    SpeedType: number;
-    DistanceType: number;
-    GreenDistanceType: number;
-    Sound: number;
-    Volume: number;
-    DisappearingTime: number;
-    BallTailColor: number;
-    balltailFirst: number;
-    balltailSecond: number;
-    balltailThird: number;
-    LevelGridColor: number;
-    IsShowLevelGrid: boolean;
-    PlayTutorial: boolean;
-    ImpactGrid: boolean;
-}

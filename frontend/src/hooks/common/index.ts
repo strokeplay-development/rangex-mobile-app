@@ -1,4 +1,4 @@
-import { webviewError } from './../../utils/webview';
+import { webviewError, webviewPrint } from './../../utils/webview';
 import { ChangeEvent, ChangeEventHandler, Dispatch, SetStateAction, useEffect, useState } from "react";
 import { SetterOrUpdater } from "recoil";
 
@@ -8,6 +8,8 @@ import { SetterOrUpdater } from "recoil";
 type UseInputSetterOrUpdater<T> = SetterOrUpdater<T> | Dispatch<SetStateAction<T>>
 
 export const useInput = <T>(input: T, setInput:  UseInputSetterOrUpdater<T>) => {
+    const [valueState, setValueState] = useState()
+
     const onChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         console.log(`${name}: ${value}`, input);
@@ -24,6 +26,28 @@ export const useInput = <T>(input: T, setInput:  UseInputSetterOrUpdater<T>) => 
         onChange
     }
 }
+
+
+export const useInputs = (initialValue = {}) => {
+    const [valueState, setValueState] = useState(initialValue);
+
+    const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+
+        webviewPrint(valueState);
+        
+        setValueState({
+            ...valueState,
+            [name]: value
+        });
+    }
+
+    return {
+        value: valueState,
+        onChange,
+        setValue: setValueState
+    }
+};
 
 interface InputValidateResult {
     isValid?: boolean;

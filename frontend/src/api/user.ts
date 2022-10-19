@@ -1,5 +1,4 @@
-import { ClubOptions } from './../types/config/index';
-import { AxiosResponse } from 'axios';
+import { ClubOptions, UserConfig } from './../types/config/index';
 import instance from "."
 import { User } from "../types";
 import { webViewLog } from "../utils";
@@ -24,11 +23,36 @@ export const modifyMe = async (userInfo: User): Promise<User> => {
 /**
  * 나의 설정 가져오기
  */
-export const fetchConfigs = async (config: string): Promise<ClubOptions> => {
+export const fetchConfigs = async (configName: string): Promise<ClubOptions> => {
     const res = await instance.get('/users/me/configs', {
         params: {
-            fieldName: config
+            fieldName: configName
         }
     });
-    return JSON.parse(res.data.clubs);
+    return JSON.parse(res.data[configName]);
+};
+
+/**
+ * 나의 연습설정 가져오기
+ */
+export const fetchPracticeOptions = async (): Promise<UserConfig> => {
+    const res = await instance.get<UserConfig>('/users/me/configs', {
+        params: { fieldName: 'options' }
+    });
+
+    res.data.options = res.data.options ? JSON.parse(res.data.options as string) : undefined;
+    return res.data;
+}
+
+/**
+ * 나의 설정 수정하기
+ */
+export const modifyConfigs = async (userConfig?: UserConfig): Promise<UserConfig> => {
+    const res = await instance.put('/users/me/configs', userConfig);
+
+    return {
+        ...res.data,
+        options: res.data.options ? JSON.parse(res.data.options) : undefined,
+        clbus: res.data.clubs ? JSON.parse(res.data.clubs) : undefined,
+    }
 }

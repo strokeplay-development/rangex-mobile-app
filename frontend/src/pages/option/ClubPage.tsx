@@ -3,14 +3,15 @@ import { styled } from "@mui/material";
 import { MouseEventHandler, useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
-import { fetchConfigs } from "../../api/user";
+import { fetchConfigs, modifyConfigs } from "../../api/user";
 import InfoModal from "../../components/common/help/InfoModal";
 import TopBar from "../../components/common/layout/bar/TopBar";
 import GridLayout from "../../components/common/layout/grid/GridLayout";
 import SectionHeader from "../../components/common/layout/section/SectionHeader";
 import { BottomFullButton, PageWithHeader, Section } from "../../styles/common";
 import { BOOL } from "../../types";
-import { webviewPrint } from "../../utils";
+import { ClubOptions } from "../../types/config";
+import { webviewError, webviewPrint } from "../../utils";
 
 /**
  * types
@@ -127,11 +128,6 @@ export default function ClubPage() {
         setWedges([...wedges]);
     }
 
-    // Save
-    const saveClubOptions = () => {
-        nav(-1);
-    }
-
     if (isLoading) {
         webviewPrint('클럽옵션 로딩중');
     }
@@ -159,6 +155,33 @@ export default function ClubPage() {
             }));
         }
     }, [data]);
+
+    // Save
+    const saveClubOptions = async () => {
+        const clubsVisibilities = [
+            ...woods,
+            ...hybrids,
+            ...irons,
+            ...wedges
+        ];
+
+        const clubs: { [key: string]: BOOL } = {};
+
+        for (const club of clubsVisibilities) {
+            clubs[club.id] = club.visible;
+        }
+
+        try {
+            const result = await modifyConfigs({
+                clubs: JSON.stringify(clubs)
+            });
+
+            webviewPrint(result);
+            nav(-1);
+        } catch (error) {
+            webviewError(error);
+        }
+    }
 
     return (
         <PageWithHeader className="no_horizon_padding">

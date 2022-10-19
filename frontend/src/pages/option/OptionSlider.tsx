@@ -38,7 +38,7 @@ const StyledSlider = styled(Slider)(({ theme }) => ({
 export default function OptionSlider(props: PropsWithChildren<SliderProps>) {
     return (
         <div style={{padding: '0 4px'}}>
-            <StyledSlider valueLabelDisplay="on"/>
+            <StyledSlider valueLabelDisplay="on" name={props.name} onChange={props.onChange}/>
         </div>
     );
-}
+};

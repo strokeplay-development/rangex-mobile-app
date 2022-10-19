@@ -1,6 +1,7 @@
 import { MenuItem, Select, SelectProps, styled } from "@mui/material";
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, useEffect } from "react";
 import { ICON_GREY } from "../../../../styles/colors";
+import { webviewPrint } from "../../../../utils";
 
 type OptionSelectProps = SelectProps & { menus: number[] }
 
@@ -16,11 +17,15 @@ const StyledSelect = styled(Select)(({ theme }) => ({
 }));
 
 export default function OptionSelect(props: PropsWithChildren<OptionSelectProps>) {
+    useEffect(() => {
+        webviewPrint(props.defaultValue);
+    }, [props.defaultValue]);
     return (
         <StyledSelect
             size="small" 
             displayEmpty
-            defaultValue="45"
+            value={props.defaultValue || 25}
+            onChange={props.onChange}
         >
             {
                 props.menus.map((menu, idx) => (
