@@ -1,14 +1,14 @@
 import { useState } from 'react';
 
-export const useSliders = (initialValue = {}) => {
-    const [sliders, setSliders] = useState(initialValue);
+export const useSliders = <T>(initialValue: T) => {
+    const [sliders, setSliders] = useState<T>(initialValue);
 
-    const onChangSliders = (propName: string, value: number | number[]) => {
+    const onChangeSliders = (propName: string, value: number | number[]) => {
         setSliders({
             ...sliders,
             [propName]: value
         });
     };
 
-    return {sliders, onChangSliders, setSliders};
+    return {sliders, onChangeSliders, setSliders};
 }

@@ -1,16 +1,16 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { styled } from "@mui/material";
 import { MouseEventHandler, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
-import { fetchConfigs, modifyConfigs } from "../../api/user";
+import { fetchClubOptions, modifyConfigs } from "../../api/user";
 import InfoModal from "../../components/common/help/InfoModal";
 import TopBar from "../../components/common/layout/bar/TopBar";
 import GridLayout from "../../components/common/layout/grid/GridLayout";
 import SectionHeader from "../../components/common/layout/section/SectionHeader";
 import { BottomFullButton, PageWithHeader, Section } from "../../styles/common";
 import { BOOL } from "../../types";
-import { ClubOptions } from "../../types/config";
 import { webviewError, webviewPrint } from "../../utils";
 
 /**
@@ -53,7 +53,8 @@ const ClubVisibleSwitch = (clubInfo: Partial<ClubVisibility> & {onClick: MouseEv
 
 export default function ClubPage() {
     const nav = useNavigate();
-    const { isLoading, data } = useQuery('fetchClubs', () => fetchConfigs('clubs'))
+    const { t } = useTranslation(['common', 'more']); 
+    const { isLoading, data } = useQuery('fetchClubs', () => fetchClubOptions('clubs'))
 
     // Woods
     const [woods, setWoods] = useState<ClubVisibility[]>([
@@ -185,9 +186,9 @@ export default function ClubPage() {
 
     return (
         <PageWithHeader className="no_horizon_padding">
-            <TopBar fix title="Clubs Visibility">
-                <InfoModal title="Clubs Visibility">
-                    dfklnasdkfm; dfkm sd;f kedfe4r4mfd; dfk findkd fd45 5fm ddf5 dfklnas dkfm; df5 dsd;fkemfd; fddfdfkefindkfm dfdfklnasdkfm; dfkm sd;fkemfd; dfkefindkfm dfdfklnasdkfm; dfkm sd;fkemfd; dfkefindkfm dfdfklnasdkfm; dfkm sd;fkemfd; dfkefindkfm df
+            <TopBar fix title={t('more:title_club')}>
+                <InfoModal title={t('more:title_club')}>
+                    {t('more:info_club_options')}
                 </InfoModal>
             </TopBar>
 
@@ -270,7 +271,7 @@ export default function ClubPage() {
                 </GridLayout>
             </Section>
 
-            <BottomFullButton onClick={saveClubOptions}>Save</BottomFullButton>
+            <BottomFullButton onClick={saveClubOptions}>{t('common:button_save')}</BottomFullButton>
         </PageWithHeader>
     )    
 }

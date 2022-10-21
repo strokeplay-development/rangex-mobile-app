@@ -21,9 +21,9 @@ export const modifyMe = async (userInfo: User): Promise<User> => {
 
 
 /**
- * 나의 설정 가져오기
+ * 나의 클럽설정 가져오기
  */
-export const fetchConfigs = async (configName: string): Promise<ClubOptions> => {
+export const fetchClubOptions = async (configName: string): Promise<ClubOptions> => {
     const res = await instance.get('/users/me/configs', {
         params: {
             fieldName: configName

@@ -7,11 +7,28 @@ import OptionSelect from "../../components/common/layout/menu/OptionSelect";
 import OptionSlider from "./OptionSlider";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
-import { fetchConfigs, fetchPracticeOptions } from "../../api/user";
+import { fetchPracticeOptions, modifyConfigs } from "../../api/user";
 import { useInputs, useSelect, useSliders } from "../../hooks";
 import { PracticeOptions, UserConfig } from "../../types";
-import { webviewPrint } from "../../utils";
+import { webviewError, webviewPrint } from "../../utils";
 import { useEffect } from "react";
+
+interface OptionsSlider {
+    [key: string]: number | undefined;
+    Temperature?: number;
+    Altitude?: number;
+    Humidity?: number;
+}
+
+interface OptionsUnit {
+    [key: string]: number | undefined;
+    TemperatureType?: number;
+    AltitudeType?: number;
+    Hardness?: number;
+    SpeedType?: number;
+    DistanceType?: number;
+    GreenDistanceType?: number;
+}
 
 const OptionSection = styled('section')`
     & h2 {
@@ -45,18 +62,13 @@ const OptionSection = styled('section')`
 
 export default function GameOptionsPage() {
     const nav = useNavigate();
-    const units = useInputs();
-    const sliders = useSliders();
     const teeHeight = useSelect();
-    const { isLoading, data } = useQuery('Practice Options', () => fetchPracticeOptions());
+    const units = useInputs<OptionsUnit>({});
+    const sliders = useSliders<OptionsSlider>({});
+    const { isLoading, data } = useQuery('PracticeOptions', () => fetchPracticeOptions());
 
     const teeUnits = [25, 30, 35, 40, 45, 50, 55];
 
-    const normalUnits = [
-        { label: 'SOFT', value: 0 },
-        { label: 'NORMAL', value: 1 },
-        { label: 'HARD', value: 2 },
-    ];
     
     const temperatureUnits = [
         { label: 'C', value: 0 },
@@ -68,30 +80,54 @@ export default function GameOptionsPage() {
         { label: 'yd', value: 1 },
         { label: 'ft', value: 2 },
     ];
-
-    const unitOptions = [
-        { name: 'Speed', optionName: 'SpeedType', units: normalUnits },
-        { name: 'Distance', optionName: 'DistanceType', units: normalUnits },
-        { name: 'Green distance', optionName: 'GreenDistanceType', units: normalUnits }
+    
+    const hardnessUnits = [
+        { label: 'SOFT', value: 0 },
+        { label: 'NORMAL', value: 1 },
+        { label: 'HARD', value: 2 },
     ];
 
-    const onSave = () => {
-        const practiceOptions = {
-            ...sliders,
-            ...units.value,
-        };
+    const unitOptions = [
+        { 
+            name: 'Speed', 
+            optionName: 'SpeedType', 
+            units: [
+                { label: 'm/s', value: 0 },
+                { label: 'mi/h', value: 1 },
+                { label: 'km/h', value: 2 },
+            ]
+        },
+        { 
+            name: 'Distance', 
+            optionName: 'DistanceType', 
+            units: [
+                { label: 'm', value: 0 },
+                { label: 'yd', value: 1 },
+            ] 
+        },
+    ];
 
+    const onSave = async () => {
+        const practiceOptions = {
+            ...units.value,
+            ...sliders.sliders,
+        };
+        
         const userConfigs: UserConfig = {
             teeHeight: teeHeight.value as number,
             options: JSON.stringify(practiceOptions)
         }
 
-        webviewPrint(userConfigs);
+        try {
+            const result = await modifyConfigs(userConfigs);
+            webviewPrint(result);
+        } catch (error) {
+            webviewError(error);
+        }
         nav(-1);
     }
 
     useEffect(() => {
-        webviewPrint(data);
         if (data) {
             teeHeight.setValue(data.teeHeight);
 
@@ -103,7 +139,6 @@ export default function GameOptionsPage() {
                     Hardness,
                     SpeedType,
                     DistanceType,
-                    GreenDistanceType,
 
                     // Slider
                     Temperature,
@@ -118,7 +153,6 @@ export default function GameOptionsPage() {
                     Hardness,
                     SpeedType,
                     DistanceType,
-                    GreenDistanceType,
                 });
 
                 sliders.setSliders({
@@ -129,7 +163,6 @@ export default function GameOptionsPage() {
             }
         }
     }, [data]);
-
 
     if (isLoading) {
         return <LinearProgress/>
@@ -154,21 +187,28 @@ export default function GameOptionsPage() {
 
             <OptionSection>
                 <h2>Environment</h2>
+                
+                {/* Temperature */}
                 <div className="option">
                     <div className="option_header">
                         <span className="option_label has_unit">Temperature</span>
                         <SquareRadioButton
-                            name="TemperatureType"
-                            requisites={temperatureUnits}
                             stretch
                             small
+                            name="TemperatureType"
+                            requisites={temperatureUnits}
                             onChange={units.onChange}
+                            defaultValue={units.value.TemperatureType}
                         />
                     </div>
-                    <OptionSlider onChange={(_, value) => {
-                        sliders.onChangSliders("Temperature", value);
+                    <OptionSlider 
+                        defaultValue={sliders.sliders.Temperature}
+                        onChange={(_, value) => {
+                        sliders.onChangeSliders("Temperature", value);
                     }}/>
                 </div>
+
+                {/* Altitude */}
                 <div className="option">
                     <div className="option_header">
                         <span className="option_label has_unit">Altitude</span>
@@ -178,27 +218,37 @@ export default function GameOptionsPage() {
                             stretch
                             small
                             onChange={units.onChange}
+                            defaultValue={units.value.AltitudeType}
                         />
                     </div>
-                    <OptionSlider onChange={(_, value) => {
-                        sliders.onChangSliders("Altitude", value);
+                    <OptionSlider 
+                        defaultValue={sliders.sliders.Altitude}
+                        onChange={(_, value) => {
+                        sliders.onChangeSliders("Altitude", value);
                     }}/>
                 </div>
+
+                {/* Humidity */}
                 <div className="option">
                     <div className="option_header">
                         <span className="option_label has_unit">Humidity</span>
                     </div>
-                    <OptionSlider onChange={(_, value) => {
-                        sliders.onChangSliders("Humidity", value);
+                    <OptionSlider 
+                        defaultValue={sliders.sliders.Humidity}
+                        onChange={(_, value) => {
+                        sliders.onChangeSliders("Humidity", value);
                     }}/>
                 </div>
+
+                {/* Hardness */}
                 <div className="option">
-                    <span className="option_label">Ground</span>
+                    <span className="option_label">Hardness</span>
                     <SquareRadioButton
                         name="Hardness"
-                        requisites={normalUnits}
+                        requisites={hardnessUnits}
                         stretch
                         onChange={units.onChange}
+                        defaultValue={units.value.Hardness}
                     />
                 </div>
             </OptionSection>
@@ -215,6 +265,8 @@ export default function GameOptionsPage() {
                                 requisites={option.units}
                                 stretch
                                 onChange={units.onChange}
+                                defaultValue={units.value[option.optionName]}
+                                minInputCount={3}
                             />
                         </div>
                     ))

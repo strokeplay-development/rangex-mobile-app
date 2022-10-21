@@ -13,5 +13,6 @@
     "menu_logout": "로그아웃",
     "title_more": "더보기",
     "title_club": "클럽 셋팅 변경",
-    "button_edit_profile": "프로필 편집"
+    "button_edit_profile": "프로필 편집",
+    "info_club_options": "보유하고 계신 클럽을 타석 키오스크의 클럽리스트에서도 동일하게 유지 할 수 있습니다. 보여질 클럽을 선택하고 저장하세요."
 }

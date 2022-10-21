@@ -99,7 +99,7 @@ export const BottomFullButton = styled((props: ButtonProps) => (<Button variant=
     font-weight: 600;
     border-radius: 0;
     background-color: ${BOX_BLUE};
-    z-index: 9999;
+    z-index: 1000;
 
     &:hover {
         background-color: ${BOX_BLUE};

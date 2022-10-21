@@ -2,6 +2,7 @@ import { styled } from "@mui/material";
 import { FormEventHandler, MutableRefObject, PropsWithChildren, Ref, RefObject, useEffect } from "react";
 import { BOX_BLUE, BOX_DARKGREY } from "../../../styles/colors";
 import { FONT_BASIC, FONT_SMALL } from "../../../styles/fonts";
+import { webviewPrint } from "../../../utils";
 
 interface RadioRequisite {
     label: string;
@@ -19,6 +20,7 @@ export type SquareRadioButtonProps = {
     requisites: RadioRequisite[];
     onChange?: FormEventHandler;
     defaultValue?: unknown;
+    minInputCount?: number;
 } & RadioButtonStyleProps;
 
 const StyledSquareRadio = styled('div',{
@@ -71,6 +73,8 @@ export default function SquareRadioButton(props: PropsWithChildren<SquareRadioBu
         return `${props.small ? 'small' : null} ${props.stretch ? 'stretch' : null}`
     }
 
+    const isUnderMinRequisites = props.minInputCount && props.minInputCount > props.requisites.length;
+    webviewPrint(`${props.minInputCount} ${props.requisites.length} ${isUnderMinRequisites}`)
     return (
         <StyledSquareRadio
             className={props.vertical ? 'vertical' : undefined}
@@ -87,12 +91,15 @@ export default function SquareRadioButton(props: PropsWithChildren<SquareRadioBu
                             id={`:${button.value}_${idx}`} 
                             name={props.name} 
                             value={button.value} 
-                            defaultChecked={button.value === props.defaultValue}
+                            defaultChecked={button.value == (props.defaultValue || 0)}
                             onChange={props.onChange}
                         />
                         {button.label}
                     </label>
                 ))
+            }
+            {
+                isUnderMinRequisites ? <label/> : null
             }
         </StyledSquareRadio>
     )

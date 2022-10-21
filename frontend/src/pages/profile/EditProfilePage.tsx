@@ -65,7 +65,7 @@ export default function EditProfilePage() {
     const { t } = useTranslation(['common', 'more']);
 
     const requestNewPicture = () => {
-        window.NewProfilePictureRequested?.postMessage('New Profile Picture');
+        window.OpenCameraRequested?.postMessage('New Profile Picture');
     };
 
     let profileInfo: ProfileInfoProps[] = [];

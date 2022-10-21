@@ -1,6 +1,6 @@
 import { BOOL } from './../common/index';
 
-// 클럽오션
+// 클럽옵션
 export interface ClubOptions {
     [key: string]: BOOL 
     "0": BOOL
@@ -56,7 +56,6 @@ export interface PracticeOptions {
     Hardness: Hardness;
     SpeedType: number;
     DistanceType: number;
-    GreenDistanceType: number;
     PinType: number;
     BallCountType: number;
     Sound: number;

@@ -28,8 +28,8 @@ export const useInput = <T>(input: T, setInput:  UseInputSetterOrUpdater<T>) => 
 }
 
 
-export const useInputs = (initialValue = {}) => {
-    const [valueState, setValueState] = useState(initialValue);
+export const useInputs = <T>(initialValue: T) => {
+    const [valueState, setValueState] = useState<T>(initialValue);
 
     const onChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;

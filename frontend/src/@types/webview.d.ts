@@ -11,10 +11,14 @@ interface Window {
     LogoutRequested: WebViewMessage;
     JoinRequested: WebViewMessage;
     SocialLogin: WebViewMessage;
-    NewProfilePictureRequested: WebViewMessage;
     LanguageChangeRequested: WebViewMessage;
-    ThirdPartyPageRequested: WebViewMessage;
     ModalStateChanged: WebViewMessage;
+    
+    // Third party webpage
+    ThirdPartyPageRequested: WebViewMessage;
+
+    // Camera or Gallery
+    OpenCameraRequested: WebViewMessage;
 
     // Errors
     ErrorCatched: WebViewMessage;

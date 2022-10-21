@@ -1,6 +1,7 @@
 import { Help } from "@mui/icons-material";
-import { Dialog, IconButton, Modal } from "@mui/material";
+import { IconButton, Modal } from "@mui/material";
 import { PropsWithChildren, ReactNode, useState } from "react";
+import { useModal } from "../../../hooks";
 import { PaperBox } from "../../../styles/common";
 
 interface InfoModalProps {
@@ -9,21 +10,18 @@ interface InfoModalProps {
 }
 
 export default function InfoModal(props: PropsWithChildren<InfoModalProps>) {
-    const [open, setOpen] = useState(false);
-
-    const openModal = () => setOpen(true);
-    const closeModal = () => setOpen(false);
+    const [isOpen, open, close] = useModal();
 
     return (
         <div>
             {// Activator
                 props.activator || 
-                <IconButton onClick={openModal}>
+                <IconButton onClick={open}>
                     <Help/>
                 </IconButton>
             }
 
-            <Modal open={open} onClose={closeModal}>
+            <Modal open={isOpen} onClose={close}>
                 <PaperBox className="modal bottom">
                     <h2>{props.title}</h2>
                     <p>{props.children}</p>

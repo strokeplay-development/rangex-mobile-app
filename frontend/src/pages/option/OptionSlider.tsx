@@ -1,6 +1,7 @@
 import { Slider, SliderProps, styled } from "@mui/material";
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, useEffect } from "react";
 import { ICON_BLUE } from "../../styles/colors";
+import { webviewPrint } from "../../utils";
 
 const StyledSlider = styled(Slider)(({ theme }) => ({
     marginTop: 12,
@@ -38,7 +39,12 @@ const StyledSlider = styled(Slider)(({ theme }) => ({
 export default function OptionSlider(props: PropsWithChildren<SliderProps>) {
     return (
         <div style={{padding: '0 4px'}}>
-            <StyledSlider valueLabelDisplay="on" name={props.name} onChange={props.onChange}/>
+            <StyledSlider 
+                valueLabelDisplay="on" 
+                name={props.name} 
+                onChange={props.onChange}
+                value={props.defaultValue || 0}
+            />
         </div>
     );
 };

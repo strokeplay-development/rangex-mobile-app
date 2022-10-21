@@ -1,17 +1,20 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:auto_route/auto_route.dart';
+import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:rangex/api/media.dart';
 import 'package:rangex/authentication/repositories/auth_repository.dart';
 import 'package:rangex/authentication/repositories/user_repository.dart';
 import 'package:rangex/routes/app_router.gr.dart';
 import 'package:rangex/utils/javascript.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:webview_cookie_manager/webview_cookie_manager.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:http_parser/http_parser.dart';
 
 typedef UrlChangeHandler = void Function(String url);
 typedef ModalStateChangeHandler = void Function(bool isOpen, [String? url]);
@@ -199,6 +202,41 @@ class WebviewRepository {
             final setLang =
                 JavascriptHelper.setCookieString('lang', langForChange);
             _controller.runJavascript(setLang);
+          },
+        ),
+
+        /// 카메라 열기
+        JavascriptChannel(
+          name: 'OpenCameraRequested',
+          onMessageReceived: (_) async {
+            print('갤러리 켜기');
+            final ImagePicker picker = ImagePicker();
+            try {
+              final XFile? image =
+                  await picker.pickImage(source: ImageSource.gallery);
+
+              if (image != null) {
+                final imageFile = MultipartFile.fromFileSync(
+                  File(image.path).path,
+                  contentType: MediaType(
+                    'image',
+                    'jpg',
+                  ),
+                );
+
+                final formDataImage = FormData.fromMap(
+                  {"profileImg": imageFile},
+                );
+
+                final res = await MediaHttp().modifyAvatar(formDataImage);
+
+                if (res.statusCode == 200) {
+                  print(res.data);
+                }
+              }
+            } catch (e) {
+              Exception(e);
+            }
           },
         ),
 
