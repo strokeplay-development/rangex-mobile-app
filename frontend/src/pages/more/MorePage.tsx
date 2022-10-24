@@ -86,6 +86,7 @@ export default function MorePage() {
                         <ProfileBox
                             username={profileProps.probileBox.username || ''}
                             desc={profileProps.probileBox.desc}
+                            image={user.profileImg}
                         />
                     }
                     onClick={profileProps.onClick}

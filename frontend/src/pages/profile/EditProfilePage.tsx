@@ -1,6 +1,7 @@
 import { Add } from "@mui/icons-material";
 import { Avatar, Button, Fab, styled } from "@mui/material";
 import dayjs from "dayjs";
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
@@ -11,7 +12,7 @@ import { me } from "../../store";
 import { BG_NAVY } from "../../styles/colors";
 import { PageWithBlockSection } from "../../styles/common";
 import { FONT_MEDIUM } from "../../styles/fonts";
-import { webviewLogout } from "../../utils";
+import { webviewLogout, webviewPrint } from "../../utils";
 import PasswordChangeMenu from "./PasswordChangeButton";
 
 interface ProfileInfoProps {
@@ -132,7 +133,9 @@ export default function EditProfilePage() {
     }
 
     const goEditProfile = () => nav(PATHS.PROFILE.OPTIONAL);
-
+useEffect(() => {
+    webviewPrint(user.profileImg)
+}, []);
     return (
         <PageWithBlockSection>
             <TopBar fix>
@@ -150,7 +153,7 @@ export default function EditProfilePage() {
             <StyledProfileSection>
                 <div className="profile_pic">
                     <Avatar
-                        src={undefined}
+                        src={user.profileImg}
                         sx={{
                             width: 88,
                             height: 88

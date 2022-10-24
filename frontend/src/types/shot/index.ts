@@ -19,3 +19,11 @@ export interface ShotVideo extends Distance, Timestamp {
 }
 
 export type ShotVideoList = ShotVideo[];
+
+export interface PracticeOverview {
+    shotAvg?: number,
+    shotTotal?: number,
+    longest?: number
+    driverAvg?: number,
+    practiceCount?: number,
+}

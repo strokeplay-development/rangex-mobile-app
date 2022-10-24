@@ -1,7 +1,6 @@
 import { ClubOptions, UserConfig } from './../types/config/index';
 import instance from "."
 import { User } from "../types";
-import { webViewLog } from "../utils";
 
 /**
  * 내 정보 가져오기

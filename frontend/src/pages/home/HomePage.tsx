@@ -1,23 +1,24 @@
 import { Divider } from "@mui/material";
+import dayjs from "dayjs";
 import { useEffect, useState } from "react";
+import { useQuery } from "react-query";
+import { useRecoilValue } from "recoil";
+import { fetchOverview } from "../../api/shot";
 import SectionHeader from "../../components/common/layout/section/SectionHeader";
 import { StatGridData } from "../../components/common/stats";
 import StatsGrid from "../../components/common/stats/StatsGrid";
 import ProfileBox from "../../components/profile/ProfileBox";
 import { Record, RecordType } from "../../components/record";
 import RecordPaper from "../../components/record/RecordPaper";
+import { me } from "../../store";
 import { BoxList, PaperBox, RootPage, Section } from "../../styles/common";
+import { webviewPrint } from "../../utils";
 
 export default function HomePage() {
+    const user = useRecoilValue(me);
+    const { isLoading, data } = useQuery('Overview', fetchOverview);
     const [records, setRecords] = useState<Record[]>([]);
     const [stats, setStats] = useState<StatGridData[]>([]);
-
-    const [me, setMe] = useState({
-        profileImage: null,
-        userName: 'Mitchell Kim',
-        updatedAt: 'Updated 2022-05-14',
-        linkedShops: []
-    });
 
     useEffect(() => {
         setRecords([
@@ -49,14 +50,22 @@ export default function HomePage() {
             },
         ]);
 
-        setStats([
-            { dataType: 'SHOTS AVG.', data: 117 },
-            { dataType: 'SHOT', data: 1137 },
-            { dataType: 'PRACTICES', data: 17 },
-            { dataType: 'DRIVER AVG.', data: 244.5, digit: 'm', highlighted: true },
-            { dataType: 'LONGEST', data: 234.7, digit: 'm', highlighted: true },
-        ]);
-    }, []);
+        if (data) {
+            setStats([
+                { dataType: 'SHOTS AVG.', data: data.shotAvg || 0 },
+                { dataType: 'SHOTS', data: data.shotTotal || 0 },
+                { dataType: 'PRACTICES', data: 0 },
+                { dataType: 'DRIVER AVG.', data: data.driverAvg || 0, digit: 'm', highlighted: true },
+                { dataType: 'LONGEST', data: data.longest || 0, digit: 'm', highlighted: true },
+            ]);
+        }
+    }, [data]);
+    
+    const userLastUpdated = 'Updated ' + dayjs(user.lastLoginDate).format('YYYY-MM-DD');
+
+    if (isLoading) {
+        webviewPrint('요약 가져오기');
+    }
 
     return (
         <RootPage>
@@ -65,9 +74,9 @@ export default function HomePage() {
                 <SectionHeader title="OVERVIEW"/>
                 <PaperBox>
                     <ProfileBox 
-                        username={me.userName} 
-                        image={me.profileImage || undefined} 
-                        desc={me.updatedAt}    
+                        username={user.nickName} 
+                        image={user.profileImg} 
+                        desc={userLastUpdated}
                     />
                     <Divider sx={{mt: '16px', mb: '16px'}}/>
                     <StatsGrid cols={3} stats={stats}/>
@@ -78,7 +87,7 @@ export default function HomePage() {
             <Section>
                 <SectionHeader title="HISTORY"/>
                 <BoxList>
-                    {records.map((record, index) => 
+                    {records.map((record, index) =>
                         <li key={index}>
                             <RecordPaper recordData={record}/>
                         </li>

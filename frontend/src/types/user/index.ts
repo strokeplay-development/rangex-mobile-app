@@ -18,4 +18,5 @@ export interface User {
     zipCode?: string;
     lastLoginDate?: string;
     inChannel?: string;
+    profileImg?: string;
 }

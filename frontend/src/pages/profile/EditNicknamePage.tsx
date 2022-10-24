@@ -30,10 +30,6 @@ export default function EditNicknamePage() {
             webviewError(error);
         }
     };
-
-    useEffect(() => {
-        window.ResponseReceived?.postMessage(webViewLog('닉네임 리렌더', user.nickName));
-    }, [user]);
     
     return (
         <PageWithHeader>
