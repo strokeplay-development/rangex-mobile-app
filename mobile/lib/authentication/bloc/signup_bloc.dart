@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rangex/authentication/bloc/signup_event.dart';
 import 'package:rangex/authentication/repositories/user_repository.dart';
 
 /// State
@@ -15,25 +16,23 @@ class SignupStateFailure extends SignupState {}
 
 /// Event
 ///
-class SignupRequested extends Equatable {
-  const SignupRequested(this.userInfo);
-
-  final Map<String, dynamic> userInfo;
-
-  @override
-  List<Object?> get props => [userInfo];
-}
 
 /// Bloc
 ///
-class SignupBloc extends Bloc<SignupRequested, SignupState> {
+class SignupBloc extends Bloc<SignupEvent, SignupState> {
   SignupBloc({required UserRepository userRepository})
       : _userRepository = userRepository,
         super(SignupState()) {
+    on(_onAuthCodeRequested);
     on(_onRequestToState);
   }
 
   final UserRepository _userRepository;
+
+  void _onAuthCodeRequested(
+      AuthCodeRequested event, Emitter<SignupState> emit) {
+    print('ddf');
+  }
 
   void _onRequestToState(SignupRequested event, Emitter<SignupState> emit) {
     try {

@@ -12,6 +12,7 @@ import { useInputs, useSelect, useSliders } from "../../hooks";
 import { PracticeOptions, UserConfig } from "../../types";
 import { webviewError, webviewPrint } from "../../utils";
 import { useEffect } from "react";
+import { UNIT_ALTITUDE, UNIT_DISTANCE, UNIT_SPEED, UNIT_STRENGTH, UNIT_TEMPERATURE } from "../../constants/units";
 
 interface OptionsSlider {
     [key: string]: number | undefined;
@@ -71,20 +72,20 @@ export default function GameOptionsPage() {
 
     
     const temperatureUnits = [
-        { label: 'C', value: 0 },
-        { label: 'F', value: 1 },
+        { label: UNIT_TEMPERATURE[0], value: 0 },
+        { label: UNIT_TEMPERATURE[1], value: 1 },
     ];
     
     const altitudeUnits = [
-        { label: 'm', value: 0 },
-        { label: 'yd', value: 1 },
-        { label: 'ft', value: 2 },
+        { label: UNIT_ALTITUDE[0], value: 0 },
+        { label: UNIT_ALTITUDE[1], value: 1 },
+        { label: UNIT_ALTITUDE[2], value: 2 },
     ];
     
     const hardnessUnits = [
-        { label: 'SOFT', value: 0 },
-        { label: 'NORMAL', value: 1 },
-        { label: 'HARD', value: 2 },
+        { label: UNIT_STRENGTH[0], value: 0 },
+        { label: UNIT_STRENGTH[1], value: 1 },
+        { label: UNIT_STRENGTH[2], value: 2 },
     ];
 
     const unitOptions = [
@@ -92,17 +93,17 @@ export default function GameOptionsPage() {
             name: 'Speed', 
             optionName: 'SpeedType', 
             units: [
-                { label: 'm/s', value: 0 },
-                { label: 'mi/h', value: 1 },
-                { label: 'km/h', value: 2 },
+                { label: UNIT_SPEED[0], value: 0 },
+                { label: UNIT_SPEED[1], value: 1 },
+                { label: UNIT_SPEED[2], value: 2 },
             ]
         },
         { 
             name: 'Distance', 
             optionName: 'DistanceType', 
             units: [
-                { label: 'm', value: 0 },
-                { label: 'yd', value: 1 },
+                { label: UNIT_DISTANCE[0], value: 0 },
+                { label: UNIT_DISTANCE[1], value: 1 },
             ] 
         },
     ];
@@ -113,6 +114,7 @@ export default function GameOptionsPage() {
             ...sliders.sliders,
         };
         
+        webviewPrint(practiceOptions);
         const userConfigs: UserConfig = {
             teeHeight: teeHeight.value as number,
             options: JSON.stringify(practiceOptions)

@@ -1,4 +1,7 @@
-import { webviewError } from './../../utils/webview';
+import { PracticeOptions } from './../../types/config/index';
+import { myUnits } from './../../store/user';
+import { useSetRecoilState } from 'recoil';
+import { webviewError, webviewPrint } from './../../utils/webview';
 import { useRecoilState } from 'recoil';
 import { useQuery } from 'react-query';
 import { routeInfoList } from './../../routes/index';
@@ -19,9 +22,8 @@ interface AuthorizeResult {
 export const useAuthorize = (): AuthorizeResult => {
     const { pathname: currentPath } = useLocation();
     const [user, setUser] = useRecoilState(me);
+    const setMeasureUnits = useSetRecoilState(myUnits);
     const [tokens] = useCookies(['accessToken', 'refreshToken']);
-
-    webviewError('토큰?' + JSON.stringify(tokens));
     
     const  isNoUser = isEmptyObject(user);
     const { isLoading, data } = useQuery('fetchMe', fetchMe, { enabled: isNoUser });
@@ -57,11 +59,22 @@ export const useAuthorize = (): AuthorizeResult => {
         
         // 유저정보를 가져오는데 성공하면 인가
         if (data) {
-            window.ResponseReceived?.postMessage(webViewLog('유저갱신', data.nickName));
+            // 측정단위 셋팅
+            if (data.UserConfig?.options) {
+                const options = JSON.parse(data.UserConfig.options as string) as PracticeOptions;
+                setMeasureUnits({
+                    SpeedType: options.SpeedType,
+                    DistanceType: options.DistanceType
+                });
+            }
+
+            // 유저데이터 갱신
             setUser(data);
+
             result.isAuthorized = true;
             return result;
         }
+
     }
 
     result.isAuthorized = true;

@@ -1,5 +1,6 @@
 export const PATHS = {
     SIGNUP: {
+        PHONE: '/signup/phone',
         REQUIRED: '/signup/required',
         OPTIONAL: '/signup/optional'
     },

@@ -46,16 +46,20 @@ type TemperatureType = 0 | 1;
 type AltitudeType = 0 | 1 | 2;
 type Hardness = 0 | 1 | 2;
 
+// 측정단위
+export interface MeasureUnits {
+    SpeedType: number;
+    DistanceType: number;
+}
+
 // 연습옵션
-export interface PracticeOptions {        
+export type PracticeOptions = {        
     Temperature: number;
     TemperatureType: TemperatureType;
     Altitude: number;
     AltitudeType: AltitudeType;
     Humidity: number;
     Hardness: Hardness;
-    SpeedType: number;
-    DistanceType: number;
     PinType: number;
     BallCountType: number;
     Sound: number;
@@ -69,7 +73,7 @@ export interface PracticeOptions {
     IsShowLevelGrid: boolean;
     PlayTutorial: boolean;
     ImpactGrid: boolean;
-}
+} & MeasureUnits;
 
 // 유저 컨피그
 export interface UserConfig {

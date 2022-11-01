@@ -10,6 +10,7 @@ declare module '@mui/material/styles' {
             black: string,
             grey: string,
             blue: string,
+            skyblue: string,
             error: string,
         },
         fontStyle: {
@@ -50,6 +51,7 @@ declare module '@mui/material/styles' {
             black?: string,
             grey?: string,
             blue?: string,
+            skyblue?: string,
             error?: string,
         },
         fontStyle?: {

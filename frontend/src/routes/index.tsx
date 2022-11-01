@@ -1,17 +1,19 @@
 import React from 'react';
 import { RouteObject, useRoutes } from 'react-router-dom';
 import { PATHS } from '../constants';
-import UnknownPage from '../pages/404';
 import { UserOptinalInfoPageMode } from '../pages/signup/OptionalSignupPage';
 import { SocialAuthPage } from './auth';
+import UnknownPage from '../pages/404';
+import { webviewPrint } from '../utils';
 
-interface RouteInfo extends RouteObject {
-    isPrivate?: boolean
+type RouteInfo = RouteObject & {
+    isPrivate?: boolean;
 };
 
 export type RouteInfoList = RouteInfo[];
 
 // Sign up
+const PhoneAuth = React.lazy(() => import('../pages/signup/PhoneAuthPage'));
 const RequiredSignup = React.lazy(() => import('../pages/signup/RequiredSignupPage'));
 const OptionalSignup = React.lazy(() => import('../pages/signup/OptionalSignupPage'));
 
@@ -31,6 +33,7 @@ const JoinShop = React.lazy(() => import('../pages/link/LinkShop'));
 const Language = React.lazy(() => import('../pages/option/LanguagePage'));
 
 export const routeInfoList: RouteInfoList = [
+    // Unknown
     {
         path: '/*',
         element: <UnknownPage/>,
@@ -38,6 +41,10 @@ export const routeInfoList: RouteInfoList = [
     },
 
     // Signup
+    {
+        path: PATHS.SIGNUP.PHONE,
+        element: <PhoneAuth/>
+    },
     {
         path: PATHS.SIGNUP.REQUIRED,
         element: <RequiredSignup/>,

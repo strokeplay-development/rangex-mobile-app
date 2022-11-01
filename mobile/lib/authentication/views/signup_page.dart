@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:rangex/authentication/bloc/signup_bloc.dart';
+import 'package:rangex/authentication/bloc/signup_event.dart';
 import 'package:rangex/authentication/repositories/user_repository.dart';
 import 'package:rangex/utils/lifecycle.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -63,17 +64,24 @@ class _SignupPageState extends State<SignupPage> {
               children: [
                 WebView(
                   backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                  initialUrl:
-                      '${dotenv.env['WEBVIEW_BASE_URL']}/signup/required',
+                  initialUrl: '${dotenv.env['WEBVIEW_BASE_URL']}/signup/phone',
                   onWebViewCreated: (controller) {
                     _ctrler = controller;
                   },
                   javascriptMode: JavascriptMode.unrestricted,
                   javascriptChannels: {
                     JavascriptChannel(
+                      name: 'AuthCodeRequested',
+                      onMessageReceived: _onAuthCodeRequested,
+                    ),
+                    JavascriptChannel(
                       name: 'SignupCompleted',
                       onMessageReceived: _onSignupSubmitted,
                     ),
+                    JavascriptChannel(
+                      name: 'ErrorCatched',
+                      onMessageReceived: (message) => print(message.message),
+                    )
                   },
                 ),
                 Positioned(
@@ -101,6 +109,12 @@ class _SignupPageState extends State<SignupPage> {
     );
   }
 
+  /// 휴대폰 인증번호를 요청 받았을 때
+  void _onAuthCodeRequested(JavascriptMessage webMessage) {
+    _bloc.add(AuthCodeRequested(webMessage.message));
+  }
+
+  /// 회원가입 완료 요청을 받았을 때
   void _onSignupSubmitted(JavascriptMessage webMessage) {
     final userInfo = jsonDecode(webMessage.message);
 

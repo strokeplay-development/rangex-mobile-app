@@ -8,7 +8,7 @@ interface InputCoverProps {
 export default function InputCover(props: PropsWithChildren<InputCoverProps>) {
     return (
         <StyledField>
-            <InputLabel>{props.label}</InputLabel>
+            { props.label ? <InputLabel>{props.label}</InputLabel> : null }
             {props.children}
         </StyledField>
     );

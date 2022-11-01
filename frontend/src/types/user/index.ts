@@ -1,3 +1,4 @@
+import { UserConfig } from './../config/index';
 export interface User {
     userAccount?: string;
     name?: string;
@@ -19,4 +20,7 @@ export interface User {
     lastLoginDate?: string;
     inChannel?: string;
     profileImg?: string;
+
+    // Associations
+    UserConfig?: UserConfig;
 }

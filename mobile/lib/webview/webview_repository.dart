@@ -29,6 +29,7 @@ class WebviewRepository {
   }
 
   final String _baseUrl;
+  final cookieManager = CookieManager();
 
   late WebViewController _controller;
 
@@ -88,6 +89,8 @@ class WebviewRepository {
             newAccessToken,
           );
           _controller.runJavascript(setAccess);
+
+          print('새 엑세스 토큰 셋팅');
         }
 
         /// 새 리프레쉬 토큰 셋팅
@@ -99,6 +102,8 @@ class WebviewRepository {
             newRefreshToken,
           );
           _controller.runJavascript(setRefresh);
+
+          print('새 리프레쉬 토큰 셋팅');
         }
 
         /// 웹뷰 언어 셋팅
@@ -143,17 +148,14 @@ class WebviewRepository {
         JavascriptChannel(
           name: 'LogoutRequested',
           onMessageReceived: (message) async {
-            print(message.message);
-
-            // 웹뷰 토큰 삭제
+            // 웹뷰 캐시 비기
             await _controller.clearCache();
-            final delAccess = JavascriptHelper.delCookieString('accessToken');
-            final delRefresh = JavascriptHelper.delCookieString('refreshToken');
-            await _controller.runJavascript(delAccess);
-            await _controller.runJavascript(delRefresh);
+            await cookieManager.clearCookies();
 
-            print(await _controller
-                .runJavascriptReturningResult('document.cookie'));
+            final webCookies = await _controller
+                .runJavascriptReturningResult('document.cookie');
+
+            print('쿠키있냐 $webCookies');
 
             // 앱 토큰 삭제
             await RepositoryProvider.of<AuthRepository>(context).logOut();

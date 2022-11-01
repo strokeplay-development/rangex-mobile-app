@@ -1,7 +1,7 @@
 import { Add } from "@mui/icons-material";
 import { Avatar, Button, Fab, styled } from "@mui/material";
 import dayjs from "dayjs";
-import { useEffect } from "react";
+import { Cookies } from "react-cookie";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
@@ -12,8 +12,7 @@ import { me } from "../../store";
 import { BG_NAVY } from "../../styles/colors";
 import { PageWithBlockSection } from "../../styles/common";
 import { FONT_MEDIUM } from "../../styles/fonts";
-import { webviewLogout, webviewPrint } from "../../utils";
-import PasswordChangeMenu from "./PasswordChangeButton";
+import { webviewLogout } from "../../utils";
 
 interface ProfileInfoProps {
     role?: string;
@@ -86,7 +85,7 @@ export default function EditProfilePage() {
             {
                 role: 'phone',
                 label: t("common:label_phone"),
-                value: user.phoneNumber
+                value: `${user.dialingCode || ''} ${user.phoneNumber || ''}`
             },
             {
                 role: 'email',
@@ -101,12 +100,12 @@ export default function EditProfilePage() {
             {
                 role: 'birthday',
                 label: t("common:label_birthday"),
-                value: dayjs(user.birthday).format('YYYY-MM-DD')
+                value: user.birthday ? dayjs(user.birthday).format('YYYY-MM-DD') : ''
             },
             {
                 role: 'address',
                 label: t("common:label_address"),
-                value: user.address1 + ', ' + user.address2
+                value: `${user.address1 || ''} ${user.address2 || ''}`
             },
         ];
     }
@@ -129,13 +128,16 @@ export default function EditProfilePage() {
     const logoutProps: MenuBoxProps = {
         role: 'menu:logout',
         title: t("more:menu_logout"),
-        onClick: () => webviewLogout('User requested to log out')
+        onClick: () => {
+            const tokens = new Cookies();
+            tokens.remove('accessToken');
+            tokens.remove('refreshToken');
+            webviewLogout('User requested to log out');
+        }
     }
 
     const goEditProfile = () => nav(PATHS.PROFILE.OPTIONAL);
-useEffect(() => {
-    webviewPrint(user.profileImg)
-}, []);
+
     return (
         <PageWithBlockSection>
             <TopBar fix>

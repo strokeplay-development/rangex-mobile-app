@@ -108,7 +108,7 @@ export default function TextInput(props: TextInputProps) {
                         type={props.type || 'text'}
                         name={props.name}
                         defaultValue={props.defaultValue}
-                        placeholder={props.label}
+                        placeholder={props.label || props.placeholder}
                         //onInput={isOverMaxLength}
                         onChange={onChange}
                         onBlur={props.onBlur}

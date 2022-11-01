@@ -3,7 +3,7 @@ import { PropsWithChildren, useEffect } from "react";
 import { ICON_GREY } from "../../../../styles/colors";
 import { webviewPrint } from "../../../../utils";
 
-type OptionSelectProps = SelectProps & { menus: number[] }
+type OptionSelectProps = SelectProps & { menus: number[] | string [] }
 
 const StyledSelect = styled(Select)(({ theme }) => ({
     '& .MuiSelect-outlined': {

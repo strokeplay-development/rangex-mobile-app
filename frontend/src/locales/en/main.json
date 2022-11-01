@@ -1,3 +1,9 @@
 {
-    "title_overview": "Overview"
+    "title_overview": "Overview",
+    "sum_updated": "Updated",
+    "sum_shot_avg": "SHOT AVG.",
+    "sum_shots": "SHOTS",
+    "sum_practices": "PRACTICES",
+    "sum_driver_avg": "DRIVER AVG.",
+    "sum_longest": "LONGEST"
 }

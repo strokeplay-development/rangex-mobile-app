@@ -3,9 +3,13 @@ interface WebViewMessage {
 }
 
 interface Window {
+    // Sign up
+    AuthCodeRequested: WebViewMessage;
+    SignupCompleted: WebViewMessage;
+
+    // Main
     ResponseReceived: WebViewMessage;
     WebviewMounted: WebViewMessage;
-    SignupCompleted: WebViewMessage;
     ModifyUserRequested: WebViewMessage;
     LocationChanged: WebViewMessage;
     LogoutRequested: WebViewMessage;

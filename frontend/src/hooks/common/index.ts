@@ -35,6 +35,8 @@ export const useInputs = <T>(initialValue: T) => {
         const { name, value } = e.target;
 
         webviewPrint(valueState);
+        console.log(name, value);
+        
         
         setValueState({
             ...valueState,

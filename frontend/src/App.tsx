@@ -9,6 +9,7 @@ import { useAuthorize } from './hooks';
 import { PATHS } from './constants';
 import { useTranslation } from 'react-i18next';
 import { useCookies } from 'react-cookie';
+import { webviewPrint } from './utils';
 
 export const theme = (mode: ThemeMode) => createTheme({
   ...reset,
@@ -35,14 +36,6 @@ function App() {
     }
   }, [lang]);
 
-  useEffect(() => {
-    window.LocationChanged?.postMessage(location.pathname);
-
-    if (!isAuthorizing && isAuthorized === false) {
-      nav(PATHS.REDIRECT.LOGOUT, { replace: true });
-    }
-  }, [location.pathname, isAuthorized, isAuthorizing]);
-  
   return (
     <ThemeProvider theme={theme(themeMode)}>
       <CssBaseline enableColorScheme/>

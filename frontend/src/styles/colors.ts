@@ -19,6 +19,7 @@ export const TXT_BLACK = '#000000';
 export const TXT_BLUE = '#284967';
 export const TXT_GREY = '#838B93';
 export const TXT_RED = '#EA5B5C';
+export const TXT_SKYBLUE = '#3A9FFF';
 
 // Point
 export const POINT_YELLOW = '#EEB521';

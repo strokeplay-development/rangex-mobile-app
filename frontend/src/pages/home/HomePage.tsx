@@ -1,6 +1,7 @@
 import { Divider } from "@mui/material";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
 import { useRecoilValue } from "recoil";
 import { fetchOverview } from "../../api/shot";
@@ -10,15 +11,20 @@ import StatsGrid from "../../components/common/stats/StatsGrid";
 import ProfileBox from "../../components/profile/ProfileBox";
 import { Record, RecordType } from "../../components/record";
 import RecordPaper from "../../components/record/RecordPaper";
-import { me } from "../../store";
+import { UNIT_DISTANCE } from "../../constants/units";
+import { me, myUnits } from "../../store";
 import { BoxList, PaperBox, RootPage, Section } from "../../styles/common";
 import { webviewPrint } from "../../utils";
+import { meterToYards } from "../../utils/measure";
 
 export default function HomePage() {
     const user = useRecoilValue(me);
+    const { DistanceType: distUnit } = useRecoilValue(myUnits);
     const { isLoading, data } = useQuery('Overview', fetchOverview);
     const [records, setRecords] = useState<Record[]>([]);
     const [stats, setStats] = useState<StatGridData[]>([]);
+
+    const { t } = useTranslation(['main']);
 
     useEffect(() => {
         setRecords([
@@ -51,17 +57,30 @@ export default function HomePage() {
         ]);
 
         if (data) {
+            const driverAvg = distUnit == 1 ? Number(meterToYards(data.driverAvg).toFixed(1)) : data.driverAvg;
+            const longest = distUnit == 1 ? Number(meterToYards(data.longest).toFixed(1)) : data.longest;
+
             setStats([
-                { dataType: 'SHOTS AVG.', data: data.shotAvg || 0 },
-                { dataType: 'SHOTS', data: data.shotTotal || 0 },
-                { dataType: 'PRACTICES', data: 0 },
-                { dataType: 'DRIVER AVG.', data: data.driverAvg || 0, digit: 'm', highlighted: true },
-                { dataType: 'LONGEST', data: data.longest || 0, digit: 'm', highlighted: true },
+                { dataType: t('main:sum_shot_avg'), data: data.shotAvg || 0 },
+                { dataType: t('main:sum_shots'), data: data.shotTotal || 0 },
+                { dataType: t('main:sum_practices'), data: data.practiceCount || 0 },
+                { 
+                    dataType: t('main:sum_driver_avg'), 
+                    data: driverAvg || 0, 
+                    digit: UNIT_DISTANCE[distUnit], 
+                    highlighted: true 
+                },
+                { 
+                    dataType: t('main:sum_longest'), 
+                    data: longest || 0, 
+                    digit: UNIT_DISTANCE[distUnit], 
+                    highlighted: true 
+                },
             ]);
         }
     }, [data]);
     
-    const userLastUpdated = 'Updated ' + dayjs(user.lastLoginDate).format('YYYY-MM-DD');
+    const userLastUpdated = `${t('main:sum_updated')} ` + dayjs(user.lastLoginDate).format('YYYY-MM-DD');
 
     if (isLoading) {
         webviewPrint('요약 가져오기');
@@ -71,7 +90,7 @@ export default function HomePage() {
         <RootPage>
             {/* Overview */}
             <Section>
-                <SectionHeader title="OVERVIEW"/>
+                <SectionHeader title={t('main:title_overview')}/>
                 <PaperBox>
                     <ProfileBox 
                         username={user.nickName} 

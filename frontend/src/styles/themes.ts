@@ -1,5 +1,5 @@
 import { PaletteOptions, ThemeOptions } from "@mui/material";
-import { BG_BLACK, BG_NAVY, BG_WHITE, BOX_BLUE, BOX_GREYBLUE, BOX_NAVY, ERR_RED, ICON_BLUE, REC_NEW_RECOTD, REC_PRACTICE, TXT_BLACK, TXT_BLUE, TXT_GREY, TXT_RED } from "./colors";
+import { BG_BLACK, BG_NAVY, BG_WHITE, BOX_BLUE, BOX_GREYBLUE, BOX_NAVY, ERR_RED, ICON_BLUE, REC_NEW_RECOTD, REC_PRACTICE, TXT_BLACK, TXT_BLUE, TXT_GREY, TXT_RED, TXT_SKYBLUE } from "./colors";
 import { FONT_BASIC, FONT_LARGE, FONT_MEDIUM, FONT_SMALL } from "./fonts";
 
 // 기본 CSS값 리셋
@@ -107,6 +107,7 @@ export const darkColors: ThemeOptions = {
         black: TXT_BLACK,
         grey: TXT_GREY,
         blue: TXT_BLUE,
+        skyblue: TXT_SKYBLUE,
         error: TXT_RED
     },
     inputColor: {

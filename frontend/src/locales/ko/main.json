@@ -1,3 +1,9 @@
 {
-    "title_overview": "요약"
+    "title_overview": "요약",
+    "sum_updated": "마지막연습",
+    "sum_shot_avg": "평균 샷 횟수",
+    "sum_shots": "총 샷 횟수",
+    "sum_practices": "총 연습횟수",
+    "sum_driver_avg": "드라이버 평균",
+    "sum_longest": "최장거리"
 }

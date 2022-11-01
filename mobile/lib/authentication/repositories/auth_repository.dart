@@ -39,19 +39,25 @@ class AuthRepository {
 
   // 액세스 토큰
   Future<String?> get accessToken async {
-    return _accessToken ??= await _tokenStorage.read(key: 'accessToken');
+    return await _tokenStorage.read(key: 'accessToken');
   }
 
   // 리프레쉬 토큰
   Future<String?> get refreshToken async {
-    return _refreshToken ??= await _tokenStorage.read(key: 'refreshToken');
+    return await _tokenStorage.read(key: 'refreshToken');
   }
 
   /// 로그인
   /// API 서버로부터 전달받은 토큰들을 저장한다.
-  Future<void> logIn(String accessToken, String refreshToken) async {
-    await _tokenStorage.write(key: 'accessToken', value: accessToken);
-    await _tokenStorage.write(key: 'refreshToken', value: refreshToken);
+  Future<void> logIn(String access, String refresh) async {
+    print('보유 액세스 ${await accessToken}');
+    print('새 액세스 $access');
+
+    print('보유 액세스 ${await refreshToken}');
+    print('새 리프레시 $refresh');
+
+    await _tokenStorage.write(key: 'accessToken', value: access);
+    await _tokenStorage.write(key: 'refreshToken', value: refresh);
 
     _controller.add(AuthStatus.authenticated);
   }
@@ -61,6 +67,12 @@ class AuthRepository {
   Future<void> logOut() async {
     await _tokenStorage.delete(key: 'accessToken');
     await _tokenStorage.delete(key: 'refreshToken');
+
+    final access = await _tokenStorage.read(key: 'accessToken');
+    final refresh = await _tokenStorage.read(key: 'refreshToken');
+
+    print('삭제 액세스 ${access}');
+    print('삭제 액세스 ${refresh}');
 
     _controller.add(AuthStatus.unauthenticated);
   }

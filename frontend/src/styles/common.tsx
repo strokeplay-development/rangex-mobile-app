@@ -96,6 +96,7 @@ export const BottomFullButton = styled((props: ButtonProps) => (<Button variant=
     height: 56px;
     border: none;
     box-shadow: none;
+    font-size: 16px;
     font-weight: 600;
     border-radius: 0;
     background-color: ${BOX_BLUE};

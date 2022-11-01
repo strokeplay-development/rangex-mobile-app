@@ -66,15 +66,18 @@ const StyledSquareRadio = styled('div',{
             background-color: ${BOX_BLUE};
         }
     }
+
+    & .vacant {
+        flex: 1;
+        padding: 6px 12px;
+    }
 `
 
 export default function SquareRadioButton(props: PropsWithChildren<SquareRadioButtonProps>) {
-    const getLabelClass = () => {
-        return `${props.small ? 'small' : null} ${props.stretch ? 'stretch' : null}`
-    }
+    const getLabelClass = `${props.small ? 'small' : null} ${props.stretch ? 'stretch' : null}`;
 
     const isUnderMinRequisites = props.minInputCount && props.minInputCount > props.requisites.length;
-    webviewPrint(`${props.minInputCount} ${props.requisites.length} ${isUnderMinRequisites}`)
+
     return (
         <StyledSquareRadio
             className={props.vertical ? 'vertical' : undefined}
@@ -84,14 +87,15 @@ export default function SquareRadioButton(props: PropsWithChildren<SquareRadioBu
         >
             {
                 props.requisites.map((button, idx) => (
-                    <label className={getLabelClass()} key={`:${button.value}_${idx}`}>
+                    <label className={getLabelClass} key={`:${button.value}_${idx}`}>
                         <input 
                             type="radio" 
-                            key={`:${button.value}_${idx}`}
-                            id={`:${button.value}_${idx}`} 
+                            key={`:${button.label}_${idx}`}
+                            id={`:${button.label}_${idx}`} 
                             name={props.name} 
-                            value={button.value} 
-                            defaultChecked={button.value == (props.defaultValue || 0)}
+                            value={button.value}
+                            checked={button.value == (props.defaultValue || 0)}
+                            defaultChecked={button.value === 0}
                             onChange={props.onChange}
                         />
                         {button.label}
@@ -99,7 +103,7 @@ export default function SquareRadioButton(props: PropsWithChildren<SquareRadioBu
                 ))
             }
             {
-                isUnderMinRequisites ? <label/> : null
+                isUnderMinRequisites ? <div className="vacant"/> : null
             }
         </StyledSquareRadio>
     )
