@@ -29,12 +29,15 @@ function App() {
   const { i18n } = useTranslation();
   const [{ lang }] = useCookies(['lang']);
 
-  // 앱 언어 변경감지
   useEffect(() => {
+    // 앱 언어 변경감지
     if (lang !== i18n.language) {
       i18n.changeLanguage(lang); 
     }
-  }, [lang]);
+
+    // Url 변경 감지
+    window.LocationChanged?.postMessage(location.pathname);
+  }, [lang, location.pathname]);
 
   return (
     <ThemeProvider theme={theme(themeMode)}>

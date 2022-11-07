@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import SectionHeader from "../../components/common/layout/section/SectionHeader";
 import { MONTH } from "../../constants";
 import { PageWithBox, SectionBox } from "../../styles";
-import { ShotVideoList } from "../../types";
+import { SwingList } from "../../types";
 import SwingGrid from "./SwingGrid";
 
 type ArraySortedByMonth<T> = Array<T>;
 
-const sortByMonth = (list: ShotVideoList): ArraySortedByMonth<ShotVideoList> => {
-    const result: ArraySortedByMonth<ShotVideoList> = Array.from({length: 12}, () => []);
+const sortByMonth = (list: SwingList): ArraySortedByMonth<SwingList> => {
+    const result: ArraySortedByMonth<SwingList> = Array.from({length: 12}, () => []);
 
     list.forEach((item) => {
         const month = Number(item.createdAt?.split('-')[1]);
@@ -20,7 +20,7 @@ const sortByMonth = (list: ShotVideoList): ArraySortedByMonth<ShotVideoList> => 
 }
 
 export default function SwingsPage() {
-    const [swings, setSwings] = useState<ShotVideoList>([]);
+    const [swings, setSwings] = useState<SwingList>([]);
 
     useEffect(() => {
         setSwings([
@@ -30,6 +30,7 @@ export default function SwingsPage() {
                 unit: 0,
                 distance: 138.5,
                 id: 3,
+                videoUrl: 'https://rangex-user-video.s3.ap-northeast-2.amazonaws.com/KakaoTalk_Video_2022-11-02-16-02-12.mp4'
             },
             {
                 club: 'Driver',

@@ -1,11 +1,11 @@
 import { Grid } from "@mui/material";
 import { PropsWithChildren } from "react";
 import { useNavigate } from "react-router-dom";
-import { ShotVideoList } from "../../types";
+import { SwingList } from "../../types";
 import SwingItem, { StyledSwingItem } from "./SwingItem";
 
 interface SwingGridProps {
-    swings: ShotVideoList,
+    swings: SwingList,
     cols: number
 }
 
@@ -16,7 +16,7 @@ interface SwingGridRowProps {
 export default function SwingGrid(props: PropsWithChildren<SwingGridProps>) {
     const nav = useNavigate();
 
-    const viewShotData = (id: number) => nav(`/swings/${id}`);
+    const viewShotData = (id: number) => nav(`/swings/${id}/video`);
 
     const rows = props.swings.length / props.cols + 1;
 
@@ -35,7 +35,7 @@ export default function SwingGrid(props: PropsWithChildren<SwingGridProps>) {
                         distance={data.distance}
                         id={data.id}
                         thumbnail={data.thumbnail}
-                        onClick={() => viewShotData(data.id)}
+                        onClick={() => window.OpenFullScreenVideo?.postMessage(data.videoUrl)}
                     /> 
                     : <StyledSwingItem key={itemIdx}/>
             })}

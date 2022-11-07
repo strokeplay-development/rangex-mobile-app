@@ -73,6 +73,7 @@ class _RootWrapState extends State<RootWrap> {
                 _webviewRepository.getWebviewWidget(
                   context: context,
                   onUrlChanged: (changedUrl) {
+                    print('유알엘 쳌 $changedUrl');
                     _webviewBloc?.add(WebviewUrlChanged(changedUrl));
                   },
                   onModalStateChanged: (isOpen, [url]) {

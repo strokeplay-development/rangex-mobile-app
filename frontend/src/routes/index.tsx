@@ -21,6 +21,7 @@ const OptionalSignup = React.lazy(() => import('../pages/signup/OptionalSignupPa
 const Home = React.lazy(() => import('../pages/home/HomePage'));
 const Swings = React.lazy(() => import('../pages/swings/SwingsPage'));
 const ShotData = React.lazy(() => import('../pages/shot/ShotDataPage'));
+const SwingVideo = React.lazy(() => import('../pages/swings/SwingVideo'));
 
 // More
 const More = React.lazy(() => import('../pages/more/MorePage'));
@@ -68,6 +69,11 @@ export const routeInfoList: RouteInfoList = [
     {
         path: PATHS.MAIN.SWINGS.DATA,
         element: <ShotData/>,
+        isPrivate: true
+    },
+    {
+        path: PATHS.MAIN.SWINGS.VIDEO,
+        element: <SwingVideo/>,
         isPrivate: true
     },
 

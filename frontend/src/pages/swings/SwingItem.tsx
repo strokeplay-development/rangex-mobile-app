@@ -1,11 +1,11 @@
 import { MouseEventHandler } from "react";
 import SwingThumbnail from "../../assets/images/thumb_swing.png";
-import { ShotVideo } from "../../types";
+import { Swing } from "../../types";
 import { styled } from "@mui/material";
 import { POINT_YELLOW } from "../../styles/colors";
 import { FONT_SMALL } from "../../styles/fonts";
 
-type ShotVideoListItem = ShotVideo & {
+type ShotVideoListItem = Swing & {
     onClick?: MouseEventHandler<HTMLDivElement>
 };
 

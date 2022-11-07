@@ -24,6 +24,9 @@ interface Window {
     // Camera or Gallery
     OpenCameraRequested: WebViewMessage;
 
+    // Video
+    OpenFullScreenVideo: WebViewMessage;
+
     // Errors
     ErrorCatched: WebViewMessage;
 }

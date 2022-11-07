@@ -9,7 +9,8 @@ export const PATHS = {
         HOME: '/home',
         SWINGS: {
             LIST: '/swings',
-            DATA: '/swings/:shotID'
+            DATA: '/swings/:shotID',
+            VIDEO: '/swings/:shotID/video'
         },
     },
 

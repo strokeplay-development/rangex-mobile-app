@@ -30,6 +30,7 @@ class WebviewBloc extends Bloc<WebviewEvent, WebviewState> {
     }
 
     if (event is WebviewUrlChanged) {
+      print('유알엘 체크완료');
       bool isRoot = _webviewRepository.rootPaths.contains(event.currentUrl);
 
       return isRoot ? emit(WebviewStateRoot()) : emit(WebviewStateDeep());

@@ -207,6 +207,15 @@ class WebviewRepository {
           },
         ),
 
+        JavascriptChannel(
+          name: 'OpenFullScreenVideo',
+          onMessageReceived: (message) {
+            print(message.message);
+
+            context.router.pushNamed('/video');
+          },
+        ),
+
         /// 카메라 열기
         JavascriptChannel(
           name: 'OpenCameraRequested',

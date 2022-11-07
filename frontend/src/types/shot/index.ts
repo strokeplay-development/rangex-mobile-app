@@ -11,15 +11,6 @@ export interface Distance {
     unit: DistanceUnit;
 }
 
-export interface ShotVideo extends Distance, Timestamp {
-    thumbnail?: string;
-    videoUrl?: string;
-    id: number;
-    club?: string;
-}
-
-export type ShotVideoList = ShotVideo[];
-
 export interface PracticeOverview {
     shotAvg?: number,
     shotTotal?: number,
@@ -27,3 +18,5 @@ export interface PracticeOverview {
     driverAvg?: number,
     practiceCount?: number,
 }
+
+export * from './swing';
