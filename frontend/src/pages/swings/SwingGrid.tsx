@@ -35,7 +35,8 @@ export default function SwingGrid(props: PropsWithChildren<SwingGridProps>) {
                         distance={data.distance}
                         id={data.id}
                         thumbnail={data.thumbnail}
-                        onClick={() => window.OpenFullScreenVideo?.postMessage(data.videoUrl)}
+                        // onClick={() => window.OpenFullScreenVideo?.postMessage(data.videoUrl)}
+                        onClick={() => viewShotData(data.id)}
                     /> 
                     : <StyledSwingItem key={itemIdx}/>
             })}

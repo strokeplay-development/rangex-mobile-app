@@ -24,7 +24,7 @@ export default function OptionSelect(props: PropsWithChildren<OptionSelectProps>
         <StyledSelect
             size="small" 
             displayEmpty
-            value={props.defaultValue || 25}
+            value={props.defaultValue || props.menus[0]}
             onChange={props.onChange}
         >
             {

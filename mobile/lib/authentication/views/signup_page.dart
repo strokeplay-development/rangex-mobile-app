@@ -64,7 +64,8 @@ class _SignupPageState extends State<SignupPage> {
               children: [
                 WebView(
                   backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                  initialUrl: '${dotenv.env['WEBVIEW_BASE_URL']}/signup/phone',
+                  initialUrl:
+                      '${dotenv.env['WEBVIEW_BASE_URL']}/signup/required',
                   onWebViewCreated: (controller) {
                     _ctrler = controller;
                   },

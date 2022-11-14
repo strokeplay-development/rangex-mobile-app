@@ -40,10 +40,11 @@ export default function OptionSlider(props: PropsWithChildren<SliderProps>) {
     return (
         <div style={{padding: '0 4px'}}>
             <StyledSlider 
-                valueLabelDisplay="on" 
+                valueLabelDisplay={props.valueLabelDisplay || "on"}
                 name={props.name} 
                 onChange={props.onChange}
                 value={props.defaultValue || 0}
+                max={props.max}
             />
         </div>
     );

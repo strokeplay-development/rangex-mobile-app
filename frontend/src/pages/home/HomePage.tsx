@@ -16,6 +16,7 @@ import { me, myUnits } from "../../store";
 import { BoxList, PaperBox, RootPage, Section } from "../../styles/common";
 import { webviewPrint } from "../../utils";
 import { meterToYards } from "../../utils/measure";
+import FirstLink from "../link/FirstLink";
 
 export default function HomePage() {
     const user = useRecoilValue(me);
@@ -88,6 +89,7 @@ export default function HomePage() {
 
     return (
         <RootPage>
+            {/* <FirstLink username="rangex"/> */}
             {/* Overview */}
             <Section>
                 <SectionHeader title={t('main:title_overview')}/>

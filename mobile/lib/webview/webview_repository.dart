@@ -56,6 +56,8 @@ class WebviewRepository {
         return NavigationDecision.navigate;
       },
       gestureNavigationEnabled: true,
+      allowsInlineMediaPlayback: true,
+      initialMediaPlaybackPolicy: AutoMediaPlaybackPolicy.always_allow,
 
       /// 웹뷰 생성 후
       onWebViewCreated: (control) {
@@ -212,7 +214,7 @@ class WebviewRepository {
           onMessageReceived: (message) {
             print(message.message);
 
-            context.router.pushNamed('/video');
+            //context.router.pushNamed('/video');
           },
         ),
 
