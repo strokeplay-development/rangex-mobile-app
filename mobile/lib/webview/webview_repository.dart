@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:rangex/api/media.dart';
 import 'package:rangex/authentication/repositories/auth_repository.dart';
 import 'package:rangex/authentication/repositories/user_repository.dart';
@@ -215,6 +216,27 @@ class WebviewRepository {
             print(message.message);
 
             //context.router.pushNamed('/video');
+          },
+        ),
+
+        /// 파일 다운로드
+        JavascriptChannel(
+          name: 'FileDownloadRequested',
+          onMessageReceived: (message) async {
+            try {
+              final dir = await getApplicationDocumentsDirectory();
+              print(message.message);
+              print(dir.path);
+              await Dio().download(message.message, '${dir.path}/temp2.mp4',
+                  onReceiveProgress: (received, total) {
+                if (total != -1) {
+                  print((received / total * 100).toStringAsFixed(0) + "%");
+                  //you can build progressbar feature too
+                }
+              });
+            } catch (error) {
+              print(error);
+            }
           },
         ),
 

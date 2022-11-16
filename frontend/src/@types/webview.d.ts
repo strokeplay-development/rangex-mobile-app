@@ -27,6 +27,9 @@ interface Window {
     // Video
     OpenFullScreenVideo: WebViewMessage;
 
+    // File Download
+    FileDownloadRequested: WebViewMessage;
+
     // Errors
     ErrorCatched: WebViewMessage;
 }

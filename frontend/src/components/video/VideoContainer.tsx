@@ -1,9 +1,10 @@
 import { FastForward, FastRewind, Pause, PlayArrow } from "@mui/icons-material";
-import { Icon, IconButton, SelectChangeEvent, styled } from "@mui/material"
+import { Icon, IconButton, Modal, SelectChangeEvent, styled } from "@mui/material"
 import { PropsWithChildren, ReactEventHandler, useEffect, useRef, useState } from "react"
-import { useSelect } from "../../hooks";
+import { useModal, useSelect } from "../../hooks";
 import OptionSlider from "../../pages/option/OptionSlider";
 import { webviewPrint } from "../../utils";
+import ModalMenu, { ModalMenuItem } from "../common/layout/menu/ModalMenu";
 import OptionSelect from "../common/layout/menu/OptionSelect";
 
 interface VideoContainerProps {
@@ -19,7 +20,7 @@ const StyledVideoContainer = styled('div')`
 
 const StyledVideoController = styled('div')`
     position: fixed;
-    background: linear-gradient(0deg, rgba(0,0,0,1) 20%, rgba(0,0,0,0) 100%);
+    background: linear-gradient(0deg, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%);
     width: 100%;
     padding: 8px 16px;
     bottom: 0;
@@ -43,8 +44,12 @@ export default function VideoContainer(props: PropsWithChildren<VideoContainerPr
     const [duration, setDuration] = useState<number>(0);
     const [playTime, setPlaytime] = useState<number>(0);
     
-    const playSpeeds = [2.5, 0.8, 0.6, 0.4];
-    const playSpeed = useSelect(0.4);
+    const playSpeeds: ModalMenuItem[] = [
+        { label: '0.125배속', value: 1.0 },
+        { label: '0.25배속', value: 2.0 },
+        { label: '0.5배속', value: 4.0 },
+        { label: '1배속', value: 8.0 },
+    ];
 
     const onVideoLoad: ReactEventHandler<HTMLVideoElement> = (e) => {
         setDuration(e.currentTarget.duration);
@@ -57,12 +62,11 @@ export default function VideoContainer(props: PropsWithChildren<VideoContainerPr
     };
 
     // 재생속도 변경
-    useEffect(() => {
+    const onChangePlaySpeed = (speed: number | string) => {
         if (videoElem.current) {
-            videoElem.current.playbackRate = playSpeed.value as number;
-        }
-
-    }, [playSpeed.value]);
+            videoElem.current.playbackRate = speed as number;
+        }       
+    }
 
     // 되감기
     const onClickRewind = () => {
@@ -115,12 +119,14 @@ export default function VideoContainer(props: PropsWithChildren<VideoContainerPr
 
             <StyledVideoController>
                 <div className="play_controller">
-                    <OptionSelect
-                        defaultValue={playSpeed.value}
-                        menus={playSpeeds}
-                        onChange={playSpeed.onChange}
+                    {/* 재생속도 */}
+                    <ModalMenu
+                        activatorType="outlined"
+                        items={playSpeeds}
+                        onChange={onChangePlaySpeed}
                     />
 
+                    {/* 되감기, 재생, 빨리감기 */}
                     <div className="play_buttons">
                         <IconButton onClick={onClickRewind}>
                             <FastRewind/>
@@ -135,6 +141,8 @@ export default function VideoContainer(props: PropsWithChildren<VideoContainerPr
                         </IconButton>
                     </div>
                 </div>
+
+                {/* 재생바 */}
                 <OptionSlider
                     max={duration}
                     valueLabelDisplay="off"

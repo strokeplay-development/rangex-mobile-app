@@ -1,3 +1,5 @@
+import 'dart:isolate';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -52,6 +54,8 @@ class AppView extends StatefulWidget {
 class _AppViewState extends State<AppView> {
   late final AuthBloc _authBloc;
   late final AppRouter _appRouter;
+
+  final ReceivePort _port = ReceivePort();
 
   @override
   void initState() {

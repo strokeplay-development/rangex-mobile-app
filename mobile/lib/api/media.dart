@@ -9,4 +9,8 @@ class MediaHttp extends HttpBase {
   Future<Response> modifyAvatar(dynamic body) async {
     return await httpPut('/me/avatar', body, _options);
   }
+
+  Future<Response> downloadVideo(dynamic query) async {
+    return await httpGet('/me/shot/video', query);
+  }
 }
