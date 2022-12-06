@@ -73,11 +73,9 @@ class _RootWrapState extends State<RootWrap> {
                 _webviewRepository.getWebviewWidget(
                   context: context,
                   onUrlChanged: (changedUrl) {
-                    print('유알엘 쳌 $changedUrl');
                     _webviewBloc?.add(WebviewUrlChanged(changedUrl));
                   },
                   onModalStateChanged: (isOpen, [url]) {
-                    print('모달바꺼죠! $isOpen');
                     if (isOpen) {
                       return _webviewBloc?.add(WebviewModalOpened());
                     }
@@ -104,7 +102,6 @@ class _RootWrapState extends State<RootWrap> {
                       onPressed: () async {
                         if (await _webviewRepository.canGoBack) {
                           if (state is WebviewStateModal) {
-                            print('모달이 켜져 있습니다.');
                             return;
                           }
 
